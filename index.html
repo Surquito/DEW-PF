@@ -13,5 +13,55 @@
     I202017386 (VALDEZ ROSAS, ALDAIR ANTHONY) <br />
     I202515899 (SURCO ALATA, GERSON RONALDO) <br />
   </body>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mesa de Ayuda</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header horizontal -->
+  <header>
+    <div class="team"> IT HELPDESK </div>
+    <div class="icon-left">
+        <a href="#bandeja"><i class="bi bi-envelope-fill"></i> Bandeja</a>
+    </div>
+    <div class="search-bar">
+        <input type="text" id="busqueda" placeholder="Buscar tickets, usuario, reporte...">
+        <button onclick="buscar()"><i class="bi bi-search"></i></button>
+    </div>
+    <div class="icon-right">
+      <a href="#usuario"><i class="bi bi-person-circle"></i> Usuario</a>
+    </div>
+  </header>
+
+  <!-- Contenedor principal -->
+  <div class="container">
+    <!-- Menú vertical -->
+    <nav class="sidebar">
+      <ul>
+        <li><a href="#home">Inicio</a></li>
+        <li><a href="#newticket">Nuevo Ticket</a></li>
+        <li><a href="#readticket">Consultar Ticket</a></li>
+        <li><a href="#reports">Reportes</a></li>
+        <li><a href="#settings">Configuración</a></li>
+      </ul>
+    </nav>
+
+    <!-- Contenido dinámico -->
+    <main id="contenido">
+      <h2>Bienvenido</h2>
+      <p>Selecciona una opción del menú.</p>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 IT Helpdesk - Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
 </html>
 
