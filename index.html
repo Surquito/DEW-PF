@@ -10,15 +10,12 @@
   <!-- Header horizontal -->
   <header>
     <div class="team"> IT HELPDESK </div>
-    <div class="icon-left">
-        <a href="#bandeja"><i class="bi bi-envelope-fill"></i> Bandeja</a>
-    </div>
     <div class="search-bar">
         <input type="text" id="busqueda" placeholder="Buscar tickets, usuario, reporte...">
-        <button onclick="buscar()"><i class="bi bi-search"></i></button>
+        <button onclick=""><i class="bi bi-search"></i></button>
     </div>
     <div class="icon-right">
-      <a href="#usuario"><i class="bi bi-person-circle"></i> Usuario</a>
+      <a href="#usuario">Analista <i class="bi bi-person-circle"></i></a>
     </div>
   </header>
 
@@ -26,15 +23,29 @@
   <div class="container">
     <!-- Menú vertical -->
     <nav class="sidebar">
-      <ul>
-        <li><a href="#home">Inicio</a></li>
+  <ul>
+    <li>
+      <a href="#home"><strong>Inicio</strong></a>
+    </li>
+    <li>
+      <a href="#magticket"><strong>Gestión Ticket</strong></a><br>
+      <ul class="submenu">
         <li><a href="#newticket">Nuevo Ticket</a></li>
         <li><a href="#readticket">Consultar Ticket</a></li>
-        <li><a href="#reports">Reportes</a></li>
-        <li><a href="#settings">Configuración</a></li>
       </ul>
-    </nav>
-
+    </li>
+    <li>
+      <a href="#settings"><strong>Configuración</strong></a><br>
+      <ul class="submenu">
+        <li><a href="#newuser">Nuevo Usuario</a></li>
+        <li><a href="#readuser">Consultar Usuario</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div class="sidebar-btn">
+    <button class="btn-close-sesion"><i class="bi-box-arrow-right"></i> Cerrar Sesión</button>
+  </div>  
+</nav>
     <!-- Contenido dinámico -->
     <main id="contenido">
       <h2>Bienvenido</h2>
