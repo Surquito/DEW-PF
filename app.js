@@ -93,8 +93,71 @@ function navegar() {
   } else if (ruta === "newuser") { 
     html = "<h2>REPORTES</h2><p>Sección no encontrada.</p>";
   } else if (ruta === "readuser") { 
-    html = "<h2>CONFIGURACION</h2><p>Sección no encontrada.</p>";
-  } 
+    html = `
+      <div class="user-consult-container">
+        <h2>Consultar Usuario</h2>
+        
+        <div class="user-card">
+          <div class="user-avatar">
+            <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
+          </div>
+
+          <form class="user-form">
+            <div class="form-group">
+              <label>Correo:</label>
+              <input type="email" value="yumi.kanshiro@compu.pe" readonly>
+            </div>
+            
+            <div class="form-group">
+              <label>Perfil:</label>
+              <input type="text" value="Contabilidad" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Nombres:</label>
+              <input type="text" value="Yumi" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Apellidos:</label>
+              <input type="text" value="Kanashiro Uema" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Celular:</label>
+              <input type="text" value="956321470">
+            </div>
+
+            <div class="form-group">
+              <label>Fecha de nacimiento:</label>
+              <input type="text" value="05/08/2020">
+            </div>
+
+            <div class="form-group">
+              <label>Usuario:</label>
+              <input type="text" value="yumi.kanashiro readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Crear contraseña:</label>
+              <input type="password" value="********">
+            </div>
+
+            <div class="form-group">
+              <label>Repetir contraseña:</label>
+              <input type="password" value="********">
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-action btn-blue">Buscar</button>
+              <button type="button" class="btn-action btn-light-blue">Limpiar</button>
+              <button type="button" class="btn-action btn-blue">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+  }
 
   document.getElementById("contenido").innerHTML = html;
 }
