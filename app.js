@@ -135,7 +135,7 @@ function navegar() {
 
             <div class="form-group">
               <label>Usuario:</label>
-              <input type="text" value="yumi.kanashiro readonly>
+              <input type="text" value="yumi.kanashiro" readonly>
             </div>
 
             <div class="form-group">
