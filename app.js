@@ -105,7 +105,7 @@ function navegar() {
           <form class="user-form">
             <div class="form-group">
               <label>Correo:</label>
-              <input type="email" value="yumi.kanshiro@compu.pe" readonly>
+              <input type="email" value="yumi.kanashiro@empresa.pe" readonly>
             </div>
             
             <div class="form-group">
@@ -130,7 +130,7 @@ function navegar() {
 
             <div class="form-group">
               <label>Fecha de nacimiento:</label>
-              <input type="text" value="05/08/2020">
+              <input type="text" value="05/08/2020" readonly>
             </div>
 
             <div class="form-group">
