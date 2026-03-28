@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="styleLogin.css" />
+  </head>
+  <body>
+    <div class="contenedorLogin">
+      <div class="contenedorImagen">
+        <div class="imagen">
+          <span class="logo"></span>
+        </div>
+      </div>
+      <div class="contenedorFormularioLogin">
+        <div class="formulario">
+            <h2>Bienvenido</h2>
+            <p>Ingrese con su cuenta para continuar</p>
+            <form>
+                <div class="campoForm">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="campoForm">
+                    <input type="constraseña" placeholder="Contraseña" required>
+                </div>
+                <div class="enlace">
+                    <a href="recuperarContraseña.html">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="button" class="btnLogin" onclick="window.location.href='index.html'">Ingresar</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
