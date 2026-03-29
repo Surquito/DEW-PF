@@ -321,3 +321,10 @@ footer {
 .btn-action:hover {
   opacity: 0.9;
 }
+
+.newUser-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
