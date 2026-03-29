@@ -186,7 +186,73 @@ function navegar() {
   } else if (ruta === "readticket") {
     html = "<h2>Contacto</h2><p>Escríbenos a ejemplo@correo.com</p>";
   } else if (ruta === "newuser") { 
-    html = "<h2>REPORTES</h2><p>Sección no encontrada.</p>";
+    html = `
+      <div class="newUser-container">
+        <h2>Crear Usuario</h2>  
+
+        <div class="user-card">
+          <div class="user-avatar">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user" width="150" height="150">
+          </div>
+
+          <form class="user-form">
+            <div class="form-group">
+              <label>Correo:</label>
+              <input type="email">
+            </div>
+            
+            <div class="form-group">
+              <label>Perfil:</label>
+              <select>
+                <option>SELECCIONE</option>
+                <option>Analista</option>
+                <option>Usuario</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Nombres:</label>
+              <input type="text">
+            </div>
+
+            <div class="form-group">
+              <label>Apellidos:</label>
+              <input type="text">
+            </div>
+
+            <div class="form-group">
+              <label>Celular:</label>
+              <input type="text">
+            </div>
+
+            <div class="form-group">
+              <label>Fecha de nacimiento:</label>
+              <input type="date">
+            </div>
+
+            <div class="form-group">
+              <label>Usuario:</label>
+              <input type="text" value="AUTOGENERADO" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Crear contraseña:</label>
+              <input type="password">
+            </div>
+
+            <div class="form-group">
+              <label>Repetir contraseña:</label>
+              <input type="password">
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-action btn-blue">Crear</button>
+              <button type="button" class="btn-action btn-blue">Limpiar</button>          
+            </div>
+          </form>
+        </div>
+      </div>  
+    `;
   } else if (ruta === "readuser") { 
     html = `
       <div class="user-consult-container">
