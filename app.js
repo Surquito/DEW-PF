@@ -232,7 +232,7 @@ function navegar() {
 
             <div class="form-group">
               <label>Usuario:</label>
-              <input type="text" value="AUTOGENERADO" readonly>
+              <input type="text">
             </div>
 
             <div class="form-group">
