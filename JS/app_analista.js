@@ -184,7 +184,6 @@ function navegar() {
       </div>
     `;
   } else if (ruta === "readticket") {
-    html = 
     html = `
       <div class = "ticket-container">
       <div class="ticket-card">
@@ -235,7 +234,6 @@ function navegar() {
               <textarea rows="4" class="input-bordered"></textarea>
             </div>
           </div>
-
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
@@ -416,7 +414,6 @@ function navegar() {
       </div>
     `;
   }
-
   document.getElementById("contenido").innerHTML = html;
 }
 
