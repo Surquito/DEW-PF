@@ -283,13 +283,14 @@ function navegar() {
     `;
   } else if (ruta === "newuser") { 
     html = `
-      <div class="newUser-container">
-        <h2>Crear Usuario</h2>  
-        <div class="user-card">
+      <div class="user-consult-container">
         <h2>Crear Usuario</h2>
+        
+        <div class="user-card">
           <div class="user-avatar">
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user" width="150" height="150">
+            <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
           </div>
+
           <form class="user-form">
             <div class="form-group">
               <label>Correo:</label>
@@ -361,7 +362,7 @@ function navegar() {
           <form class="user-form">
             <div class="form-group">
               <label>Correo:</label>
-              <input type="email" value="yumi.kanashiro@empresa.pe" readonly>
+              <input type="email" value="dcaceres@empresa.pe" readonly>
             </div>
             
             <div class="form-group">
@@ -371,12 +372,12 @@ function navegar() {
 
             <div class="form-group">
               <label>Nombres:</label>
-              <input type="text" value="Yumi" readonly>
+              <input type="text" value="Daniel" readonly>
             </div>
 
             <div class="form-group">
               <label>Apellidos:</label>
-              <input type="text" value="Kanashiro Uema" readonly>
+              <input type="text" value="Cáceres Ramirez" readonly>
             </div>
 
             <div class="form-group">
@@ -391,7 +392,7 @@ function navegar() {
 
             <div class="form-group">
               <label>Usuario:</label>
-              <input type="text" value="yumi.kanashiro" readonly>
+              <input type="text" value="daniel.caceres" readonly>
             </div>
 
             <div class="form-group">
