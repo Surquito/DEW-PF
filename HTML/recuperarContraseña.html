@@ -19,21 +19,35 @@
                 <p>Ingresa tus nuevos datos de acceso</p>
                 <form>
                     <div class="campoForm">
-                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="email" id="correoRecuperacion" placeholder="Correo electrónico" required>
                     </div>
                     <div class="campoForm">
-                        <input type="password" placeholder="Nueva contraseña" required>
+                        <div class="passwordWrapper">
+                            <input type="password" id="nuevaContrasena" placeholder="Nueva contraseña" required>
+                            <button type="button" class="togglePassword" aria-label="Mostrar u ocultar nueva contraseña" onclick="alternarContrasenaPorId('nuevaContrasena', 'iconNuevaContrasena')">
+                                <i class="bi bi-eye" id="iconNuevaContrasena" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="campoForm">
-                        <input type="password" placeholder="Repetir contraseña" required>
+                        <div class="passwordWrapper">
+                            <input type="password" id="repetirContrasena" placeholder="Repetir contraseña" required>
+                            <button type="button" class="togglePassword" aria-label="Mostrar u ocultar repetición de contraseña" onclick="alternarContrasenaPorId('repetirContrasena', 'iconRepetirContrasena')">
+                                <i class="bi bi-eye" id="iconRepetirContrasena" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <button type="button" class="btnLogin" onclick="window.location.href='login.html'">
+                    <p id="mensajeRecuperacion" class="mensajeValidacion" role="alert" aria-live="polite"></p>
+
+                    <button type="button" class="btnLogin" onclick="validarContrasenasRecuperacion()">
                         Guardar y volver
                     </button>
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../JS/login.js"></script>
 </body>
 </html>

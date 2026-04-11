@@ -35,6 +35,21 @@ body {
     color: white;
 }
 
+.imagen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagen img,
+.logo {
+    display: block;
+    max-width: 80%;
+    height: auto;
+}
+
 
 /* Lateral derecho - formulario */
 .contenedorFormularioLogin {
@@ -77,6 +92,32 @@ body {
     color: #555;
 }
 
+.passwordWrapper {
+    position: relative;
+}
+
+.passwordWrapper input {
+    padding-right: 48px;
+}
+
+.togglePassword {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
+}
+
+.togglePassword:hover {
+    color: #333;
+}
+
 .enlace {
     text-align: right;
     margin-bottom: 25px;
@@ -109,6 +150,14 @@ body {
 .btnLogin:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
+}
+
+.mensajeValidacion {
+    min-height: 18px;
+    margin: 8px 0 18px;
+    font-size: 13px;
+    color: #d93025;
+    text-align: left;
 }
 
 .contenedorRecuperar {
