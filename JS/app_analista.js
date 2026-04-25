@@ -30,7 +30,7 @@ function navegar() {
         <section class="tickets">
           <div class="tickets-header">
             <h2>Bandeja Tickets</h2>
-            <button class="btn-new">
+            <button class="btn-new" id="newticketBtn">
               <i class="bi bi-plus-circle"></i> Nuevo ticket
             </button>
           </div>
@@ -284,9 +284,8 @@ function navegar() {
   } else if (ruta === "newuser") { 
     html = `
       <div class="user-consult-container">
-        <h2>Crear Usuario</h2>
-        
         <div class="user-card">
+          <h2 class="ticket-title">Crear Usuario</h2>
           <div class="user-avatar">
             <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
           </div>
@@ -296,7 +295,7 @@ function navegar() {
               <label>Correo:</label>
               <input type="email">
             </div>
-            
+
             <div class="form-group">
               <label>Perfil:</label>
               <select>
@@ -351,10 +350,9 @@ function navegar() {
     `;
   } else if (ruta === "readuser") { 
     html = `
-      <div class="user-consult-container">
-        <h2>Consultar Usuario</h2>
-        
+      <div class="user-consult-container">      
         <div class="user-card">
+          <h2 class="ticket-title">Consultar Usuario</h2>
           <div class="user-avatar">
             <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
           </div>
@@ -362,22 +360,26 @@ function navegar() {
           <form class="user-form">
             <div class="form-group">
               <label>Correo:</label>
-              <input type="email" value="dcaceres@empresa.pe" readonly>
+              <input type="email" value="dcaceres@empresa.pe">
             </div>
             
             <div class="form-group">
               <label>Perfil:</label>
-              <input type="text" value="Contabilidad" readonly>
+              <select>
+                <option>SELECCIONE</option>
+                <option>Analista</option>
+                <option>Usuario</option>
+              </select>
             </div>
 
             <div class="form-group">
               <label>Nombres:</label>
-              <input type="text" value="Daniel" readonly>
+              <input type="text" value="Daniel">
             </div>
 
             <div class="form-group">
               <label>Apellidos:</label>
-              <input type="text" value="Cáceres Ramirez" readonly>
+              <input type="text" value="Cáceres Ramirez">
             </div>
 
             <div class="form-group">
@@ -387,12 +389,12 @@ function navegar() {
 
             <div class="form-group">
               <label>Fecha de nacimiento:</label>
-              <input type="text" value="05/08/2020" readonly>
+              <input type="date">
             </div>
 
             <div class="form-group">
               <label>Usuario:</label>
-              <input type="text" value="daniel.caceres" readonly>
+              <input type="text" value="daniel.caceres">
             </div>
 
             <div class="form-group">
@@ -416,7 +418,31 @@ function navegar() {
     `;
   }
   document.getElementById("contenido").innerHTML = html;
+  
+  // ASIGNAR EVENTOS DESPUÉS DE RENDERIZAR
+  if (ruta === "home") {
+    const btnNewTicket = document.getElementById("newticketBtn");
+    if (btnNewTicket) {
+      btnNewTicket.addEventListener("click", () => {
+        location.hash = "newticket";
+      });
+    }
+  }
 }
 
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
+
+document.addEventListener("DOMContentLoaded", function () {
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  logoutBtn.addEventListener("click", function () {
+    // Limpiar datos de sesión
+    localStorage.clear();        // o removeItem("usuario")
+    sessionStorage.clear();
+
+    // Redirigir al login
+    window.location.href = "login.html";
+  });
+});
+

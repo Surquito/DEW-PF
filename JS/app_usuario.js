@@ -4,11 +4,160 @@ function navegar() {
 
   if (ruta === "home") {
     html = `
-    HOME USUARIO
-    `;  
+      <div class="dashboard">
+        <!-- Métricas -->
+        <h2>Métricas</h2>
+        <section class="metrics">
+          <div class="metric">
+            <h3>Abiertos</h3>
+            <p>12</p>
+          </div>
+          <div class="metric">
+            <h3>En Curso</h3>
+            <p>2</p>
+          </div>
+          <div class="metric">
+            <h3>Pendientes</h3>
+            <p>5</p>
+          </div>
+          <div class="metric">
+            <h3>Atendidos</h3>
+            <p>8</p>
+          </div>
+        </section>
+
+        <!-- Bandeja Tickets -->
+        <section class="tickets">
+          <div class="tickets-header">
+            <h2>Bandeja Tickets</h2>
+            <button class="btn-new" id="newticketBtn">
+              <i class="bi bi-plus-circle"></i> Nuevo ticket
+            </button>
+          </div>
+
+          <table class="tickets-table">
+            <thead>
+              <tr>
+                <th>Ticket</th>
+                <th>Asunto</th>
+                <th>Actualización</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>TCKT00001</td>
+                <td>NO RECIBO CORREOS DE CLIENTES</td>
+                <td>26/05/2023 08:14:35</td>
+                <td>
+                  <a href="#"><i class="bi bi-eye"></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>TCKT00002</td>
+                <td>INSTALACIÓN DE EQUIPO PARA NUEVO INGRESO</td>
+                <td>26/05/2023 08:15:37</td>
+                <td>
+                  <a href="#"><i class="bi bi-eye"></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>TCKT00003</td>
+                <td>SAP NO PERMITE CANCELAR COMPROBANTE</td>
+                <td>26/05/2023 08:16:09</td>
+                <td>
+                  <a href="#"><i class="bi bi-eye"></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>TCKT00004</td>
+                <td>CREACIÓN DE USUARIO PARA NUEVO INGRESO</td>
+                <td>26/05/2023 08:16:36</td>
+                <td>
+                  <a href="#"><i class="bi bi-eye"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    `;   
   } else if (ruta === "newticket") {
     html = `
-            NEW TICKET USUARIO
+      <div class = "ticket-container">
+      <div class="ticket-card">
+        <h2 class="ticket-title">Nuevo Ticket</h2>
+        <form class="ticket-form">
+          <div class="form-row-2col">
+            <div class="form-col">
+              <div class="field-group">
+                <label>Task ID:</label>
+                <input type="text" value="Autogenerado" readonly class="input-bordered input-center">
+              </div>
+              <div class="field-group">
+                <label>Type Task:</label>
+                <select class="input-select"><option>Seleccione</option></select>
+              </div>
+              <div class="field-group">
+                <label>Área:</label>
+                <select class="input-select"><option>Seleccione</option></select>
+              </div>
+              <div class="field-group">
+                <label>Usuario:</label>
+                <select class="input-select"><option>Seleccione</option></select>
+              </div>
+            </div>
+            <div class="form-col pt-empty">
+              <div class="field-group">
+                <label>Estado:</label>
+                <select class="input-select"><option>Seleccione</option></select>
+              </div>
+              <div class="field-group">
+                <label>Categoría:</label>
+                <select class="input-select"><option>Seleccione</option></select>
+              </div>
+              <div class="field-group">
+                <label>Sub Categoría:</label>
+                <select class="input-select"><option>Seleccione</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row-full">
+            <div class="field-group-full">
+              <label>Asunto:</label>
+              <input type="text" class="input-bordered">
+            </div>
+            <div class="field-group-full align-top">
+              <label>Descripción:</label>
+              <textarea rows="4" class="input-bordered"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row-2col mt-spacing">
+            <div class="form-col">
+              <div class="field-group">
+                <label>Soporte:</label>
+                <select class="input-select"><option>Seleccione</option></select>
+              </div>
+            </div>
+            <div class="form-col">
+              <div class="field-group">
+                <label>Attachments:</label>
+                <div class="attachment-box input-bordered">
+                  <input type="text" readonly>
+                  <i class="bi bi-paperclip"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions-bottom">
+            <button type="button" class="btn-action btn-crear">Crear</button>
+            <button type="button" class="btn-action btn-limpiar">Limpiar</button>
+          </div>
+        </form>
+      </div>
+      </div>
     `;
   } else if (ruta === "readticket") {
     html = `
@@ -62,6 +211,10 @@ function navegar() {
           </div>
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
+              <div class="field-group align-top">
+                <label>Nota:</label>
+                <textarea rows="3" class="input-bordered" disabled></textarea>
+              </div>
               <div class="field-group">
                 <label>Soporte:</label>
                 <select class="input-select" disabled><option>Seleccione</option></select>
@@ -88,11 +241,94 @@ function navegar() {
       </div>
     `;
   } else if (ruta === "readuser") { 
-    html = `READ USER
+    html = `
+      <div class="user-consult-container">      
+        <div class="user-card">
+          <h2 class="ticket-title">Consultar Usuario</h2>
+          <div class="user-avatar">
+            <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
+          </div>
+
+          <form class="user-form">
+            <div class="form-group">
+              <label>Correo:</label>
+              <input type="email" value="dcaceres@empresa.pe" disabled>
+            </div>
+            
+            <div class="form-group">
+              <label>Perfil:</label>
+              <input type="text" value="CONTABILIDAD" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Nombres:</label>
+              <input type="text" value="Daniel">
+            </div>
+
+            <div class="form-group">
+              <label>Apellidos:</label>
+              <input type="text" value="Cáceres Ramirez">
+            </div>
+
+            <div class="form-group">
+              <label>Celular:</label>
+              <input type="text" value="956321470">
+            </div>
+
+            <div class="form-group">
+              <label>Fecha de nacimiento:</label>
+              <input type="date">
+            </div>
+
+            <div class="form-group">
+              <label>Usuario:</label>
+              <input type="text" value="daniel.caceres" disabled>
+            </div>
+
+            <div class="form-group">
+              <label>Crear contraseña:</label>
+              <input type="password" value="********">
+            </div>
+
+            <div class="form-group">
+              <label>Repetir contraseña:</label>
+              <input type="password" value="********">
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-action btn-blue">Buscar</button>
+              <button type="button" class="btn-action btn-light-blue">Limpiar</button>
+              <button type="button" class="btn-action btn-blue">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
     `;
   }
   document.getElementById("contenido").innerHTML = html;
+    // ASIGNAR EVENTOS DESPUÉS DE RENDERIZAR
+  if (ruta === "home") {
+    const btnNewTicket = document.getElementById("newticketBtn");
+    if (btnNewTicket) {
+      btnNewTicket.addEventListener("click", () => {
+        location.hash = "newticket";
+      });
+    }
+  }
 }
 
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
+
+document.addEventListener("DOMContentLoaded", function () {
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  logoutBtn.addEventListener("click", function () {
+    // Limpiar datos de sesión
+    localStorage.clear();        // o removeItem("usuario")
+    sessionStorage.clear();
+
+    // Redirigir al login
+    window.location.href = "login.html";
+  });
+});

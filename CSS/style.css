@@ -256,6 +256,7 @@ footer {
 }
 
 .ticket-card {
+  border: 1px solid #ccc;
   background: white;
   padding: 40px;
   width: 100%;
@@ -360,11 +361,6 @@ textarea {
   background: #0056b3;
 }
 
-/* CENTRAR TEXTO EN INPUTS CON CLASE input-center */
-.input-center {
-  text-align: center;
-}
-
 /* Estoy sumando los CSS de read_userrrr! */
 .user-consult-container {
   display: flex;
@@ -390,7 +386,7 @@ textarea {
 .form-group {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .form-group label {
@@ -399,7 +395,7 @@ textarea {
   color: #333;
 }
 
-.form-group input {
+.form-group input, select {
   flex: 1;
   padding: 6px;
   border: 1px solid #999;
