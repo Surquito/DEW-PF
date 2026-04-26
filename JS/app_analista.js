@@ -1,3 +1,30 @@
+const API = "http://localhost:3000";
+
+
+/* =========================
+   FORZAR HOME AL CARGAR
+   ========================= */
+if (!location.hash) {
+  location.hash = "#home";
+}
+ 
+
+/* =========================
+   CARGAR USUARIO LOGUEADO
+   ========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const codUser = localStorage.getItem("codUser");
+
+  // Solo mostrar el nombre si existe
+  const nombre = document.getElementById("nombreAnalista");
+  if (nombre && codUser) {
+    nombre.textContent = codUser;
+  }
+});
+
+/* =========================
+   NAVEGACIÓN
+   ========================= */
 function navegar() {
   const ruta = location.hash.replace("#", "") || "home";
   let html = "";
@@ -5,87 +32,44 @@ function navegar() {
   if (ruta === "home") {
     html = `
       <div class="dashboard">
-        <!-- Métricas -->
-        <h2>Métricas</h2>
-        <section class="metrics">
+
+        <div class="metrics">
           <div class="metric">
             <h3>Abiertos</h3>
-            <p>12</p>
+            <p id="mAbiertos">0</p>
           </div>
           <div class="metric">
             <h3>En Curso</h3>
-            <p>2</p>
+            <p id="mCurso">0</p>
           </div>
           <div class="metric">
             <h3>Pendientes</h3>
-            <p>5</p>
+            <p id="mPendientes">0</p>
           </div>
           <div class="metric">
             <h3>Atendidos</h3>
-            <p>8</p>
+            <p id="mAtendidos">0</p>
           </div>
-        </section>
+        </div>
 
-        <!-- Bandeja Tickets -->
-        <section class="tickets">
-          <div class="tickets-header">
-            <h2>Bandeja Tickets</h2>
-            <button class="btn-new" id="newticketBtn">
-              <i class="bi bi-plus-circle"></i> Nuevo ticket
-            </button>
-          </div>
+        <div class="tickets-header">
+          <h2>Bandeja de Tickets</h2>
+        </div>
 
-          <table class="tickets-table">
-            <thead>
-              <tr>
-                <th>Ticket</th>
-                <th>Asunto</th>
-                <th>Actualización</th>
-                <th>Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>TCKT00001</td>
-                <td>NO RECIBO CORREOS DE CLIENTES</td>
-                <td>26/05/2023 08:14:35</td>
-                <td>
-                  <a href="#"><i class="bi bi-eye"></i></a>
-                  <a href="#"><i class="bi bi-pencil-square"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>TCKT00002</td>
-                <td>INSTALACIÓN DE EQUIPO PARA NUEVO INGRESO</td>
-                <td>26/05/2023 08:15:37</td>
-                <td>
-                  <a href="#"><i class="bi bi-eye"></i></a>
-                  <a href="#"><i class="bi bi-pencil-square"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>TCKT00003</td>
-                <td>SAP NO PERMITE CANCELAR COMPROBANTE</td>
-                <td>26/05/2023 08:16:09</td>
-                <td>
-                  <a href="#"><i class="bi bi-eye"></i></a>
-                  <a href="#"><i class="bi bi-pencil-square"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>TCKT00004</td>
-                <td>CREACIÓN DE USUARIO PARA NUEVO INGRESO</td>
-                <td>26/05/2023 08:16:36</td>
-                <td>
-                  <a href="#"><i class="bi bi-eye"></i></a>
-                  <a href="#"><i class="bi bi-pencil-square"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
+        <table class="tickets-table">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Asunto</th>
+              <th>Fecha</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaTickets"></tbody>
+        </table>
+
       </div>
-    `;  
+    `;
   } else if (ruta === "newticket") {
     html = `
       <div class = "ticket-container">
@@ -417,32 +401,98 @@ function navegar() {
       </div>
     `;
   }
+
   document.getElementById("contenido").innerHTML = html;
-  
-  // ASIGNAR EVENTOS DESPUÉS DE RENDERIZAR
+
   if (ruta === "home") {
-    const btnNewTicket = document.getElementById("newticketBtn");
-    if (btnNewTicket) {
-      btnNewTicket.addEventListener("click", () => {
-        location.hash = "newticket";
-      });
-    }
+    setTimeout(() => {
+      cargarMetricas();
+      cargarTickets();
+    }, 0);
   }
+
 }
 
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
 
-document.addEventListener("DOMContentLoaded", function () {
+/* =========================
+   MÉTRICAS DEL ANALISTA
+   ========================= */
+function cargarMetricas() {
+  const codUser = localStorage.getItem("codUser");
+
+  fetch(`${API}/analyst/metrics/${codUser}`)
+    .then(res => res.json())
+    .then(data => {
+
+      const estados = {
+        ABIERTO: 0,
+        EN_CURSO: 0,
+        PENDIENTE: 0,
+        CERRADO: 0   // ✅ estado real
+      };
+
+      data.forEach(e => {
+        estados[e.STATUS] = e.TOTAL;
+      });
+
+      document.getElementById("mAbiertos").textContent   = estados.ABIERTO;
+      document.getElementById("mCurso").textContent      = estados.EN_CURSO;
+      document.getElementById("mPendientes").textContent = estados.PENDIENTE;
+      document.getElementById("mAtendidos").textContent  = estados.CERRADO; 
+    })
+    .catch(err => console.error("Error métricas:", err));
+}
+
+/* =========================
+   TICKETS DEL ANALISTA
+   ========================= */
+function cargarTickets() {
+  const codUser = localStorage.getItem("codUser");
+
+  fetch(`${API}/analyst/tickets/${codUser}`)
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById("tablaTickets");
+      tbody.innerHTML = "";
+
+      data.forEach(t => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${t.TICKET_ID}</td>
+            <td>${t.SUBJECT}</td>
+            <td>${formatearFecha(t.CREATE_DATE)}</td>
+            <td>
+              <i class="bi bi-eye"></i>
+              <i class="bi bi-pencil"></i>
+            </td>
+          </tr>
+        `;
+      });
+    })
+    .catch(err => console.error("Error tickets:", err));
+}
+
+/* =========================
+   FORMATEAR FECHA
+   ========================= */
+function formatearFecha(fecha) {
+  const f = new Date(fecha);
+  return f.toLocaleDateString() + " " + f.toLocaleTimeString();
+}
+
+/* =========================
+   LOGOUT
+   ========================= */
+document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logoutBtn");
 
-  logoutBtn.addEventListener("click", function () {
-    // Limpiar datos de sesión
-    localStorage.clear();        // o removeItem("usuario")
-    sessionStorage.clear();
-
-    // Redirigir al login
-    window.location.href = "login.html";
-  });
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    });
+  }
 });
-

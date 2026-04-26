@@ -1,102 +1,134 @@
-// ✅ 1. Cargar variables de entorno (PRIMERA LÍNEA)
+// ===============================
+// CARGAR VARIABLES DE ENTORNO
+// ===============================
 require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-// ✅ 2. Importar queries
-const listarAreas = require("../query/readArea");
-const crearArea = require("../query/createArea");
-const editarArea = require("../query/updateArea");
-const eliminarArea = require("../query/deleteArea");
+// ===============================
+// IMPORTAR QUERIES
+// ===============================
+const login = require("../QUERY/login");
+const resetPassword = require("../QUERY/resetPassword");
+const analystMetrics = require("../QUERY/analystMetrics");
+const analystTickets = require("../QUERY/analystTickets");
 
+
+// ===============================
+// APP
+// ===============================
 const app = express();
 
-// ✅ 3. Middlewares
+// ===============================
+// MIDDLEWARES
+// ===============================
 app.use(cors());
 app.use(express.json());
 
-// ✅ 4. Servir archivos estáticos (public/index.html)
-app.use(express.static(path.join(__dirname, "../public")));
+// SERVIR ARCHIVOS ESTÁTICOS (HTML, JS, CSS, IMG)
+app.use(express.static(path.join(__dirname, "..")));
 
-// ✅ 5. Ruta raíz (/)
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
-});
-
-// ✅ 6. Ruta de prueba
+// ===============================
+// RUTA DE PRUEBA
+// ===============================
 app.get("/test", (req, res) => {
-  res.send("OK TEST - SERVIDOR FUNCIONANDO ✅");
+  res.send("Servidor funcionando correctamente");
 });
 
-/* =========================
-   CRUD AREAS
-   ========================= */
+// ===============================
+// LOGIN
+// ===============================
+app.post("/login", async (req, res) => {
+  const { codUser, password } = req.body;
 
-// READ
-app.get("/areas", async (req, res) => {
   try {
-    const areas = await listarAreas();
-    res.json(areas);
+    const user = await login(codUser, password);
+
+    if (!user) {
+      return res.status(401).json({
+        msg: "Usuario o contraseña incorrectos"
+      });
+    }
+
+    res.json({
+      msg: "Login correcto",
+      codUser: user.COD_USER,
+      codArea: user.COD_AREA
+    });
+
   } catch (error) {
-    console.error("ERROR /areas:", error);
-    res.status(500).json({ msg: "Error al listar áreas" });
+    console.error("ERROR LOGIN:", error);
+    res.status(500).json({
+      msg: "Error del servidor"
+    });
   }
 });
 
-// CREATE
-app.post("/areas", async (req, res) => {
+// ===============================
+// RESTABLECER CONTRASEÑA
+// ===============================
+app.put("/reset-password", async (req, res) => {
+  const { email, newPassword } = req.body;
+
   try {
-    const { codigo, area } = req.body;
-    await crearArea(codigo, area);
-    res.json({ msg: "Área creada correctamente" });
+    const updated = await resetPassword(email, newPassword);
+
+    if (updated === 0) {
+      return res.status(404).json({
+        msg: "Correo no encontrado"
+      });
+    }
+
+    res.json({
+      msg: "Contraseña actualizada correctamente"
+    });
+
   } catch (error) {
-    console.error("ERROR POST /areas:", error);
-    res.status(500).json({ msg: "Error al crear área" });
+    console.error("ERROR RESET PASSWORD:", error);
+    res.status(500).json({
+      msg: "Error al actualizar contraseña"
+    });
   }
 });
 
-// UPDATE
-app.put("/areas", async (req, res) => {
+
+// ===============================
+// METRICAS ANALISTA
+// ===============================
+app.get("/analyst/metrics/:codAnalyst", async (req, res) => {
   try {
-    const { codigo, area } = req.body;
-    await editarArea(codigo, area);
-    res.json({ msg: "Área actualizada correctamente" });
-  } catch (error) {
-    console.error("ERROR PUT /areas:", error);
-    res.status(500).json({ msg: "Error al actualizar área" });
+    const data = await analystMetrics(req.params.codAnalyst);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ msg: "Error al obtener métricas" });
   }
 });
 
-// DELETE
-app.delete("/areas/:codigo", async (req, res) => {
+
+// ===============================
+// TICKETS DEL ANALISTA
+// ===============================
+app.get("/analyst/tickets/:codAnalyst", async (req, res) => {
   try {
-    const { codigo } = req.params;
-    await eliminarArea(codigo);
-    res.json({ msg: "Área eliminada correctamente" });
-  } catch (error) {
-    console.error("ERROR DELETE /areas:", error);
-    res.status(500).json({ msg: "Error al eliminar área" });
+    const data = await analystTickets(req.params.codAnalyst);
+    res.json(data);
+  } catch (err) {
+    console.error("ERROR TICKETS:", err);
+    res.status(500).json({ msg: "Error al obtener tickets" });
   }
 });
 
-// ✅ 7. Puerto
+
+// ===============================
+// PUERTO
+// ===============================
 const PORT = process.env.PORT || 3000;
 
-// ✅ 8. Levantar servidor
+// ===============================
+// LEVANTAR SERVIDOR
+// ===============================
 app.listen(PORT, () => {
   console.log("Servidor activo en http://localhost:" + PORT);
 });
-``
-
-
-app.get("/areas", async (req, res) => {
-  try {
-    const areas = await listarAreas();
-    res.json(areas);
-  } catch (error) {
-    res.status(500).json({ msg: "Error al listar áreas" });
-  }
-});
-``
