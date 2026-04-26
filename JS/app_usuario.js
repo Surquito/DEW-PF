@@ -87,8 +87,138 @@ function navegar() {
       </div>
       </div>
     `;
+   } else if (ruta === "newuser") { 
+    html = `
+      <div class="user-consult-container">
+        <h2>Crear Usuario</h2>
+        
+        <div class="user-card">
+          <div class="user-avatar">
+            <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
+          </div>
+
+          <form class="user-form">
+            <div class="form-group">
+              <label>Correo:</label>
+              <input type="email">
+            </div>
+            
+            <div class="form-group">
+              <label>Perfil:</label>
+              <select>
+                <option>SELECCIONE</option>
+                <option>Analista</option>
+                <option>Usuario</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Nombres:</label>
+              <input type="text">
+            </div>
+
+            <div class="form-group">
+              <label>Apellidos:</label>
+              <input type="text">
+            </div>
+
+            <div class="form-group">
+              <label>Celular:</label>
+              <input type="text">
+            </div>
+
+            <div class="form-group">
+              <label>Fecha de nacimiento:</label>
+              <input type="date">
+            </div>
+
+            <div class="form-group">
+              <label>Usuario:</label>
+              <input type="text">
+            </div>
+
+            <div class="form-group">
+              <label>Crear contraseña:</label>
+              <input type="password">
+            </div>
+
+            <div class="form-group">
+              <label>Repetir contraseña:</label>
+              <input type="password">
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-action btn-blue">Crear</button>
+              <button type="button" class="btn-action btn-blue">Limpiar</button>          
+            </div>
+          </form>
+        </div>
+      </div>  
+    `;
   } else if (ruta === "readuser") { 
-    html = `READ USER
+    html = `
+      <div class="user-consult-container">
+        <h2>Consultar Usuario</h2>
+        
+        <div class="user-card">
+          <div class="user-avatar">
+            <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
+          </div>
+
+          <form class="user-form">
+            <div class="form-group">
+              <label>Correo:</label>
+              <input type="email" value="dcaceres@empresa.pe" readonly>
+            </div>
+            
+            <div class="form-group">
+              <label>Perfil:</label>
+              <input type="text" value="Contabilidad" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Nombres:</label>
+              <input type="text" value="Daniel" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Apellidos:</label>
+              <input type="text" value="Cáceres Ramirez" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Celular:</label>
+              <input type="text" value="956321470">
+            </div>
+
+            <div class="form-group">
+              <label>Fecha de nacimiento:</label>
+              <input type="text" value="05/08/2020" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Usuario:</label>
+              <input type="text" value="daniel.caceres" readonly>
+            </div>
+
+            <div class="form-group">
+              <label>Crear contraseña:</label>
+              <input type="password" value="********">
+            </div>
+
+            <div class="form-group">
+              <label>Repetir contraseña:</label>
+              <input type="password" value="********">
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-action btn-blue">Buscar</button>
+              <button type="button" class="btn-action btn-light-blue">Limpiar</button>
+              <button type="button" class="btn-action btn-blue">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
     `;
   }
   document.getElementById("contenido").innerHTML = html;
