@@ -15,7 +15,10 @@
         <button onclick=""><i class="bi bi-search"></i></button>
     </div>
     <div class="icon-right">
-      <a href="#usuario">Analista <i class="bi bi-person-circle"></i></a>
+      <a href="#usuario">
+        <span id="nombreAnalista">Analista</span>
+        <i class="bi bi-person-circle"></i>
+    </a>
     </div>
   </header>
 
@@ -28,14 +31,14 @@
       <a href="#home"><strong>Inicio</strong></a>
     </li>
     <li>
-      <a href="#magticket"><strong>Gestión Ticket</strong></a><br>
+      <a><strong>Gestión Ticket</strong></a><br>
       <ul class="submenu">
         <li><a href="#newticket">Nuevo Ticket</a></li>
         <li><a href="#readticket">Consultar Ticket</a></li>
       </ul>
     </li>
     <li>
-      <a href="#settings"><strong>Configuración</strong></a><br>
+      <a><strong>Configuración</strong></a><br>
       <ul class="submenu">
         <li><a href="#newuser">Nuevo Usuario</a></li>
         <li><a href="#readuser">Consultar Usuario</a></li>
@@ -43,7 +46,9 @@
     </li>
   </ul>
   <div class="sidebar-btn">
-    <button class="btn-close-sesion"><i class="bi-box-arrow-right"></i> Cerrar Sesión</button>
+    <button class="btn-close-sesion" id="logoutBtn">
+      <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+    </button>
   </div>  
 </nav>
     <!-- Contenido dinámico -->
