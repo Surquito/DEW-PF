@@ -399,12 +399,7 @@ function navegar() {
             </div>
 
             <div class="form-group">
-              <label>Crear contraseña:</label>
-              <input type="password" value="********">
-            </div>
-
-            <div class="form-group">
-              <label>Repetir contraseña:</label>
+              <label>Contraseña Analista:</label>
               <input type="password" value="********">
             </div>
 
