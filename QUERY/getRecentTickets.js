@@ -1,11 +1,19 @@
+/**
+ * MÓDULO DE CONSULTA DE TICKETS RECIENTES - USUARIO
+ * Recupera el historial simplificado de los últimos tickets registrados por el usuario.
+ */
+
 const { sql, pool, poolConnect } = require("../DRIVER/db");
 
+/**
+ * Obtiene los 10 tickets más recientes asociados a un código de usuario.
+ * @param {string} codUser - Identificador único del usuario solicitante.
+ * @returns {Promise<Array>} Lista de objetos con TICKET_ID, SUBJECT y STATUS.
+ */
 async function getRecentTickets(codUser) {
   try {
+    // Asegura la disponibilidad de la conexión al pool de base de datos
     await poolConnect;
-    
-    // Log para confirmar qué usuario estamos consultando en la terminal de VSCode
-    console.log("CONSULTANDO TICKETS PARA:", codUser);
 
     const result = await pool.request()
       .input("codUser", sql.VarChar, codUser)
@@ -21,8 +29,7 @@ async function getRecentTickets(codUser) {
     
     return result.recordset;
   } catch (error) {
-    // Este mensaje es crucial. Si sale "Invalid column name", sabremos EXACTAMENTE cuál es.
-    console.error("ERROR CRÍTICO EN getRecentTickets SQL:", error.message);
+    // Propagación del error para manejo centralizado en la capa de servicios (server.js)
     throw error;
   }
 }

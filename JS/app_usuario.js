@@ -1,7 +1,19 @@
+/**
+ * SISTEMA DE GESTIÓN DE TICKETS - MÓDULO DE USUARIO
+ * Controlador principal para la Single Page Application (SPA)
+ */
+
+const API = "/api"; // Base URL para las peticiones al servidor
+
+/**
+ * Gestiona la navegación dinámica basada en el Hash de la URL
+ * Carga las vistas de Inicio, Nuevo Ticket, Consultar Ticket y Perfil
+ */
 function navegar() {
   const ruta = location.hash.replace("#", "") || "home";
   let html = "";
 
+  // --- VISTA: DASHBOARD / INICIO ---
   if (ruta === "home") {
     html = `
       <div class="dashboard">
@@ -38,49 +50,20 @@ function navegar() {
               <tr>
                 <th>Ticket</th>
                 <th>Asunto</th>
-                <th>Actualización</th>
+                <th>Estado</th>
                 <th>Acción</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>TCKT00001</td>
-                <td>NO RECIBO CORREOS DE CLIENTES</td>
-                <td>26/05/2023 08:14:35</td>
-                <td>
-                  <a href="#"><i class="bi bi-eye"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>TCKT00002</td>
-                <td>INSTALACIÓN DE EQUIPO PARA NUEVO INGRESO</td>
-                <td>26/05/2023 08:15:37</td>
-                <td>
-                  <a href="#"><i class="bi bi-eye"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>TCKT00003</td>
-                <td>SAP NO PERMITE CANCELAR COMPROBANTE</td>
-                <td>26/05/2023 08:16:09</td>
-                <td>
-                  <a href="#"><i class="bi bi-eye"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>TCKT00004</td>
-                <td>CREACIÓN DE USUARIO PARA NUEVO INGRESO</td>
-                <td>26/05/2023 08:16:36</td>
-                <td>
-                  <a href="#"><i class="bi bi-eye"></i></a>
-                </td>
-              </tr>
-            </tbody>
+              </tbody>
           </table>
         </section>
       </div>
     `;   
-  } else if (ruta === "newticket") {
+  } 
+  
+  // --- VISTA: REGISTRO DE NUEVO TICKET ---
+  else if (ruta === "newticket") {
     html = `
       <div class="ticket-container">
       <div class="ticket-card">
@@ -94,7 +77,11 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select id="nt-typeTask" class="input-select"><option value="">Seleccione</option><option value="INCIDENCIA">Incidencia</option>  <option value="SOLICITUD">Solicitud</option></select>
+                <select id="nt-typeTask" class="input-select">
+                  <option value="">Seleccione</option>
+                  <option value="INCIDENCIA">Incidencial</option>  
+                  <option value="SOLICITUD">Solicitud</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Área:</label>
@@ -158,7 +145,10 @@ function navegar() {
       </div>
       </div>
     `;
-  } else if (ruta === "readticket") {
+  } 
+  
+  // --- VISTA: CONSULTA DE TICKETS POR ID ---
+  else if (ruta === "readticket") {
     html = `
       <div class="ticket-container">
       <div class="ticket-card">
@@ -237,7 +227,10 @@ function navegar() {
       </div>
       </div>
     `;
-  } else if (ruta === "readuser") { 
+  } 
+  
+  // --- VISTA: PERFIL DE USUARIO ---
+  else if (ruta === "readuser") { 
     html = `
       <div class="user-consult-container">      
         <div class="user-card">
@@ -302,24 +295,24 @@ function navegar() {
     `;
   }
   
-  // RENDERIZAR EN EL DOM
+  // Renderizado del HTML en el contenedor principal
   document.getElementById("contenido").innerHTML = html;
   
   // ==========================================
-  // ASIGNAR EVENTOS DESPUÉS DE RENDERIZAR
+  // ASIGNACIÓN DE EVENTOS POR VISTA
   // ==========================================
   
   if (ruta === "home") {
     const codUser = localStorage.getItem("codUser");
 
-    // Función para cargar Métricas
+    // Carga de indicadores numéricos (Métricas)
     const cargarMetricas = async () => {
       try {
-        const response = await fetch(`/api/user/metrics/${codUser}`);
+        const response = await fetch(`${API}/user/metrics/${codUser}`);
         if (!response.ok) throw new Error("Error en servidor");
         const data = await response.json();
 
-        // Resetear a 0 por si algún estado no viene en el JSON
+        // Inicialización de valores por defecto
         document.getElementById("m-abiertos").innerText = "0";
         document.getElementById("m-encurso").innerText = "0";
         document.getElementById("m-pendientes").innerText = "0";
@@ -332,21 +325,17 @@ function navegar() {
           if (item.STATUS === "ATENDIDO") document.getElementById("m-atendidos").innerText = item.TOTAL;
         });
       } catch (error) {
-        console.error("Error cargando métricas:", error);
+        console.error("Fallo al obtener métricas");
       }
     };
 
-    // Función para cargar la Bandeja de Tickets
+    // Carga de la lista de tickets recientes en la tabla principal
     const cargarBandeja = async () => {
       try {
-        const response = await fetch(`/api/user/tickets-recent/${codUser}`);
+        const response = await fetch(`${API}/user/tickets-recent/${codUser}`);
         const tickets = await response.json();
 
-        // Verificamos que sea un arreglo antes de iterar
-        if (!Array.isArray(tickets)) {
-          console.error("Respuesta del servidor no es una lista:", tickets);
-          return;
-        }
+        if (!Array.isArray(tickets)) return;
 
         const tbody = document.querySelector(".tickets-table tbody");
         if (!tbody) return;
@@ -367,7 +356,7 @@ function navegar() {
           tbody.appendChild(tr);
         });
 
-        // Evento para el ícono del ojo
+        // Vinculación de evento para visualización individual de tickets
         document.querySelectorAll(".view-ticket").forEach(btn => {
           btn.addEventListener("click", function() {
             const id = this.getAttribute("data-id");
@@ -377,7 +366,7 @@ function navegar() {
         });
 
       } catch (error) {
-        console.error("Error al cargar la bandeja de tickets:", error);
+        console.error("Fallo al cargar la bandeja");
       }
     };
 
@@ -392,9 +381,7 @@ function navegar() {
   
   else if (ruta === "newticket") {
 
-    // Llenado rápido de selects para el formulario de nuevo ticket
-    // Dentro de app_usuario.js, en la sección de (ruta === "newticket")
-    // Dentro de app_usuario.js, en la sección de (ruta === "newticket")
+    // Inicialización de categorías desde la base de datos
     const cargarCategoriasDB = () => {
         const categorias = [
             { cod: "HDRW", nom: "HARDWARE" },
@@ -414,8 +401,8 @@ function navegar() {
             selectCat.innerHTML = '<option value="">Seleccione</option>';
             categorias.forEach(c => {
                 let opt = document.createElement("option");
-                opt.value = c.cod; // Este es el valor que requiere el FK
-                opt.text = c.nom;  // Este es el texto que ve el usuario
+                opt.value = c.cod;
+                opt.text = c.nom;
                 selectCat.add(opt);
             });
         }
@@ -423,48 +410,41 @@ function navegar() {
 
     cargarCategoriasDB();
 
-    // Evento para el botón de archivo adjunto visual
+    // Gestión visual de archivos adjuntos
     document.getElementById("nt-attachments")?.addEventListener("change", function(e) {
       const fileName = e.target.files[0]?.name || "";
       document.getElementById("nt-filename").value = fileName;
     });
 
+    // Envío del formulario de creación de ticket
     document.getElementById("btn-crear-nt")?.addEventListener("click", async () => {
-    const selectCategoria = document.getElementById("nt-categoria");
-    const categoriaSeleccionada = selectCategoria.value; // Esto debe ser el CÓDIGO (HDRW, SFTW...)
+      const dataTicket = {
+          typeTask: document.getElementById("nt-typeTask").value,
+          estado: document.getElementById("nt-estado").value || 'ABIERTO',
+          asunto: document.getElementById("nt-asunto").value,
+          descripcion: document.getElementById("nt-descripcion").value,
+          categoria: document.getElementById("nt-categoria").value, 
+          usuario: localStorage.getItem("codUser") 
+      };
 
-    const dataTicket = {
-        typeTask: document.getElementById("nt-typeTask").value, // Debe ser INCIDENCIA o SOLICITUD
-        estado: document.getElementById("nt-estado").value || 'ABIERTO',
-        asunto: document.getElementById("nt-asunto").value,
-        descripcion: document.getElementById("nt-descripcion").value,
-        categoria: categoriaSeleccionada, 
-        usuario: localStorage.getItem("codUser") 
-    };
-
-console.log("DATOS ENVIADOS DESDE EL FRONTEND:", dataTicket);
-
-    // Validación rápida
-    if (!dataTicket.asunto || !dataTicket.descripcion) {
-        return alert("Por favor, completa el asunto y la descripción.");
-    }
-
-      console.log("Datos a enviar para crear ticket:", dataTicket);
-
+      if (!dataTicket.asunto || !dataTicket.descripcion) {
+          return alert("Por favor, completa el asunto y la descripción.");
+      }
       
       try {
-        const response = await fetch('/api/user/tickets', {
+        const response = await fetch(`${API}/user/tickets`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(dataTicket)
         });
-        const result = await response.json();
-        alert("Ticket creado con éxito!");
-        document.getElementById("form-newticket").reset();
+        if (response.ok) {
+          alert("Ticket creado con éxito!");
+          document.getElementById("form-newticket").reset();
+          location.hash = "home";
+        }
       } catch (error) {
-        console.error("Error al crear ticket", error);
+        alert("Ocurrió un error al procesar la solicitud.");
       }
-      
     });
 
     document.getElementById("btn-limpiar-nt")?.addEventListener("click", () => {
@@ -474,16 +454,13 @@ console.log("DATOS ENVIADOS DESDE EL FRONTEND:", dataTicket);
   } 
   
   else if (ruta === "readticket") {
+    // Consulta manual o automática de un ticket específico
     document.getElementById("btn-consultar-ct")?.addEventListener("click", async () => {
       const taskId = document.getElementById("ct-taskId").value;
       if (!taskId) return alert("Ingrese un Task ID válido");
-
-      console.log("Consultando ticket ID:", taskId);
-
       
       try {
-        // Hacemos la petición con el ID ingresado
-        const response = await fetch(`/api/user/tickets/${taskId}`);
+        const response = await fetch(`${API}/user/tickets/${taskId}`);
         
         if (!response.ok) {
            const errData = await response.json();
@@ -492,15 +469,12 @@ console.log("DATOS ENVIADOS DESDE EL FRONTEND:", dataTicket);
 
         const data = await response.json();
         
-        // 1. Llenamos los campos de texto normal
         document.getElementById("ct-asunto").value = data.SUBJECT || "";
         document.getElementById("ct-descripcion").value = data.DESCRIPTION || "";
         
-        // 2. Función auxiliar para inyectar opciones en los selects dinámicamente
         const asignarSelect = (idSelect, valorDB) => {
           if (!valorDB) return; 
           const select = document.getElementById(idSelect);
-          
           const existe = Array.from(select.options).some(opt => opt.value == valorDB);
           
           if (!existe) {
@@ -509,41 +483,32 @@ console.log("DATOS ENVIADOS DESDE EL FRONTEND:", dataTicket);
             nuevaOpcion.text = valorDB;
             select.appendChild(nuevaOpcion);
           }
-          
           select.value = valorDB;
         };
 
-        // 3. Aplicamos la función a los selects usando las columnas de TBL_TICKET
         asignarSelect("ct-typeTask", data.TICKET_TYPE);
         asignarSelect("ct-estado", data.STATUS);
         asignarSelect("ct-categoria", data.COD_CATEGORY);
         asignarSelect("ct-usuario", data.COD_USER);
               
       } catch (error) {
-        console.error("Error al consultar ticket", error);
-        alert("Ocurrió un error de conexión al consultar el ticket.");
+        alert("Error de conexión al servidor.");
       }
-      
     });
 
     document.getElementById("btn-limpiar-ct")?.addEventListener("click", () => {
       document.getElementById("form-readticket").reset();
     });
 
-    // --- LÓGICA DE AUTO-BÚSQUEDA (CORREGIDA) ---
+    // Lógica para procesar una búsqueda pendiente (Redirección desde bandeja)
     const ticketPendiente = sessionStorage.getItem("ticketABuscar");
-    
     if (ticketPendiente) {
-        // Usamos los IDs EXACTOS que definiste arriba en el HTML
         const inputCT = document.getElementById("ct-taskId"); 
         const btnCT = document.getElementById("btn-consultar-ct");
 
         if (inputCT && btnCT) {
             inputCT.value = ticketPendiente;
-            // Borramos la bandera para que no se repita la búsqueda al refrescar
             sessionStorage.removeItem("ticketABuscar"); 
-            
-            // Ejecutamos el clic del botón de consulta
             btnCT.click();
         }
     }
@@ -551,6 +516,7 @@ console.log("DATOS ENVIADOS DESDE EL FRONTEND:", dataTicket);
   
   else if (ruta === "readuser") {
     
+    // Poblamiento de datos del perfil desde la sesión actual
     const llenarDatosPerfil = () => {
       const sesionData = localStorage.getItem("userData");
       if (sesionData) {
@@ -572,13 +538,13 @@ console.log("DATOS ENVIADOS DESDE EL FRONTEND:", dataTicket);
       }
     };
 
-    // Llenar automáticamente al entrar a la vista
     llenarDatosPerfil();
 
     document.getElementById("btn-limpiar-cu")?.addEventListener("click", () => {
       llenarDatosPerfil();
     });
 
+    // Actualización de información de usuario
     document.getElementById("btn-guardar-cu")?.addEventListener("click", async () => {
       const p1 = document.getElementById("cu-pass1").value;
       const p2 = document.getElementById("cu-pass2").value;
@@ -591,19 +557,19 @@ console.log("DATOS ENVIADOS DESDE EL FRONTEND:", dataTicket);
         apellidos: document.getElementById("cu-apellidos").value,
         celular: document.getElementById("cu-celular").value,
         fechaNac: document.getElementById("cu-fechanac").value,
-        password: p1 || "********" 
+        password: p1 || null 
       };
 
       try {
-        const response = await fetch('/api/users', {
+        const response = await fetch(`${API}/users`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedData)
         });
         
         if (response.ok) {
-          alert("Tus datos han sido actualizados.");
-          const res = await fetch(`/api/users/${updatedData.codUser}`);
+          alert("Perfil actualizado correctamente.");
+          const res = await fetch(`${API}/users/${updatedData.codUser}`);
           const newData = await res.json();
           localStorage.setItem("userData", JSON.stringify(newData));
           document.getElementById("header-nombre").innerHTML = `${newData.FIRST_NAME} <i class="bi bi-person-circle"></i>`;
@@ -615,60 +581,51 @@ console.log("DATOS ENVIADOS DESDE EL FRONTEND:", dataTicket);
   }
 }
 
-// Inicialización de eventos globales
+// Inicialización de navegación mediante eventos del navegador
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
 
+/**
+ * CONFIGURACIÓN GLOBAL AL CARGAR EL DOM
+ * Maneja la sesión persistente, el cierre de sesión y la búsqueda global
+ */
 document.addEventListener("DOMContentLoaded", async function () {
-  // 1. Obtener el código del usuario logueado desde el localStorage (confirmado en login.js)
   const codUser = localStorage.getItem("codUser"); 
   
   if (codUser) {
     try {
-      // Consultamos los datos del usuario logueado al iniciar
-      const response = await fetch(`/api/users/${codUser}`);
+      const response = await fetch(`${API}/users/${codUser}`);
       if (response.ok) {
         const data = await response.json();
-        
-        // Inyectamos el primer nombre en el header
         const headerNombre = document.getElementById("header-nombre");
         if (headerNombre) {
             headerNombre.innerHTML = `${data.FIRST_NAME} <i class="bi bi-person-circle"></i>`;
         }
-        
-        // Guardamos los datos completos temporalmente para llenar el formulario rápido
         localStorage.setItem("userData", JSON.stringify(data));
       }
     } catch (error) {
-      console.error("Error al cargar datos iniciales del usuario:", error);
+      console.error("Error al recuperar sesión");
     }
   }
 
-  // 2. Lógica de Cerrar Sesión (Mantenemos la existente)
+  // Lógica de finalización de sesión
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
-        // Limpiamos absolutamente todo el rastro de la sesión
         localStorage.clear();
         sessionStorage.clear();
-        
-        // Redirigimos al Login
         window.location.href = "login.html";
     });
   }
 
-    // --- LÓGICA DEL BUSCADOR GLOBAL ---
+  // GESTIÓN DEL BUSCADOR GLOBAL (Header)
   const btnBuscarGlobal = document.getElementById("btn-buscar-global");
   const inputBusqueda = document.getElementById("busqueda");
 
   const ejecutarBusquedaGlobal = () => {
     const nroTicket = inputBusqueda.value.trim();
-    
     if (nroTicket) {
-        // Guardamos el número para que la otra vista lo recoja
         sessionStorage.setItem("ticketABuscar", nroTicket);
-        
-        // Cambiamos de vista
         window.location.hash = "readticket";
         inputBusqueda.value = ""; 
     } else {
@@ -676,13 +633,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   };
 
-  // Evento al hacer clic en la lupa
   btnBuscarGlobal?.addEventListener("click", ejecutarBusquedaGlobal);
-
-  // Evento al presionar "Enter" en el teclado
   inputBusqueda?.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-          ejecutarBusquedaGlobal();
-      }
+      if (e.key === "Enter") ejecutarBusquedaGlobal();
   });
 });
