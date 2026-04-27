@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +12,6 @@ body {
     min-height: 100vh;
 }
 
-/* Contenedor principal */
 .contenedorLogin {
     display: flex;
     width: 850px;
@@ -24,7 +22,6 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Lateral izquierdo - imagen*/
 .contenedorImagen {
     width: 52%;
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
@@ -51,7 +48,6 @@ body {
 }
 
 
-/* Lateral derecho - formulario */
 .contenedorFormularioLogin {
     width: 48%;
     display: flex;
@@ -133,7 +129,6 @@ body {
     text-decoration: underline;
 }
 
-/* Botón de ingreso */
 .btnLogin {
     width: 60%;
     padding: 12px;
