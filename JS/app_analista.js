@@ -172,38 +172,42 @@ function navegar() {
       <div class = "ticket-container">
       <div class="ticket-card">
         <h2 class="ticket-title">Consultar Ticket</h2>
-        <form class="ticket-form">
+        <form class="ticket-form" id="formEditTicket">
           <div class="form-row-2col">
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" value="Autogenerado" readonly class="input-bordered input-center">
+                <input type="text" id="searchTaskID" value="TKT000001" class="input-bordered input-center" readonly>
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <input type="text" class="input-bordered" value="INCIDENCIA" readonly style="background-color: #f0f0f0;">
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <input type="text" class="input-bordered" value="CONTABILIDAD" readonly style="background-color: #f0f0f0;">
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <input type="text" class="input-bordered" value="JUAN PEREZ" readonly style="background-color: #f0f0f0;">
               </div>
             </div>
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select" id="ticketEstado">
+                  <option value="Abierto" selected>Abierto</option>
+                  <option value="En curso">En curso</option>
+                  <option value="Atendido">Atendido</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <input type="text" class="input-bordered" value="MICROSOFT OUTLOOK" readonly style="background-color: #f0f0f0;">
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <input type="text" class="input-bordered" value="INC RECEPCIÓN CORREOS" readonly style="background-color: #f0f0f0;">
               </div>
             </div>
           </div>
@@ -211,47 +215,62 @@ function navegar() {
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" class="input-bordered">
+              <input type="text" class="input-bordered" value="No me llegan los correos" readonly style="background-color: #f0f0f0;">
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea rows="4" class="input-bordered"></textarea>
+              <textarea rows="4" class="input-bordered" readonly style="background-color: #f0f0f0;">Su gentil apoyo con el correo del cliente proveedor_coca@cocacola.com. Desde hace 3 días no puedo recibir correos.</textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
                 <label>Nota:</label>
-                <textarea rows="3" class="input-bordered"></textarea>
+                <textarea rows="3" class="input-bordered" id="ticketNota">Bandeja de usuario llego al límite de la capacidad. Se crea OST para backup de correo.</textarea>
               </div>
               <div class="field-group">
                 <label>Soporte:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select" id="ticketSoporte">
+                  <option selected>NIVEL 1</option>
+                  <option>NIVEL 2</option>
+                  <option>NIVEL 3</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Analista:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <input type="text" class="input-bordered" id="ticketAnalista" value="YUMI KANASHIRO">
               </div>
             </div>
             <div class="form-col">
               <div class="field-group">
                 <label>Attachments:</label>
-                <div class="attachment-box input-bordered">
-                  <input type="text" readonly>
-                  <i class="bi bi-paperclip"></i>
+                <div class="attachment-box input-bordered" style="background-color: #f0f0f0;">
+                  <input type="text" value="SS_CORREO ERROR.PNG" readonly style="background: transparent; cursor: default;">
+                 <i class="bi bi-paperclip"></i>
                 </div>
               </div>
               <div class="field-group">
                 <label>Impacto:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select" id="ticketImpacto">
+                  <option selected>PERSONA</option>
+                  <option>ÁREA</option>
+                  <option>EMPRESA</option>
+                </select>
               </div>
               <div class="field-group">
-                <label>Prioridad:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select" id="ticketPrioridad">
+                  <option selected>BAJA</option>
+                  <option>MEDIA</option>
+                  <option>ALTA</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Urgencia:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select" id="ticketUrgencia">
+                  <option selected>BAJA</option>
+                  <option>MEDIA</option>
+                  <option>ALTA</option>
+                </select>
               </div>
             </div>
           </div>
@@ -268,8 +287,9 @@ function navegar() {
   } else if (ruta === "newuser") { 
     html = `
       <div class="user-consult-container">
+        <h2>Crear Usuario</h2>
+        
         <div class="user-card">
-          <h2 class="ticket-title">Crear Usuario</h2>
           <div class="user-avatar">
             <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
           </div>
@@ -279,7 +299,7 @@ function navegar() {
               <label>Correo:</label>
               <input type="email">
             </div>
-
+            
             <div class="form-group">
               <label>Perfil:</label>
               <select>
@@ -334,9 +354,10 @@ function navegar() {
     `;
   } else if (ruta === "readuser") { 
     html = `
-      <div class="user-consult-container">      
+      <div class="user-consult-container">
+        <h2>Consultar Usuario</h2>
+        
         <div class="user-card">
-          <h2 class="ticket-title">Consultar Usuario</h2>
           <div class="user-avatar">
             <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
           </div>
@@ -344,26 +365,22 @@ function navegar() {
           <form class="user-form">
             <div class="form-group">
               <label>Correo:</label>
-              <input type="email" value="dcaceres@empresa.pe">
+              <input type="email" value="dcaceres@empresa.pe" readonly>
             </div>
             
             <div class="form-group">
               <label>Perfil:</label>
-              <select>
-                <option>SELECCIONE</option>
-                <option>Analista</option>
-                <option>Usuario</option>
-              </select>
+              <input type="text" value="Contabilidad" readonly>
             </div>
 
             <div class="form-group">
               <label>Nombres:</label>
-              <input type="text" value="Daniel">
+              <input type="text" value="Daniel" readonly>
             </div>
 
             <div class="form-group">
               <label>Apellidos:</label>
-              <input type="text" value="Cáceres Ramirez">
+              <input type="text" value="Cáceres Ramirez" readonly>
             </div>
 
             <div class="form-group">
@@ -373,21 +390,16 @@ function navegar() {
 
             <div class="form-group">
               <label>Fecha de nacimiento:</label>
-              <input type="date">
+              <input type="text" value="05/08/2020" readonly>
             </div>
 
             <div class="form-group">
               <label>Usuario:</label>
-              <input type="text" value="daniel.caceres">
+              <input type="text" value="daniel.caceres" readonly>
             </div>
 
             <div class="form-group">
-              <label>Crear contraseña:</label>
-              <input type="password" value="********">
-            </div>
-
-            <div class="form-group">
-              <label>Repetir contraseña:</label>
+              <label>Contraseña Analista:</label>
               <input type="password" value="********">
             </div>
 
@@ -401,7 +413,6 @@ function navegar() {
       </div>
     `;
   }
-
   document.getElementById("contenido").innerHTML = html;
 
   if (ruta === "home") {

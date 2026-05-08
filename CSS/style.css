@@ -7,7 +7,6 @@ body {
   background: #fdfdfd;
 }
 
-/* Header horizontal */
 header {
   display: flex;
   justify-content: space-between;
@@ -40,7 +39,6 @@ header a:hover {
   text-decoration: underline;
 }
 
-/* Barra de búsqueda */
 .search-bar {
   display: flex;
   flex: 1;
@@ -71,21 +69,19 @@ header a:hover {
   color: white;
 }
 
-/* Contenedor principal: sidebar + contenido */
 .container {
   flex: 1;
   display: flex; 
 }
 
-/* Sidebar vertical */
 .sidebar {
   width: 180px;
   background: #f9f9f9;
   padding: 20px;
   display: flex;
-  flex-direction: column;   /* organiza en columna */
-  justify-content: space-between; /* menú arriba, botón abajo */
-  max-height: 100%;            /* ocupa toda la altura de la ventana */
+  flex-direction: column; 
+  justify-content: space-between; 
+  max-height: 100%; 
 }
 
 .sidebar ul {
@@ -121,7 +117,7 @@ header a:hover {
 }
 
 .sidebar-btn {
-  margin-top: auto; /* empuja el botón hacia abajo */
+  margin-top: auto;
 }
 
 .btn-close-sesion {
@@ -138,9 +134,8 @@ header a:hover {
   background: #ff8a65 ;
 }
 
-/* Contenido a la derecha */
 main {
-  flex: 1; /* ocupa todo el espacio restante */
+  flex: 1;
   padding: 20px;
 }
 
@@ -152,14 +147,11 @@ footer {
   padding: 5px;
 }
 
-/* Home */
-
 .dashboard {
   max-width: 1200px;
   margin: auto;
 }
 
-/* Métricas */
 .metrics {
   display: flex;
   gap: 20px;
@@ -186,7 +178,6 @@ footer {
   color: #0d47a1;
 }
 
-/* Bandeja Tickets */
 .tickets-header {
   display: flex;
   justify-content: space-between;
@@ -213,7 +204,6 @@ footer {
   background: #66bb6a ;
 }
 
-/* Tabla */
 .tickets-table {
   width: 100%;
   border-collapse: collapse;
@@ -247,8 +237,6 @@ footer {
   color: #555;
 }
 
-/* NEW TICKET Y READ TICKET*/
-
 .ticket-container {
   display: flex;
   justify-content: center;
@@ -260,7 +248,7 @@ footer {
   background: white;
   padding: 40px;
   width: 100%;
-  max-width: 900px; /* tamaño máximo */
+  max-width: 900px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
@@ -270,7 +258,6 @@ footer {
   margin-bottom: 30px;
 }
 
-/* GRID DE FORMULARIO */
 .form-row-2col {
   display: flex;
   gap: 40px;
@@ -285,7 +272,6 @@ footer {
   margin-bottom: 20px;
 }
 
-/* CAMPOS: etiquetas arriba, campos abajo */
 .field-group, .field-group-full {
   display: flex;
   flex-direction: column;
@@ -298,7 +284,6 @@ label {
   font-size: 14px;
 }
 
-/* INPUTS Y SELECTS */
 .input-bordered,
 .input-select,
 textarea {
@@ -317,13 +302,11 @@ textarea:focus {
   outline: none;
 }
 
-/* TEXTAREA */
 textarea {
   resize: vertical;
   height: 65px;
 }
 
-/* ATTACHMENT */
 .attachment-box {
   display: flex;
   align-items: center;
@@ -338,7 +321,6 @@ textarea {
   box-sizing: border-box;
 }
 
-/* BOTONES */
 .form-actions-bottom {
   display: flex;
   justify-content: center;

@@ -16,7 +16,10 @@ module.exports = async function login(codUser, password) {
   if (!user) return null;
 
   const valido = await bcrypt.compare(password, user.PASSWORD_HASH);
+  
   if (!valido) return null;
+
+  if (user.STATE === false || user.STATE === 0) return null;
 
   return user;
 };
