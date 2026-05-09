@@ -3,17 +3,34 @@
  * Controlador principal para la Single Page Application (SPA)
  */
 
-const API = "/api"; // Base URL para las peticiones al servidor
+const API = "http://localhost:3000"
 
-/**
- * Gestiona la navegación dinámica basada en el Hash de la URL
- * Carga las vistas de Inicio, Nuevo Ticket, Consultar Ticket y Perfil
- */
+/* =========================
+   FORZAR HOME AL CARGAR
+   ========================= */
+if (!location.hash) {
+  location.hash = "#home";
+}
+
+/* =========================
+   CARGAR USUARIO LOGUEADO
+   ========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const codUser = localStorage.getItem("codUser");
+
+  const nombre = document.getElementById("header-nombre");
+  if (nombre && codUser) {
+    nombre.textContent = codUser;
+  }
+});
+
+/* =========================
+   NAVEGACIÓN
+   ========================= */
 function navegar() {
   const ruta = location.hash.replace("#", "") || "home";
   let html = "";
 
-  // --- VISTA: DASHBOARD / INICIO ---
   if (ruta === "home") {
     html = `
       <div class="dashboard">
@@ -60,10 +77,7 @@ function navegar() {
         </section>
       </div>
     `;   
-  } 
-  
-  // --- VISTA: REGISTRO DE NUEVO TICKET ---
-  else if (ruta === "newticket") {
+  } else if (ruta === "newticket") {
     html = `
       <div class="ticket-container">
       <div class="ticket-card">
@@ -145,10 +159,7 @@ function navegar() {
       </div>
       </div>
     `;
-  } 
-  
-  // --- VISTA: CONSULTA DE TICKETS POR ID ---
-  else if (ruta === "readticket") {
+  } else if (ruta === "readticket") {
     html = `
       <div class="ticket-container">
       <div class="ticket-card">
@@ -227,16 +238,13 @@ function navegar() {
       </div>
       </div>
     `;
-  } 
-  
-  // --- VISTA: PERFIL DE USUARIO ---
-  else if (ruta === "readuser") { 
+  } else if (ruta === "readuser") { 
     html = `
       <div class="user-consult-container">      
         <div class="user-card">
           <h2 class="ticket-title">Mi Perfil</h2>
           <div class="user-avatar">
-            <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
+            <i class="bi bi-person-bounding-box" style="font-size: 120px; color: #87ceeb;"></i>
           </div>
 
           <form class="user-form" id="form-readuser">
@@ -275,14 +283,27 @@ function navegar() {
               <input type="text" id="cu-usuario" disabled>
             </div>
 
-            <div class="form-group">
-              <label>Crear contraseña:</label>
-              <input type="password" id="cu-pass1" placeholder="********">
+            <div class="form-group password-group">
+              <label>Nueva contraseña:</label>
+              <input type="password" id="cu-pass1">
+              <button
+                type="button"
+                class="togglePassword"
+                onclick="alternarContrasena('cu-pass1', 'togglePasswordIcon')">
+                <i class="bi bi-eye" id="togglePasswordIcon"></i>
+              </button>
             </div>
 
-            <div class="form-group">
+            <div class="form-group password-group">
               <label>Repetir contraseña:</label>
-              <input type="password" id="cu-pass2" placeholder="********">
+              <input type="password" id="cu-pass2">
+              <button
+                  type="button"
+                  class="togglePassword"
+                  aria-label="Mostrar u ocultar contraseña"
+                  onclick="alternarContrasena('cu-pass2', 'togglePasswordIcon')">
+                  <i class="bi bi-eye" id="togglePasswordIcon"></i>
+              </button>
             </div>
 
             <div class="form-actions">
@@ -294,7 +315,6 @@ function navegar() {
       </div>
     `;
   }
-  
   // Renderizado del HTML en el contenedor principal
   document.getElementById("contenido").innerHTML = html;
   
@@ -377,9 +397,7 @@ function navegar() {
     if (btnNewTicket) {
       btnNewTicket.addEventListener("click", () => location.hash = "newticket");
     }
-  }
-  
-  else if (ruta === "newticket") {
+  } else if (ruta === "newticket") {
 
     // Inicialización de categorías desde la base de datos
     const cargarCategoriasDB = () => {
@@ -451,9 +469,7 @@ function navegar() {
       document.getElementById("form-newticket").reset();
       document.getElementById("nt-filename").value = "";
     });
-  } 
-  
-  else if (ruta === "readticket") {
+  } else if (ruta === "readticket") {
     // Consulta manual o automática de un ticket específico
     document.getElementById("btn-consultar-ct")?.addEventListener("click", async () => {
       const taskId = document.getElementById("ct-taskId").value;
@@ -512,9 +528,7 @@ function navegar() {
             btnCT.click();
         }
     }
-  } 
-  
-  else if (ruta === "readuser") {
+  } else if (ruta === "readuser") {
     
     // Poblamiento de datos del perfil desde la sesión actual
     const llenarDatosPerfil = () => {
@@ -585,13 +599,30 @@ function navegar() {
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
 
+function alternarContrasena(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+
+  if (!input || !icon) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove("bi-eye");
+    icon.classList.add("bi-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.remove("bi-eye-slash");
+    icon.classList.add("bi-eye");
+  }
+}
+
 /**
  * CONFIGURACIÓN GLOBAL AL CARGAR EL DOM
  * Maneja la sesión persistente, el cierre de sesión y la búsqueda global
  */
 document.addEventListener("DOMContentLoaded", async function () {
   const codUser = localStorage.getItem("codUser"); 
-  
+  /* BORRAR ESTE BLOQUE SI NO SE REQUIERE CARGA INICIAL DE DATOS DE USUARIO DESDE API
   if (codUser) {
     try {
       const response = await fetch(`${API}/users/${codUser}`);
@@ -607,7 +638,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.error("Error al recuperar sesión");
     }
   }
-
+*/
   // Lógica de finalización de sesión
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {

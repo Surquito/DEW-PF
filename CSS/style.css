@@ -368,7 +368,7 @@ textarea {
 .form-group {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .form-group label {
@@ -377,17 +377,36 @@ textarea {
   color: #333;
 }
 
-.form-group input, select {
+.form-group input,
+.form-group select {
   flex: 1;
   padding: 6px;
   border: 1px solid #999;
   border-radius: 2px;
 }
 
-.form-group input[readonly] {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+.password-group {
+  position: relative;
+}
+
+.password-group input {
+  padding-right: 35px;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
   color: #666;
+  font-size: 16px;
+}
+
+.togglePassword:hover {
+  color: #333;
 }
 
 .form-actions {
@@ -424,3 +443,12 @@ textarea {
   align-items: center;
   padding: 20px;
 }
+
+.passwordWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+

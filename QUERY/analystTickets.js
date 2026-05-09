@@ -12,8 +12,7 @@ module.exports = async (codAnalyst) => {
         T.STATUS,
         A.CREATE_DATE
       FROM TBL_ATTENTION A
-      JOIN TBL_TICKET T ON A.TICKET_ID = T.TICKET_ID
-      WHERE A.COD_ANALYST = @codAnalyst
+      FULL JOIN TBL_TICKET T ON A.TICKET_ID = T.TICKET_ID
       ORDER BY A.CREATE_DATE DESC
     `);
 

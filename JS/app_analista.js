@@ -15,7 +15,6 @@ if (!location.hash) {
 document.addEventListener("DOMContentLoaded", () => {
   const codUser = localStorage.getItem("codUser");
 
-  // Solo mostrar el nombre si existe
   const nombre = document.getElementById("nombreAnalista");
   if (nombre && codUser) {
     nombre.textContent = codUser;
@@ -32,7 +31,7 @@ function navegar() {
   if (ruta === "home") {
     html = `
       <div class="dashboard">
-
+        <h2>Métricas</h2>
         <div class="metrics">
           <div class="metric">
             <h3>Abiertos</h3>
@@ -54,6 +53,9 @@ function navegar() {
 
         <div class="tickets-header">
           <h2>Bandeja de Tickets</h2>
+             <button class="btn-new" id="newticketBtn">
+             <i class="bi bi-plus-circle"></i> Nuevo ticket
+            </button>
         </div>
 
         <table class="tickets-table">
@@ -80,7 +82,7 @@ function navegar() {
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" value="Autogenerado" readonly class="input-bordered input-center">
+                <input type="text" value="Autogenerado" disabled class="input-bordered input-center">
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
@@ -141,7 +143,7 @@ function navegar() {
               <div class="field-group">
                 <label>Attachments:</label>
                 <div class="attachment-box input-bordered">
-                  <input type="text" readonly>
+                  <input type="text" disabled>
                   <i class="bi bi-paperclip"></i>
                 </div>
               </div>
@@ -177,19 +179,19 @@ function navegar() {
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" id="searchTaskID" value="TKT000001" class="input-bordered input-center" readonly>
+                <input type="text" id="searchTaskID" value="TKT000001" class="input-bordered input-center" disabled>
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <input type="text" class="input-bordered" value="INCIDENCIA" readonly style="background-color: #f0f0f0;">
+                <input type="text" class="input-bordered" value="INCIDENCIA" disabled style="background-color: #f0f0f0;">
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <input type="text" class="input-bordered" value="CONTABILIDAD" readonly style="background-color: #f0f0f0;">
+                <input type="text" class="input-bordered" value="CONTABILIDAD" disabled style="background-color: #f0f0f0;">
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <input type="text" class="input-bordered" value="JUAN PEREZ" readonly style="background-color: #f0f0f0;">
+                <input type="text" class="input-bordered" value="JUAN PEREZ" disabled style="background-color: #f0f0f0;">
               </div>
             </div>
             <div class="form-col pt-empty">
@@ -203,11 +205,11 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <input type="text" class="input-bordered" value="MICROSOFT OUTLOOK" readonly style="background-color: #f0f0f0;">
+                <input type="text" class="input-bordered" value="MICROSOFT OUTLOOK" disabled style="background-color: #f0f0f0;">
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <input type="text" class="input-bordered" value="INC RECEPCIÓN CORREOS" readonly style="background-color: #f0f0f0;">
+                <input type="text" class="input-bordered" value="INC RECEPCIÓN CORREOS" disabled style="background-color: #f0f0f0;">
               </div>
             </div>
           </div>
@@ -215,11 +217,11 @@ function navegar() {
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" class="input-bordered" value="No me llegan los correos" readonly style="background-color: #f0f0f0;">
+              <input type="text" class="input-bordered" value="No me llegan los correos" disabled style="background-color: #f0f0f0;">
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea rows="4" class="input-bordered" readonly style="background-color: #f0f0f0;">Su gentil apoyo con el correo del cliente proveedor_coca@cocacola.com. Desde hace 3 días no puedo recibir correos.</textarea>
+              <textarea rows="4" class="input-bordered" disabled style="background-color: #f0f0f0;">Su gentil apoyo con el correo del cliente proveedor_coca@cocacola.com. Desde hace 3 días no puedo recibir correos.</textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
@@ -245,7 +247,7 @@ function navegar() {
               <div class="field-group">
                 <label>Attachments:</label>
                 <div class="attachment-box input-bordered" style="background-color: #f0f0f0;">
-                  <input type="text" value="SS_CORREO ERROR.PNG" readonly style="background: transparent; cursor: default;">
+                  <input type="text" value="SS_CORREO ERROR.PNG" disabled style="background: transparent; cursor: default;">
                  <i class="bi bi-paperclip"></i>
                 </div>
               </div>
@@ -291,7 +293,7 @@ function navegar() {
         
         <div class="user-card">
           <div class="user-avatar">
-            <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
+            <i class="bi bi-person-bounding-box" style="font-size: 120px; color: #87ceeb;"></i>
           </div>
 
           <form class="user-form">
@@ -334,14 +336,27 @@ function navegar() {
               <input type="text">
             </div>
 
-            <div class="form-group">
-              <label>Crear contraseña:</label>
-              <input type="password">
+            <div class="form-group password-group">
+              <label>Nueva contraseña:</label>
+              <input type="password" id="cu-pass1">
+              <button
+                type="button"
+                class="togglePassword"
+                onclick="alternarContrasena('cu-pass1', 'togglePasswordIcon')">
+                <i class="bi bi-eye" id="togglePasswordIcon"></i>
+              </button>
             </div>
 
-            <div class="form-group">
+            <div class="form-group password-group">
               <label>Repetir contraseña:</label>
-              <input type="password">
+              <input type="password" id="cu-pass2">
+              <button
+                  type="button"
+                  class="togglePassword"
+                  aria-label="Mostrar u ocultar contraseña"
+                  onclick="alternarContrasena('cu-pass2', 'togglePasswordIcon')">
+                  <i class="bi bi-eye" id="togglePasswordIcon"></i>
+              </button>
             </div>
 
             <div class="form-actions">
@@ -354,53 +369,70 @@ function navegar() {
     `;
   } else if (ruta === "readuser") { 
     html = `
-      <div class="user-consult-container">
-        <h2>Consultar Usuario</h2>
-        
+      <div class="user-consult-container">     
         <div class="user-card">
+        <h2 class="ticket-title">Mi Perfil</h2>
           <div class="user-avatar">
-            <i class="bi bi-person-bounding-box" style="font-size: 80px; color: #87ceeb;"></i>
+            <i class="bi bi-person-bounding-box" style="font-size: 120px; color: #87ceeb;"></i>
           </div>
 
           <form class="user-form">
             <div class="form-group">
               <label>Correo:</label>
-              <input type="email" value="dcaceres@empresa.pe" readonly>
+              <input type="email">
             </div>
             
             <div class="form-group">
               <label>Perfil:</label>
-              <input type="text" value="Contabilidad" readonly>
+              <input type="text">
             </div>
 
             <div class="form-group">
               <label>Nombres:</label>
-              <input type="text" value="Daniel" readonly>
+              <input type="text">
             </div>
 
             <div class="form-group">
               <label>Apellidos:</label>
-              <input type="text" value="Cáceres Ramirez" readonly>
+              <input type="text">
             </div>
 
             <div class="form-group">
               <label>Celular:</label>
-              <input type="text" value="956321470">
+              <input type="text">
             </div>
 
             <div class="form-group">
               <label>Fecha de nacimiento:</label>
-              <input type="text" value="05/08/2020" readonly>
+              <input type="date" id="cu-fechanac">
             </div>
 
             <div class="form-group">
               <label>Usuario:</label>
-              <input type="text" value="daniel.caceres" readonly>
+              <input type="text" disabled>
             </div>
 
-            <div class="form-group">
-              <label>Contraseña Analista:</label>
-              <input type="password" value="********">
+            <div class="form-group password-group">
+              <label>Nueva contraseña:</label>
+              <input type="password" id="cu-pass1">
+              <button
+                type="button"
+                class="togglePassword"
+                onclick="alternarContrasena('cu-pass1', 'togglePasswordIcon')">
+                <i class="bi bi-eye" id="togglePasswordIcon"></i>
+              </button>
+            </div>
+
+            <div class="form-group password-group">
+              <label>Repetir contraseña:</label>
+              <input type="password" id="cu-pass2">
+              <button
+                  type="button"
+                  class="togglePassword"
+                  aria-label="Mostrar u ocultar contraseña"
+                  onclick="alternarContrasena('cu-pass2', 'togglePasswordIcon')">
+                  <i class="bi bi-eye" id="togglePasswordIcon"></i>
+              </button>
             </div>
 
             <div class="form-actions">
@@ -420,12 +452,33 @@ function navegar() {
       cargarMetricas();
       cargarTickets();
     }, 0);
+        const btnNewTicket = document.getElementById("newticketBtn");
+    if (btnNewTicket) {
+      btnNewTicket.addEventListener("click", () => location.hash = "newticket");
+    }
   }
 
 }
 
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
+
+function alternarContrasena(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+
+  if (!input || !icon) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove("bi-eye");
+    icon.classList.add("bi-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.remove("bi-eye-slash");
+    icon.classList.add("bi-eye");
+  }
+}
 
 /* =========================
    MÉTRICAS DEL ANALISTA
