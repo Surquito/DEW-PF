@@ -254,7 +254,7 @@ function navegar() {
             </div>
             
             <div class="form-group">
-              <label>Perfil:</label>
+              <label>Área:</label>
               <input type="text" id="cu-perfil" disabled>
             </div>
 

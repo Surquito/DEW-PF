@@ -16,6 +16,7 @@ const login = require("../QUERY/login");
 const resetPassword = require("../QUERY/resetPassword");
 const analystMetrics = require("../QUERY/analystMetrics");
 const analystTickets = require("../QUERY/analystTickets");
+//const newUser = require("../QUERY/newUser");
 const newTicket = require("../QUERY/newTicket");
 const readTicket = require("../QUERY/readTicket");
 const readUser = require("../QUERY/readUser");
@@ -118,6 +119,44 @@ app.get("/analyst/tickets/:codAnalyst", async (req, res) => {
     res.json(data);
   } catch (err) {
     res.status(500).json({ msg: "Error al obtener tickets" });
+  }
+});
+
+/**
+ * Obtener áreas para la creación de usuario
+ */
+app.get("/areas", async (req, res) => {
+
+  try {
+
+    const data = await getAreas();
+
+    res.json(data);
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      msg: "Error al obtener áreas"
+    });
+  }
+});
+
+/**
+ * Creacion de nuevo usuario (solo para analistas)
+ */
+app.post("/analyst/users", async (req, res) => {
+  const { codUser, email, nombres, apellidos, celular, fechaNacimiento, password, codArea } = req.body;
+
+  try {
+    const result = await newUser({ codUser, email, nombres, apellidos, celular, fechaNacimiento, password, codArea });
+    res.status(201).json({
+      msg: "Usuario creado exitosamente",
+      userId: result.NewUserID
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Error interno del servidor al crear el usuario" });
   }
 });
 

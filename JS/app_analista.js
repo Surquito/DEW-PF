@@ -1,6 +1,5 @@
 const API = "http://localhost:3000";
 
-
 /* =========================
    FORZAR HOME AL CARGAR
    ========================= */
@@ -8,7 +7,6 @@ if (!location.hash) {
   location.hash = "#home";
 }
  
-
 /* =========================
    CARGAR USUARIO LOGUEADO
    ========================= */
@@ -289,9 +287,8 @@ function navegar() {
   } else if (ruta === "newuser") { 
     html = `
       <div class="user-consult-container">
-        <h2>Crear Usuario</h2>
-        
         <div class="user-card">
+          <h2 class="ticket-title">Nuevo Usuario</h2>
           <div class="user-avatar">
             <i class="bi bi-person-bounding-box" style="font-size: 120px; color: #87ceeb;"></i>
           </div>
@@ -303,11 +300,9 @@ function navegar() {
             </div>
             
             <div class="form-group">
-              <label>Perfil:</label>
-              <select>
-                <option>SELECCIONE</option>
-                <option>Analista</option>
-                <option>Usuario</option>
+              <label>Área:</label>
+              <select id="area" required>
+                <option value="">SELECCIONE</option>
               </select>
             </div>
 
@@ -355,12 +350,12 @@ function navegar() {
                   class="togglePassword"
                   aria-label="Mostrar u ocultar contraseña"
                   onclick="alternarContrasena('cu-pass2', 'togglePasswordIcon')">
-                  <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                  <i class="bi bi-eye" id="togglePasswordIcon2"></i>
               </button>
             </div>
 
             <div class="form-actions">
-              <button type="button" class="btn-action btn-blue">Crear</button>
+              <button type="button" class="btn-action btn-blue" onclick="validarFormulario()">Crear</button>
               <button type="button" class="btn-action btn-blue">Limpiar</button>          
             </div>
           </form>
@@ -383,8 +378,12 @@ function navegar() {
             </div>
             
             <div class="form-group">
-              <label>Perfil:</label>
-              <input type="text">
+              <label>Área:</label>
+              <select>
+                <option>SELECCIONE</option>
+                <option>Analista</option>
+                <option>Usuario</option>
+              </select>
             </div>
 
             <div class="form-group">
@@ -463,6 +462,43 @@ function navegar() {
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
 
+
+/* =========================
+   CARGAR Y MOSTRAR ÁREAS EN EL COMBOBOX
+   ========================= */
+function cargarAreas() {
+
+  fetch(`${API}/areas`)
+
+    .then(res => res.json())
+
+    .then(data => {
+
+      const select = document.getElementById("area");
+
+      select.innerHTML = `
+        <option value="">
+          SELECCIONE
+        </option>
+      `;
+
+      data.forEach(a => {
+
+        select.innerHTML += `
+          <option value="${a.AREA_ID}">
+            ${a.NAME}
+          </option>
+        `;
+      });
+
+    })
+
+    .catch(err => console.error("Error áreas:", err));
+}
+
+/* =========================
+   OCULTAR/ MOSTRAR CONTRASEÑA
+   ========================= */
 function alternarContrasena(inputId, iconId) {
   const input = document.getElementById(inputId);
   const icon = document.getElementById(iconId);
@@ -481,6 +517,65 @@ function alternarContrasena(inputId, iconId) {
 }
 
 /* =========================
+   VALIDACION ANTES CREAR USUARIO
+   ========================= */
+function validarFormulario() {
+
+  const form = document.getElementById("userForm");
+
+  // Obtener todos los inputs y selects
+  const campos = form.querySelectorAll("input, select");
+
+  // Validar campos vacíos
+  for (let campo of campos) {
+
+    if (campo.value.trim() === "") {
+
+      alert("Todos los campos son obligatorios.");
+
+      campo.focus();
+
+      return false;
+    }
+  }
+
+  // Validar contraseñas
+  const pass1 = document.getElementById("cu-pass1").value;
+  const pass2 = document.getElementById("cu-pass2").value;
+
+  if (pass1 !== pass2) {
+
+    alert("Las contraseñas no coinciden.");
+
+    return false;
+  }
+
+  // Si todo está correcto
+  alert("Usuario creado correctamente.");
+
+  // Aquí puedes llamar tu función AJAX/fetch
+  limpiarFormulario();
+
+  return true;
+}
+
+/* =========================
+   LIMPIAR FORMULARIO
+   ========================= */
+function limpiarFormulario() {
+
+  // Obtener formulario
+  const form = document.getElementById("userForm");
+
+  // Limpiar todos los campos
+  form.reset();
+
+  // Opcional: regresar foco al primer campo
+  document.getElementById("correo").focus();
+}
+
+
+/* =========================
    MÉTRICAS DEL ANALISTA
    ========================= */
 function cargarMetricas() {
@@ -494,7 +589,7 @@ function cargarMetricas() {
         ABIERTO: 0,
         EN_CURSO: 0,
         PENDIENTE: 0,
-        CERRADO: 0   // ✅ estado real
+        CERRADO: 0   // 
       };
 
       data.forEach(e => {
