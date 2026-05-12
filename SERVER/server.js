@@ -16,6 +16,7 @@ const login = require("../QUERY/login");
 const resetPassword = require("../QUERY/resetPassword");
 const analystMetrics = require("../QUERY/analystMetrics");
 const analystTickets = require("../QUERY/analystTickets");
+const getAreas = require("../QUERY/getAreas");
 //const newUser = require("../QUERY/newUser");
 const newTicket = require("../QUERY/newTicket");
 const readTicket = require("../QUERY/readTicket");

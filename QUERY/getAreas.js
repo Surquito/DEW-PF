@@ -10,11 +10,10 @@ module.exports = async () => {
 
     .query(`
       SELECT
-        AREA_ID,
-        NAME
+        COD_AREA,
+        AREA
       FROM TBL_AREA
-      WHERE STATE = 1
-      ORDER BY NAME
+      ORDER BY AREA ASC
     `);
 
   return result.recordset;

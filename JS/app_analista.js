@@ -88,7 +88,9 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select" id="area" required>
+                  <option value="">Seleccione</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
@@ -185,7 +187,9 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <input type="text" class="input-bordered" value="CONTABILIDAD" disabled style="background-color: #f0f0f0;">
+                <select id="area" required>
+                  <option value="">Seleccione</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
@@ -356,7 +360,7 @@ function navegar() {
 
             <div class="form-actions">
               <button type="button" class="btn-action btn-blue" onclick="validarFormulario()">Crear</button>
-              <button type="button" class="btn-action btn-blue">Limpiar</button>          
+              <button type="button" class="btn-action btn-blue" onclick="limpiarFormulario()">Limpiar</button>          
             </div>
           </form>
         </div>
@@ -379,10 +383,8 @@ function navegar() {
             
             <div class="form-group">
               <label>Área:</label>
-              <select>
-                <option>SELECCIONE</option>
-                <option>Analista</option>
-                <option>Usuario</option>
+              <select id="area" required>
+                <option value="">SELECCIONE</option>
               </select>
             </div>
 
@@ -464,7 +466,7 @@ window.addEventListener("load", navegar);
 
 
 /* =========================
-   CARGAR Y MOSTRAR ÁREAS EN EL COMBOBOX
+   MOSTRAR ÁREAS EN EL COMBOBOX
    ========================= */
 function cargarAreas() {
 
@@ -485,8 +487,8 @@ function cargarAreas() {
       data.forEach(a => {
 
         select.innerHTML += `
-          <option value="${a.AREA_ID}">
-            ${a.NAME}
+          <option value="${a.COD_AREA}">
+            ${a.AREA}
           </option>
         `;
       });
@@ -640,6 +642,14 @@ function formatearFecha(fecha) {
   const f = new Date(fecha);
   return f.toLocaleDateString() + " " + f.toLocaleTimeString();
 }
+
+/* =========================
+   CARGAR ÁREAS EN EL COMBOBOX
+   ========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  cargarAreas();
+});
 
 /* =========================
    LOGOUT
