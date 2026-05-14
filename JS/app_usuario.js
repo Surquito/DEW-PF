@@ -92,32 +92,32 @@ function navegar() {
               <div class="field-group">
                 <label>Type Task:</label>
                 <select id="nt-typeTask" class="input-select">
-                  <option value="">Seleccione</option>
-                  <option value="INCIDENCIA">Incidencial</option>  
-                  <option value="SOLICITUD">Solicitud</option>
+                  <option value="">SELECCIONE</option>
+                  <option value="INCIDENCIA">INCIDENCIA</option>  
+                  <option value="SOLICITUD">SOLICITUD</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select id="nt-area" class="input-select"><option value="">Seleccione</option></select>
+                <select id="area" class="input-select"><option value="">SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select id="nt-usuario" class="input-select"><option value="">Seleccione</option></select>
+                <select id="nt-usuario" class="input-select"><option value="">SELECCIONE</option></select>
               </div>
             </div>
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <select id="nt-estado" class="input-select"><option value="ABIERTO">Abierto</option></select>
+                <select id="nt-estado" class="input-select"><option value="">SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select id="nt-categoria" class="input-select"><option value="">Seleccione</option></select>
+                <select id="nt-categoria" class="input-select"><option value="">SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <select id="nt-subcategoria" class="input-select"><option value="">Seleccione</option></select>
+                <select id="nt-subcategoria" class="input-select"><option value="">SELECCIONE</option></select>
               </div>
             </div>
           </div>
@@ -135,9 +135,9 @@ function navegar() {
 
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
-              <div class="field-group">
-                <label>Soporte:</label>
-                <select id="nt-soporte" class="input-select"><option value="">Seleccione</option></select>
+              <div class="field-group align-top">
+                <label>Nota:</label>
+                <textarea id="ct-nota" rows="3" class="input-bordered" readonly></textarea>
               </div>
             </div>
             <div class="form-col">
@@ -153,7 +153,6 @@ function navegar() {
           </div>
           <div class="form-actions-bottom">
             <button type="button" id="btn-crear-nt" class="btn-action btn-crear">Crear</button>
-            <button type="button" id="btn-limpiar-nt" class="btn-action btn-limpiar">Limpiar</button>
           </div>
         </form>
       </div>
@@ -164,7 +163,8 @@ function navegar() {
       <div class="ticket-container">
       <div class="ticket-card">
         <h2 class="ticket-title">Consultar Ticket</h2>
-        <form class="ticket-form" id="form-readticket">
+        <form class="ticke
+        t-form" id="form-readticket">
           <div class="form-row-2col">
             <div class="form-col">
               <div class="field-group">
@@ -173,51 +173,47 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select id="ct-typeTask" class="input-select" disabled><option>Seleccione</option></select>
+                <select id="ct-typeTask" class="input-select" disabled><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select id="ct-area" class="input-select" disabled><option>Seleccione</option></select>
+                <select id="area" class="input-select" disabled><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select id="ct-usuario" class="input-select" disabled><option>Seleccione</option></select>
+                <select id="ct-usuario" class="input-select" disabled><option>SELECCIONE</option></select>
               </div>
             </div>
             <div class="form-col pt-empty"> 
               <div class="field-group">
                 <label>Estado:</label>
-                <select id="ct-estado" class="input-select" disabled><option>Seleccione</option></select>
+                <select id="ct-estado" class="input-select" disabled><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select id="ct-categoria" class="input-select" disabled><option>Seleccione</option></select>
+                <select id="ct-categoria" class="input-select" disabled><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <select id="ct-subcategoria" class="input-select" disabled><option>Seleccione</option></select>
+                <select id="ct-subcategoria" class="input-select" disabled><option>SELECCIONE</option></select>
               </div>
             </div>
           </div>
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" id="ct-asunto" class="input-bordered" disabled>
+              <input type="text" id="ct-asunto" class="input-bordered" readonly>
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea id="ct-descripcion" rows="4" class="input-bordered" disabled></textarea>
+              <textarea id="ct-descripcion" rows="4" class="input-bordered" readonly></textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
                 <label>Nota:</label>
-                <textarea id="ct-nota" rows="3" class="input-bordered" disabled></textarea>
-              </div>
-              <div class="field-group">
-                <label>Soporte:</label>
-                <select id="ct-soporte" class="input-select" disabled><option>Seleccione</option></select>
+                <textarea id="ct-nota" rows="3" class="input-bordered" readonly></textarea>
               </div>
             </div>
             <div class="form-col">
@@ -232,8 +228,8 @@ function navegar() {
           </div>
           <div class="form-actions-bottom">
             <button type="button" id="btn-consultar-ct" class="btn-action btn-consultar">Consultar</button>
-            <button type="button" id="btn-limpiar-ct" class="btn-action btn-limpiar">Limpiar</button>
-          </div>
+            <button type="button" class="btn-action btn-modificar">Modificar</button>
+            </div>
         </form>
       </div>
       </div>
@@ -250,12 +246,14 @@ function navegar() {
           <form class="user-form" id="form-readuser">
             <div class="form-group">
               <label>Correo:</label>
-              <input type="email" id="cu-correo" disabled>
+              <input type="email" id="cu-correo" readonly>
             </div>
             
             <div class="form-group">
               <label>Área:</label>
-              <input type="text" id="cu-perfil" disabled>
+              <select id="area" class="input-select">
+                <option value="">SELECCIONE</option>
+              </select>
             </div>
 
             <div class="form-group">
@@ -280,7 +278,7 @@ function navegar() {
 
             <div class="form-group">
               <label>Usuario:</label>
-              <input type="text" id="cu-usuario" disabled>
+              <input type="text" id="cu-usuario" readonly>
             </div>
 
             <div class="form-group password-group">
@@ -307,7 +305,6 @@ function navegar() {
             </div>
 
             <div class="form-actions">
-              <button type="button" id="btn-limpiar-cu" class="btn-action btn-light-blue">Limpiar</button>
               <button type="button" id="btn-guardar-cu" class="btn-action btn-blue">Guardar</button>
             </div>
           </form>
@@ -318,6 +315,12 @@ function navegar() {
   // Renderizado del HTML en el contenedor principal
   document.getElementById("contenido").innerHTML = html;
   
+  /* =========================
+   CARGAR ÁREAS. SI EXISTE 'SELECT'
+   ========================= */
+  if (document.getElementById("area")) {
+  cargarAreas();
+}
   // ==========================================
   // ASIGNACIÓN DE EVENTOS POR VISTA
   // ==========================================
@@ -401,29 +404,7 @@ function navegar() {
 
     // Inicialización de categorías desde la base de datos
     const cargarCategoriasDB = () => {
-        const categorias = [
-            { cod: "HDRW", nom: "HARDWARE" },
-            { cod: "ITNT", nom: "INTRANET" },
-            { cod: "MANTCRTV", nom: "MANTENIMIENTO CORRECTIVO" },
-            { cod: "MEXCEL", nom: "MICROSOFT EXCEL" },
-            { cod: "MOUTLOOK", nom: "MICROSOFT OUTLOOK" },
-            { cod: "NETW", nom: "REDES Y COMUNICACIONES" },
-            { cod: "OFFICE", nom: "OFIMATICA" },
-            { cod: "SFTW", nom: "SOFTWARE" },
-            { cod: "VPN", nom: "CONEXIÓN VPN" },
-            { cod: "WIFI", nom: "WIFI" }
-        ];
-        
-        const selectCat = document.getElementById("nt-categoria");
-        if (selectCat) {
-            selectCat.innerHTML = '<option value="">Seleccione</option>';
-            categorias.forEach(c => {
-                let opt = document.createElement("option");
-                opt.value = c.cod;
-                opt.text = c.nom;
-                selectCat.add(opt);
-            });
-        }
+
     };
 
     cargarCategoriasDB();
@@ -502,11 +483,11 @@ function navegar() {
           select.value = valorDB;
         };
 
-        asignarSelect("ct-typeTask", data.TICKET_TYPE);
-        asignarSelect("ct-estado", data.STATUS);
-        asignarSelect("ct-categoria", data.COD_CATEGORY);
-        asignarSelect("ct-usuario", data.COD_USER);
-              
+        // asignarSelect("ct-typeTask", data.TICKET_TYPE);
+        // asignarSelect("ct-estado", data.STATUS);
+        // asignarSelect("ct-categoria", data.COD_CATEGORY);
+        // asignarSelect("ct-usuario", data.COD_USER);
+
       } catch (error) {
         alert("Error de conexión al servidor.");
       }
@@ -599,6 +580,42 @@ function navegar() {
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
 
+/* =========================
+   MOSTRAR ÁREAS EN EL COMBOBOX
+   ========================= */
+function cargarAreas() {
+
+  fetch(`${API}/areas`)
+
+    .then(res => res.json())
+
+    .then(data => {
+
+      const select = document.getElementById("area");
+
+      select.innerHTML = `
+        <option value="">
+          SELECCIONE
+        </option>
+      `;
+
+      data.forEach(a => {
+
+        select.innerHTML += `
+          <option value="${a.COD_AREA}">
+            ${a.AREA}
+          </option>
+        `;
+      });
+
+    })
+
+    .catch(err => console.error("Error áreas:", err));
+}
+
+/* =========================
+   OCULTAR/ MOSTRAR CONTRASEÑA
+   ========================= */
 function alternarContrasena(inputId, iconId) {
   const input = document.getElementById(inputId);
   const icon = document.getElementById(iconId);

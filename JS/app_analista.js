@@ -80,35 +80,35 @@ function navegar() {
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" value="Autogenerado" disabled class="input-bordered input-center">
+                <input type="text" value="Autogenerado" readonly class="input-bordered input-center">
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Área:</label>
                 <select class="input-select" id="area" required>
-                  <option value="">Seleccione</option>
+                  <option value="">SELECCIONE</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
             </div>
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
             </div>
           </div>
@@ -132,38 +132,37 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Soporte:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Analista:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
             </div>
             <div class="form-col">
               <div class="field-group">
                 <label>Attachments:</label>
                 <div class="attachment-box input-bordered">
-                  <input type="text" disabled>
+                  <input type="text">
                   <i class="bi bi-paperclip"></i>
                 </div>
               </div>
               <div class="field-group">
                 <label>Impacto:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Prioridad:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
               <div class="field-group">
                 <label>Urgencia:</label>
-                <select class="input-select"><option>Seleccione</option></select>
+                <select class="input-select"><option>SELECCIONE</option></select>
               </div>
             </div>
           </div>
           <div class="form-actions-bottom">
             <button type="button" class="btn-action btn-crear">Crear</button>
-            <button type="button" class="btn-action btn-limpiar">Limpiar</button>
           </div>
         </form>
       </div>
@@ -179,110 +178,108 @@ function navegar() {
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" id="searchTaskID" value="TKT000001" class="input-bordered input-center" disabled>
+                <input type="text" id="searchTaskID" value="" placeholder="Ej. TCKT00001" class="input-bordered input-center">
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <input type="text" class="input-bordered" value="INCIDENCIA" disabled style="background-color: #f0f0f0;">
+                <select disabled class="input-select" id="typeTask" required>
+                  <option value="">SELECCIONE</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select id="area" required>
-                  <option value="">Seleccione</option>
+                <select disabled class="input-select" id="area" required>
+                  <option value="">SELECCIONE</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <input type="text" class="input-bordered" value="JUAN PEREZ" disabled style="background-color: #f0f0f0;">
-              </div>
+                <select disabled class="input-select" id="usuario" required>
+                  <option value="">SELECCIONE</option>
+                </select>
+                </div>
             </div>
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <select class="input-select" id="ticketEstado">
-                  <option value="Abierto" selected>Abierto</option>
-                  <option value="En curso">En curso</option>
-                  <option value="Atendido">Atendido</option>
+                <select disabled class="input-select" id="ticketEstado">
+                  <option value="">SELECCIONE</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <input type="text" class="input-bordered" value="MICROSOFT OUTLOOK" disabled style="background-color: #f0f0f0;">
-              </div>
+                <select disabled class="input-select" id="categoria" required>
+                  <option value="">SELECCIONE</option>
+                </select>
+                </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <input type="text" class="input-bordered" value="INC RECEPCIÓN CORREOS" disabled style="background-color: #f0f0f0;">
+                <select disabled class="input-select" id="subcategoria" required>
+                  <option value="">SELECCIONE</option>
+                </select>
               </div>
             </div>
           </div>
-
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" class="input-bordered" value="No me llegan los correos" disabled style="background-color: #f0f0f0;">
+              <input type="text" class="input-bordered" value="" readonly >
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea rows="4" class="input-bordered" disabled style="background-color: #f0f0f0;">Su gentil apoyo con el correo del cliente proveedor_coca@cocacola.com. Desde hace 3 días no puedo recibir correos.</textarea>
+              <textarea readonly rows="4" class="input-bordered" readonly ></textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
                 <label>Nota:</label>
-                <textarea rows="3" class="input-bordered" id="ticketNota">Bandeja de usuario llego al límite de la capacidad. Se crea OST para backup de correo.</textarea>
+                <textarea rows="3" class="input-bordered" id="ticketNota" readonly ></textarea>
               </div>
               <div class="field-group">
                 <label>Soporte:</label>
-                <select class="input-select" id="ticketSoporte">
-                  <option selected>NIVEL 1</option>
-                  <option>NIVEL 2</option>
-                  <option>NIVEL 3</option>
+                <select disabled class="input-select" id="ticketSoporte">
+                  <option value="">SELECCIONE</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Analista:</label>
-                <input type="text" class="input-bordered" id="ticketAnalista" value="YUMI KANASHIRO">
-              </div>
+                <select disabled class="input-select" id="ticketAnalista">
+                  <option value="">SELECCIONE</option>
+                </select>
+                </div>
             </div>
             <div class="form-col">
               <div class="field-group">
                 <label>Attachments:</label>
-                <div class="attachment-box input-bordered" style="background-color: #f0f0f0;">
-                  <input type="text" value="SS_CORREO ERROR.PNG" disabled style="background: transparent; cursor: default;">
+                <div class="attachment-box input-bordered" >
+                  <input readonly type="text" value="" readonly style="background: transparent; cursor: default;">
                  <i class="bi bi-paperclip"></i>
                 </div>
               </div>
               <div class="field-group">
                 <label>Impacto:</label>
-                <select class="input-select" id="ticketImpacto">
-                  <option selected>PERSONA</option>
-                  <option>ÁREA</option>
-                  <option>EMPRESA</option>
-                </select>
+                <select disabled class="input-select" id="ticketImpacto">
+                  <option value="">SELECCIONE</option>
+                  </select>
               </div>
               <div class="field-group">
-                <select class="input-select" id="ticketPrioridad">
-                  <option selected>BAJA</option>
-                  <option>MEDIA</option>
-                  <option>ALTA</option>
+                <label>Prioridad:</label>
+                <select disabled class="input-select" id="ticketPrioridad">
+                  <option value="">SELECCIONE</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Urgencia:</label>
-                <select class="input-select" id="ticketUrgencia">
-                  <option selected>BAJA</option>
-                  <option>MEDIA</option>
-                  <option>ALTA</option>
+                <select disabled class="input-select" id="ticketUrgencia">
+                  <option value="">SELECCIONE</option>
                 </select>
               </div>
             </div>
           </div>
           <div class="form-actions-bottom">
             <button type="button" class="btn-action btn-consultar">Consultar</button>
-            <button type="button" class="btn-action btn-limpiar">Limpiar</button>
             <button type="button" class="btn-action btn-modificar">Modificar</button>
-    
           </div>
         </form>
       </div>
@@ -357,10 +354,8 @@ function navegar() {
                   <i class="bi bi-eye" id="togglePasswordIcon2"></i>
               </button>
             </div>
-
             <div class="form-actions">
               <button type="button" class="btn-action btn-blue" onclick="validarFormulario()">Crear</button>
-              <button type="button" class="btn-action btn-blue" onclick="limpiarFormulario()">Limpiar</button>          
             </div>
           </form>
         </div>
@@ -410,7 +405,7 @@ function navegar() {
 
             <div class="form-group">
               <label>Usuario:</label>
-              <input type="text" disabled>
+              <input type="text" readonly>
             </div>
 
             <div class="form-group password-group">
@@ -438,7 +433,6 @@ function navegar() {
 
             <div class="form-actions">
               <button type="button" class="btn-action btn-blue">Buscar</button>
-              <button type="button" class="btn-action btn-light-blue">Limpiar</button>
               <button type="button" class="btn-action btn-blue">Guardar</button>
             </div>
           </form>
@@ -448,17 +442,27 @@ function navegar() {
   }
   document.getElementById("contenido").innerHTML = html;
 
+/* =========================
+   CARGAR ÁREAS. SI EXISTE 'SELECT'
+   ========================= */
+if (document.getElementById("area")) {
+  cargarAreas();
+}
+
   if (ruta === "home") {
     setTimeout(() => {
       cargarMetricas();
       cargarTickets();
     }, 0);
-        const btnNewTicket = document.getElementById("newticketBtn");
-    if (btnNewTicket) {
-      btnNewTicket.addEventListener("click", () => location.hash = "newticket");
-    }
-  }
 
+    const btnNewTicket = document.getElementById("newticketBtn");
+
+    if (btnNewTicket) {
+    btnNewTicket.addEventListener("click", () => {
+      location.hash = "newticket";
+    });
+  }
+  }
 }
 
 window.addEventListener("hashchange", navegar);
@@ -576,7 +580,6 @@ function limpiarFormulario() {
   document.getElementById("correo").focus();
 }
 
-
 /* =========================
    MÉTRICAS DEL ANALISTA
    ========================= */
@@ -642,14 +645,6 @@ function formatearFecha(fecha) {
   const f = new Date(fecha);
   return f.toLocaleDateString() + " " + f.toLocaleTimeString();
 }
-
-/* =========================
-   CARGAR ÁREAS EN EL COMBOBOX
-   ========================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-  cargarAreas();
-});
 
 /* =========================
    LOGOUT
