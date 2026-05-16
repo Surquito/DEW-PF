@@ -99,7 +99,9 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select id="area" class="input-select"><option value="">SELECCIONE</option></select>
+                <select id="area" class="input-select" required>
+                <option value="">SELECCIONE</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
@@ -109,11 +111,13 @@ function navegar() {
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <select id="nt-estado" class="input-select"><option value="">SELECCIONE</option></select>
-              </div>
+                <input id = estado type="text" value="ABIERTO" readonly class="input-bordered input-center"> 
+                </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select id="nt-categoria" class="input-select"><option value="">SELECCIONE</option></select>
+                <select id="category" class="input-select" required>
+                <option value="">SELECCIONE</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
@@ -173,29 +177,29 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select id="ct-typeTask" class="input-select" disabled><option>SELECCIONE</option></select>
+                <input type="text" id="ct-typeTask" class="input-bordered input-center" readonly>
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select id="area" class="input-select" disabled><option>SELECCIONE</option></select>
+                <input type="text" id="ct-area" class="input-bordered input-center" readonly>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select id="ct-usuario" class="input-select" disabled><option>SELECCIONE</option></select>
+                <input type="text" id="ct-usuario" class="input-bordered input-center" readonly>
               </div>
             </div>
             <div class="form-col pt-empty"> 
               <div class="field-group">
                 <label>Estado:</label>
-                <select id="ct-estado" class="input-select" disabled><option>SELECCIONE</option></select>
-              </div>
+                <input id = estado type="text" readonly class="input-bordered input-center"> 
+                </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select id="ct-categoria" class="input-select" disabled><option>SELECCIONE</option></select>
+                <input type="text" id="category" class="input-bordered input-center"readonly>
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <select id="ct-subcategoria" class="input-select" disabled><option>SELECCIONE</option></select>
+                <input type="text" id="ct-subcategoria" class="input-bordered input-center" readonly>
               </div>
             </div>
           </div>
@@ -315,12 +319,17 @@ function navegar() {
   // Renderizado del HTML en el contenedor principal
   document.getElementById("contenido").innerHTML = html;
   
+
+  
   /* =========================
    CARGAR ÁREAS. SI EXISTE 'SELECT'
    ========================= */
   if (document.getElementById("area")) {
   cargarAreas();
-}
+  }
+  if (document.getElementById("category")) {
+  cargarCategorias();
+  }
   // ==========================================
   // ASIGNACIÓN DE EVENTOS POR VISTA
   // ==========================================
@@ -611,6 +620,74 @@ function cargarAreas() {
     })
 
     .catch(err => console.error("Error áreas:", err));
+}
+
+/* =========================
+   MOSTRAR CATEGORIAS EN EL COMBOBOX
+   ========================= */
+function cargarCategorias() {
+
+  fetch(`${API}/categories`)
+
+    .then(res => res.json())
+
+    .then(data => {
+
+      const select = document.getElementById("category");
+
+      select.innerHTML = `
+        <option value="">
+          SELECCIONE
+        </option>
+      `;
+
+      data.forEach(a => {
+
+        select.innerHTML += `
+          <option value="${a.COD_CATEGORY}">
+            ${a.CATEGORY_NAME}
+          </option>
+        `;
+      });
+
+    })
+
+    .catch(err => console.error("Error categorías:", err));
+}
+
+/* =========================
+   MOSTRAR CATEGORIAS EN EL COMBOBOX
+   ========================= */
+function cargarCategorias() {
+
+  fetch(`${API}/categories`)
+
+    .then(res => res.json())
+
+    .then(data => {
+
+      const select = document.getElementById("category");
+
+      if (!select) return;   
+
+      select.innerHTML = `
+        <option value="">
+          SELECCIONE
+        </option>
+      `;
+
+      data.forEach(a => {
+
+        select.innerHTML += `
+          <option value="${a.COD_CATEGORY}">
+            ${a.CATEGORY_NAME}
+          </option>
+        `;
+      });
+
+    })
+
+    .catch(err => console.error("Error categorías:", err));
 }
 
 /* =========================

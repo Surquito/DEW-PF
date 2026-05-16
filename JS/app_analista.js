@@ -84,7 +84,11 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select class="input-select">
+                  <option value="">SELECCIONE</option>
+                  <option value="INCIDENCIA">INCIDENCIA</option>  
+                  <option value="SOLICITUD">SOLICITUD</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Área:</label>
@@ -100,11 +104,13 @@ function navegar() {
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
-              </div>
+                <input id = estado type="text" value="ABIERTO" readonly class="input-bordered input-center"> 
+                </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select class="input-select" id="category" required>
+                <option>SELECCIONE</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
@@ -149,15 +155,30 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Impacto:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select class="input-select" id="ticketImpacto">
+                  <option value="">SELECCIONE</option>
+                  <option value="PERSONA">PERSONA</option>
+                  <option value="AREA">AREA</option>
+                  <option value="SERVICIO">SERVICIO</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Prioridad:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select class="input-select" id="ticketPrioridad">
+                  <option value="">SELECCIONE</option>
+                  <option value="BAJA">BAJA</option>
+                  <option value="MEDIA">MEDIA</option>
+                  <option value="ALTA">ALTA</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Urgencia:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select class="input-select" id="ticketUrgencia">
+                  <option value="">SELECCIONE</option>
+                  <option value="BAJA">BAJA</option>
+                  <option value="MEDIA">MEDIA</option>
+                  <option value="ALTA">ALTA</option>
+                </select>
               </div>
             </div>
           </div>
@@ -204,11 +225,17 @@ function navegar() {
                 <label>Estado:</label>
                 <select disabled class="input-select" id="ticketEstado">
                   <option value="">SELECCIONE</option>
+                  <option value="ABIERTO">ABIERTO</option>  
+                  <option value="ASIGNADO">ASIGNADO</option>
+                  <option value="EN CURSO">EN CURSO</option>
+                  <option value="PENDIENTE">PENDIENTE</option>
+                  <option value="TERMINADO">TERMINADO</option>
+                  <option value="CERRADO">CERRADO</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select disabled class="input-select" id="categoria" required>
+                <select disabled class="input-select" id="category" required>
                   <option value="">SELECCIONE</option>
                 </select>
                 </div>
@@ -261,18 +288,27 @@ function navegar() {
                 <label>Impacto:</label>
                 <select disabled class="input-select" id="ticketImpacto">
                   <option value="">SELECCIONE</option>
-                  </select>
+                  <option value="PERSONA">PERSONA</option>
+                  <option value="AREA">AREA</option>
+                  <option value="SERVICIO">SERVICIO</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Prioridad:</label>
                 <select disabled class="input-select" id="ticketPrioridad">
                   <option value="">SELECCIONE</option>
+                  <option value="BAJA">BAJA</option>
+                  <option value="MEDIA">MEDIA</option>
+                  <option value="ALTA">ALTA</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Urgencia:</label>
                 <select disabled class="input-select" id="ticketUrgencia">
                   <option value="">SELECCIONE</option>
+                  <option value="BAJA">BAJA</option>
+                  <option value="MEDIA">MEDIA</option>
+                  <option value="ALTA">ALTA</option>
                 </select>
               </div>
             </div>
@@ -443,11 +479,44 @@ function navegar() {
   document.getElementById("contenido").innerHTML = html;
 
 /* =========================
-   CARGAR ÁREAS. SI EXISTE 'SELECT'
+   LOGOUT
+   ========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    });
+  }
+});
+
+/* =========================
+   SUBCATEGORY
+   ========================= */
+document.addEventListener("change", (e) => {
+
+  if (e.target.id === "category") {
+    const codCategory = e.target.value;
+
+    cargarSubCategorias(codCategory);
+  }
+
+});
+
+/* =========================
+   CARGAR ÁREAS/CATEGORIAS. SI EXISTE 'SELECT'
    ========================= */
 if (document.getElementById("area")) {
   cargarAreas();
 }
+
+if (document.getElementById("category")) {
+  cargarCategorias();
+}
+
 
   if (ruta === "home") {
     setTimeout(() => {
@@ -500,6 +569,68 @@ function cargarAreas() {
     })
 
     .catch(err => console.error("Error áreas:", err));
+}
+
+
+/* =========================
+   MOSTRAR CATEGORIAS EN EL COMBOBOX
+   ========================= */
+function cargarCategorias() {
+
+  fetch(`${API}/categories`)
+
+    .then(res => res.json())
+
+    .then(data => {
+
+      const select = document.getElementById("category");
+
+      if (!select) return;   
+
+      select.innerHTML = `
+        <option value="">
+          SELECCIONE
+        </option>
+      `;
+
+      data.forEach(a => {
+
+        select.innerHTML += `
+          <option value="${a.COD_CATEGORY}">
+            ${a.CATEGORY_NAME}
+          </option>
+        `;
+      });
+
+    })
+
+    .catch(err => console.error("Error categorías:", err));
+}
+
+/* =========================
+   MOSTRAR SUBCATEGORIAS EN EL COMBOBOX
+   ========================= */
+function cargarSubCategorias(codCategory) {
+
+  fetch(`${API}/subcategories/${codCategory}`)
+    .then(res => res.json())
+    .then(data => {
+
+      const select = document.getElementById("subcategory");
+      if (!select) return;
+
+      select.innerHTML = `<option value="">SELECCIONE</option>`;
+
+      data.forEach(s => {
+        select.innerHTML += `
+          <option value="${s.COD_CATEGORY}">
+            ${s.CATEGORY_NAME}
+          </option>
+        `;
+      });
+
+    })
+    .catch(err => console.error("Error subcategorías:", err));
 }
 
 /* =========================

@@ -17,6 +17,8 @@ const resetPassword = require("../QUERY/resetPassword");
 const analystMetrics = require("../QUERY/analystMetrics");
 const analystTickets = require("../QUERY/analystTickets");
 const getAreas = require("../QUERY/getAreas");
+const getCategory = require("../QUERY/getCategory");
+const getSubCategory = require("../QUERY/getSubCategory");
 //const newUser = require("../QUERY/newUser");
 const newTicket = require("../QUERY/newTicket");
 const readTicket = require("../QUERY/readTicket");
@@ -143,6 +145,39 @@ app.get("/areas", async (req, res) => {
     });
   }
 });
+
+/**
+ * Obtener categorías para la creación de ticket
+ */
+
+app.get("/categories", async (req, res) => {
+  try {
+    const data = await getCategory();
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      msg: "Error al obtener categorías"
+    });
+  }
+});
+
+app.get("/subcategories/:codCategory", async (req, res) => {
+  try {
+    const { codCategory } = req.params;
+
+    const data = await getSubCategory(codCategory);
+
+    res.json(data);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      msg: "Error al obtener subcategorías"
+    });
+  }
+});
+
 
 /**
  * Creacion de nuevo usuario (solo para analistas)
