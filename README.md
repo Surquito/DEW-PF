@@ -42,4 +42,4 @@ El flujo de información del sistema sigue el siguiente esquema técnico:
 ---
 
 ## Autor
-Gerson Surco - Desarrollador & Diseñador de Base de Datos - www.linkedin.com/in/gerson-surco-alata-53b42026a
+Gerson Ronaldo Surco Alata - www.linkedin.com/in/gerson-surco-alata-53b42026a
