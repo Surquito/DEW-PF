@@ -23,6 +23,7 @@ const getCategory = require("../QUERY/getCategory");
 const getSubCategory = require("../QUERY/getSubCategory");
 const getUser = require("../QUERY/getUser");
 const getAnalystSupport = require("../QUERY/getAnalystSupport");
+const newTicket = require("../QUERY/newTicket");
 
 const app = express();
 
@@ -244,6 +245,26 @@ app.get("/analysts-support/:codLevel", async (req, res) => {
   }
 });
 
+/* CREAR TICKET */ 
+
+app.post("/api/user/tickets", async (req, res) => {
+
+  try {
+    const result = await newTicket(req.body);
+
+    res.status(201).json({
+      msg: "Ticket creado correctamente",
+      ticketId: result.NewTicketID
+    });
+
+  } catch (error) {
+    console.error("ERROR:", error); // ✅ MUY IMPORTANTE
+
+    res.status(500).json({
+      msg: error.message
+    });
+  }
+});
 
 // ==========================================
 // ENDPOINTS PARA PERFIL DE USUARIO (API)

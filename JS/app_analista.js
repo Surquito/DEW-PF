@@ -84,7 +84,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select class="input-select">
+                <select id="typeTask" class="input-select">
                   <option value="">SELECCIONE</option>
                   <option value="INCIDENCIA">INCIDENCIA</option>  
                   <option value="SOLICITUD">SOLICITUD</option>
@@ -106,7 +106,7 @@ function navegar() {
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <input id = estado type="text" value="ABIERTO" readonly class="input-bordered input-center"> 
+                <input id="state" type="text" value="ABIERTO" readonly class="input-bordered input-center"> 
                 </div>
               <div class="field-group">
                 <label>Categoría:</label>
@@ -123,18 +123,18 @@ function navegar() {
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" class="input-bordered">
+              <input type="text" class="input-bordered" id ="subject">
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea rows="4" class="input-bordered"></textarea>
+              <textarea rows="4" class="input-bordered" id="description"></textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
                 <label>Nota:</label>
-                <textarea rows="3" class="input-bordered"></textarea>
+                <textarea rows="3" class="input-bordered" id="note"></textarea>
               </div>
               <div class="field-group">
                 <label>Soporte:</label>
@@ -161,7 +161,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Impacto:</label>
-                <select class="input-select" id="ticketImpacto">
+                <select class="input-select" id="impact">
                   <option value="">SELECCIONE</option>
                   <option value="PERSONA">PERSONA</option>
                   <option value="AREA">AREA</option>
@@ -170,14 +170,14 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Prioridad:</label>
-                <select class="input-select" id="ticketPrioridad">
+                <select class="input-select" id="priority">
                   <option value="">SELECCIONE</option>
                   <option value="BAJA">BAJA</option>
                   <option value="MEDIA">MEDIA</option>
                   <option value="ALTA">ALTA</option>
                 </select>
               </div>
-              <div class="field-group">
+              <div class="field-group" id="urgency">
                 <label>Urgencia:</label>
                 <select class="input-select" id="ticketUrgencia">
                   <option value="">SELECCIONE</option>
@@ -189,7 +189,7 @@ function navegar() {
             </div>
           </div>
           <div class="form-actions-bottom">
-            <button type="button" class="btn-action btn-crear">Crear</button>
+            <button type="button" class="btn-action btn-crear" id="btnCrearTicket">Crear</button>
           </div>
         </form>
       </div>
@@ -790,6 +790,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/* =========================
+   CREAR TICKET
+   ========================= */
+document.addEventListener("click", (e) => {
+  if (e.target.id === "btnCrearTicket") {
+
+    const data = {
+      tipoTicket: document.querySelector("#typeTask").value,
+      codUsuario: document.querySelector("#user").value,
+      codSubCategoria: document.querySelector("#subcategory").value,
+      asunto: document.getElementById("subject").value,
+      descripcion: document.getElementById("description").value,
+      impacto: document.getElementById("impact").value,
+      prioridad: document.getElementById("priority").value,
+      urgencia: document.getElementById("ticketUrgencia").value,
+      codAnalista: document.getElementById("analyst").value,
+      nota: document.getElementById("note").value,
+      adjunto: document.getElementById("fileName").value,
+    };
+
+    fetch(`${API}/api/user/tickets`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(async res => {
+      const responseData = await res.json();
+
+      if (!res.ok) {
+        throw new Error(responseData.msg || "Error al crear ticket");
+      }
+
+      return responseData;
+    })
+    .then(data => {
+      alert(`✅ Ticket creado: ${data.ticketId}`);
+      location.hash = "home";
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Error: " + err.message);
+    });
+  }
+});
+
 
 /* =========================
    SUBCATEGORY POR CATEGORIA

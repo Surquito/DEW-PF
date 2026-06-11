@@ -84,7 +84,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select id="nt-typeTask" class="input-select">
+                <select id="typeTask" class="input-select">
                   <option value="">SELECCIONE</option>
                   <option value="INCIDENCIA">INCIDENCIA</option>  
                   <option value="SOLICITUD">SOLICITUD</option>
@@ -123,11 +123,11 @@ function navegar() {
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" id="nt-asunto" class="input-bordered">
+              <input type="text" id="matter" class="input-bordered">
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea id="nt-descripcion" rows="4" class="input-bordered"></textarea>
+              <textarea id="description" rows="4" class="input-bordered"></textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
@@ -149,7 +149,7 @@ function navegar() {
             </div>
           </div>
           <div class="form-actions-bottom">
-            <button type="button" id="btn-crear-nt" class="btn-action btn-crear">Crear</button>
+            <button type="button" id="btn-crear-nt" class="btn-action btn-crear" id="btnCrearTicket">Crear</button>
           </div>
         </form>
       </div>
@@ -594,6 +594,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+
 
 /* =========================
    SUBCATEGORY
