@@ -321,6 +321,13 @@ textarea {
   box-sizing: border-box;
 }
 
+.attachment-box i {
+  cursor: pointer;
+  margin-left: 10px;
+  z-index: 10;
+}
+
+
 .form-actions-bottom {
   display: flex;
   justify-content: center;

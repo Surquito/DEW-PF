@@ -98,7 +98,9 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select id="user" class="input-select" required>
+                <option value="">SELECCIONE</option>
+                </select>
               </div>
             </div>
             <div class="form-col pt-empty">
@@ -109,16 +111,15 @@ function navegar() {
               <div class="field-group">
                 <label>Categoría:</label>
                 <select class="input-select" id="category" required>
-                <option>SELECCIONE</option>
+                <option value="">SELECCIONE</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select id="subcategory" class="input-select" required><option value="">SELECCIONE</option></select>
               </div>
             </div>
           </div>
-
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
@@ -129,7 +130,6 @@ function navegar() {
               <textarea rows="4" class="input-bordered"></textarea>
             </div>
           </div>
-
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
@@ -138,19 +138,25 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Soporte:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select class="input-select" id="level" required>
+                <option value="">SELECCIONE</option>
+                <option value="1">NIVEL 1</option>
+                <option value="2">NIVEL 2</option>
+                <OPTION value="3">NIVEL 3</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Analista:</label>
-                <select class="input-select"><option>SELECCIONE</option></select>
+                <select class="input-select" id="analyst" required><option value="">SELECCIONE</option></select>
               </div>
             </div>
             <div class="form-col">
               <div class="field-group">
                 <label>Attachments:</label>
                 <div class="attachment-box input-bordered">
-                  <input type="text">
-                  <i class="bi bi-paperclip"></i>
+                  <input type="text" id="fileName" readonly>
+                  <input type="file" id="fileInput" style="display:none">
+                  <i class="bi bi-paperclip" id="attachIcon"></i>
                 </div>
               </div>
               <div class="field-group">
@@ -215,7 +221,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select disabled class="input-select" id="usuario" required>
+                <select disabled class="input-select" id="user" required>
                   <option value="">SELECCIONE</option>
                 </select>
                 </div>
@@ -223,7 +229,7 @@ function navegar() {
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <select disabled class="input-select" id="ticketEstado">
+                <select disabled class="input-select" id="ticketEstado" required>
                   <option value="">SELECCIONE</option>
                   <option value="ABIERTO">ABIERTO</option>  
                   <option value="ASIGNADO">ASIGNADO</option>
@@ -241,7 +247,7 @@ function navegar() {
                 </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <select disabled class="input-select" id="subcategoria" required>
+                <select disabled class="input-select" id="subcategory" required>
                   <option value="">SELECCIONE</option>
                 </select>
               </div>
@@ -265,13 +271,16 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Soporte:</label>
-                <select disabled class="input-select" id="ticketSoporte">
+                <select disabled class="input-select" id="level" required>
                   <option value="">SELECCIONE</option>
+                  <option value="1">NIVEL 1</option>
+                  <option value="2">NIVEL 2</option>
+                  <option value="3">NIVEL 3</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Analista:</label>
-                <select disabled class="input-select" id="ticketAnalista">
+                <select disabled class="input-select" id="analyst" required  >
                   <option value="">SELECCIONE</option>
                 </select>
                 </div>
@@ -279,9 +288,9 @@ function navegar() {
             <div class="form-col">
               <div class="field-group">
                 <label>Attachments:</label>
-                <div class="attachment-box input-bordered" >
-                  <input readonly type="text" value="" readonly style="background: transparent; cursor: default;">
-                 <i class="bi bi-paperclip"></i>
+                <div class="attachment-box input-bordered">
+                  <input type="text" id="fileName" readonly style="background: transparent; cursor: default;">
+                  <i class="bi bi-paperclip" id="attachIcon" style="cursor: pointer;"></i>
                 </div>
               </div>
               <div class="field-group">
@@ -476,35 +485,8 @@ function navegar() {
       </div>
     `;
   }
+
   document.getElementById("contenido").innerHTML = html;
-
-/* =========================
-   LOGOUT
-   ========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      localStorage.clear();
-      sessionStorage.clear();
-      window.location.href = "login.html";
-    });
-  }
-});
-
-/* =========================
-   SUBCATEGORY
-   ========================= */
-document.addEventListener("change", (e) => {
-
-  if (e.target.id === "category") {
-    const codCategory = e.target.value;
-
-    cargarSubCategorias(codCategory);
-  }
-
-});
 
 /* =========================
    CARGAR ÁREAS/CATEGORIAS. SI EXISTE 'SELECT'
@@ -516,7 +498,6 @@ if (document.getElementById("area")) {
 if (document.getElementById("category")) {
   cargarCategorias();
 }
-
 
   if (ruta === "home") {
     setTimeout(() => {
@@ -536,6 +517,45 @@ if (document.getElementById("category")) {
 
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
+
+/* =========================
+   ATACHMENT - SUBIR ARCHIVOS
+   ========================= */
+
+document.addEventListener("click", (e) => {
+  if (e.target.id === "attachIcon") {
+
+    const fileInput = document.getElementById("fileInput");
+
+    if (!fileInput) {
+      console.error("No existe fileInput");
+      return;
+    }
+
+    fileInput.click(); 
+  }
+});
+
+document.addEventListener("change", (e) => {
+
+  
+  if (e.target && e.target.id === "fileInput") {
+
+    const fileInput = e.target;
+    const fileName = document.getElementById("fileName");
+
+    if (!fileName) {
+      console.error("No existe input fileName");
+      return;
+    }
+
+    if (fileInput.files.length > 0) {
+      fileName.value = fileInput.files[0].name; 
+    } else {
+      fileName.value = "";
+    }
+  }
+});
 
 
 /* =========================
@@ -571,9 +591,29 @@ function cargarAreas() {
     .catch(err => console.error("Error áreas:", err));
 }
 
+function cargarUsuarios(codArea) {
+
+  fetch(`${API}/user/${codArea}`)
+    .then(res => res.json())
+    .then(data => {
+      const select = document.getElementById("user");
+      if (!select) return;
+
+      select.innerHTML = `<option value="">SELECCIONE</option>`;
+
+      data.forEach(u => {
+        select.innerHTML += `
+          <option value="${u.COD_USER}">
+            ${u.FIRST_NAME} ${u.LAST_NAME}
+          </option>
+        `;
+      });
+    })
+    .catch(err => console.error("Error usuarios:", err));
+}
 
 /* =========================
-   MOSTRAR CATEGORIAS EN EL COMBOBOX
+   MOSTRAR CATEGORIAS SUBCATEGORIAS EN EL COMBOBOX
    ========================= */
 function cargarCategorias() {
 
@@ -607,9 +647,6 @@ function cargarCategorias() {
     .catch(err => console.error("Error categorías:", err));
 }
 
-/* =========================
-   MOSTRAR SUBCATEGORIAS EN EL COMBOBOX
-   ========================= */
 function cargarSubCategorias(codCategory) {
 
   fetch(`${API}/subcategories/${codCategory}`)
@@ -634,6 +671,29 @@ function cargarSubCategorias(codCategory) {
 }
 
 /* =========================
+   MOSTRAR ANALISTAS DE SOPORTE EN EL COMBOBOX
+   ========================= */
+
+function cargarAnalistas(codLevel) {
+  fetch(`${API}/analysts-support/${codLevel}`)
+    .then(res => res.json())
+    .then(data => {
+      const select = document.getElementById("analyst");
+      if (!select) return;  
+
+      select.innerHTML = `<option value="">SELECCIONE</option>`;
+      data.forEach(a => {
+        select.innerHTML += `
+          <option value="${a.COD_USER}">  
+            ${a.FIRST_NAME} ${a.LAST_NAME}
+          </option>
+        `;
+      });
+    })
+    .catch(err => console.error("Error analistas:", err));
+} 
+
+/* =========================
    OCULTAR/ MOSTRAR CONTRASEÑA
    ========================= */
 function alternarContrasena(inputId, iconId) {
@@ -654,70 +714,11 @@ function alternarContrasena(inputId, iconId) {
 }
 
 /* =========================
-   VALIDACION ANTES CREAR USUARIO
-   ========================= */
-function validarFormulario() {
-
-  const form = document.getElementById("userForm");
-
-  // Obtener todos los inputs y selects
-  const campos = form.querySelectorAll("input, select");
-
-  // Validar campos vacíos
-  for (let campo of campos) {
-
-    if (campo.value.trim() === "") {
-
-      alert("Todos los campos son obligatorios.");
-
-      campo.focus();
-
-      return false;
-    }
-  }
-
-  // Validar contraseñas
-  const pass1 = document.getElementById("cu-pass1").value;
-  const pass2 = document.getElementById("cu-pass2").value;
-
-  if (pass1 !== pass2) {
-
-    alert("Las contraseñas no coinciden.");
-
-    return false;
-  }
-
-  // Si todo está correcto
-  alert("Usuario creado correctamente.");
-
-  // Aquí puedes llamar tu función AJAX/fetch
-  limpiarFormulario();
-
-  return true;
-}
-
-/* =========================
-   LIMPIAR FORMULARIO
-   ========================= */
-function limpiarFormulario() {
-
-  // Obtener formulario
-  const form = document.getElementById("userForm");
-
-  // Limpiar todos los campos
-  form.reset();
-
-  // Opcional: regresar foco al primer campo
-  document.getElementById("correo").focus();
-}
-
-/* =========================
    MÉTRICAS DEL ANALISTA
    ========================= */
 function cargarMetricas() {
-  const codUser = localStorage.getItem("codUser");
 
-  fetch(`${API}/analyst/metrics/${codUser}`)
+  fetch(`${API}/analyst/metrics`)
     .then(res => res.json())
     .then(data => {
 
@@ -744,9 +745,7 @@ function cargarMetricas() {
    TICKETS DEL ANALISTA
    ========================= */
 function cargarTickets() {
-  const codUser = localStorage.getItem("codUser");
-
-  fetch(`${API}/analyst/tickets/${codUser}`)
+    fetch(`${API}/analyst/tickets`)
     .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("tablaTickets");
@@ -789,5 +788,46 @@ document.addEventListener("DOMContentLoaded", () => {
       sessionStorage.clear();
       window.location.href = "login.html";
     });
+  }
+});
+
+/* =========================
+   SUBCATEGORY POR CATEGORIA
+   ========================= */
+document.addEventListener("change", (e) => {
+  if (e.target.id === "category") {
+
+    const codCategory = e.target.value;
+
+    if (!codCategory) return; 
+
+    cargarSubCategorias(codCategory);
+  }
+});
+
+/* =========================
+   USUARIOS POR ÁREA
+   ========================= */
+document.addEventListener("change", (e) => {
+  if (e.target.id === "area") {
+
+    const codArea = e.target.value;
+
+    if (!codArea) return; 
+
+    cargarUsuarios(codArea);
+  }
+});
+
+
+/* =========================
+   ANALISTAS POR NIVEL DE SOPORTE
+   ========================= */
+document.addEventListener("change", (e) => {
+  if (e.target.id === "level") { 
+    const codLevel = e.target.value;
+    if (!codLevel) return;  
+
+    cargarAnalistas(codLevel);
   }
 });

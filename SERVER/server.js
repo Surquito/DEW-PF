@@ -16,16 +16,13 @@ const login = require("../QUERY/login");
 const resetPassword = require("../QUERY/resetPassword");
 const analystMetrics = require("../QUERY/analystMetrics");
 const analystTickets = require("../QUERY/analystTickets");
+const userTickets = require("../QUERY/userTickets");
+const userMetrics = require("../QUERY/userMetrics");  
 const getAreas = require("../QUERY/getAreas");
 const getCategory = require("../QUERY/getCategory");
 const getSubCategory = require("../QUERY/getSubCategory");
-//const newUser = require("../QUERY/newUser");
-const newTicket = require("../QUERY/newTicket");
-const readTicket = require("../QUERY/readTicket");
-const readUser = require("../QUERY/readUser");
-const updateUser = require("../QUERY/updateUser");
-const getMetrics = require("../QUERY/getMetrics");
-const getRecentTickets = require("../QUERY/getRecentTickets");
+const getUser = require("../QUERY/getUser");
+const getAnalystSupport = require("../QUERY/getAnalystSupport");
 
 const app = express();
 
@@ -104,9 +101,9 @@ app.put("/reset-password", async (req, res) => {
 /**
  * Obtención de métricas globales para el dashboard del analista
  */
-app.get("/analyst/metrics/:codAnalyst", async (req, res) => {
+app.get("/analyst/metrics", async (req, res) => {
   try {
-    const data = await analystMetrics(req.params.codAnalyst);
+    const data = await analystMetrics();
     res.json(data);
   } catch (err) {
     res.status(500).json({ msg: "Error al obtener métricas" });
@@ -116,9 +113,10 @@ app.get("/analyst/metrics/:codAnalyst", async (req, res) => {
 /**
  * Listado de tickets asignados o gestionados por el analista
  */
-app.get("/analyst/tickets/:codAnalyst", async (req, res) => {
+
+app.get("/analyst/tickets", async (req, res) => {
   try {
-    const data = await analystTickets(req.params.codAnalyst);
+    const data = await analystTickets(); // sin filtro
     res.json(data);
   } catch (err) {
     res.status(500).json({ msg: "Error al obtener tickets" });
@@ -126,7 +124,29 @@ app.get("/analyst/tickets/:codAnalyst", async (req, res) => {
 });
 
 /**
- * Obtener áreas para la creación de usuario
+ * Obtención de métricas globales para el dashboard del usuario
+ */
+
+app.get("/user/metrics/:codUser", async (req, res) => {
+  try {
+    const data = await userMetrics(req.params.codUser);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ msg: "Error al obtener métricas" });
+  }
+});
+
+app.get("/user/tickets/:codUser", async (req, res) => {
+  try {
+    const data = await userTickets(req.params.codUser);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ msg: "Error al obtener tickets" });
+  }
+});
+
+/**
+ * Obtener áreas y usuarios para la creación de usuario
  */
 app.get("/areas", async (req, res) => {
 
@@ -146,8 +166,29 @@ app.get("/areas", async (req, res) => {
   }
 });
 
+app.get("/user/:codArea", async (req, res) => {
+  try {
+    const codArea = req.params.codArea;
+
+    if (!codArea) {
+      return res.status(400).json({ msg: "Área inválida" });
+    }
+
+    const data = await getUser(codArea);
+
+    res.json(data); 
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      msg: "Error al obtener usuarios"
+    });
+  }
+});
+
+
 /**
- * Obtener categorías para la creación de ticket
+ * Obtener categorías  y subcategoria para la creación de ticket
  */
 
 app.get("/categories", async (req, res) => {
@@ -164,11 +205,15 @@ app.get("/categories", async (req, res) => {
 
 app.get("/subcategories/:codCategory", async (req, res) => {
   try {
-    const { codCategory } = req.params;
+    const codCategory = req.params.codCategory; 
 
-    const data = await getSubCategory(codCategory);
+    if (!codCategory) {
+      return res.status(400).json({ msg: "Categoría inválida" });
+    }
 
-    res.json(data);
+    const data = await getSubCategory(codCategory); 
+
+    res.json(data); 
 
   } catch (err) {
     console.error(err);
@@ -180,126 +225,35 @@ app.get("/subcategories/:codCategory", async (req, res) => {
 
 
 /**
- * Creacion de nuevo usuario (solo para analistas)
+ * Obtener analistas disponibles por nivel de soporte para la creación de ticket
  */
-app.post("/analyst/users", async (req, res) => {
-  const { codUser, email, nombres, apellidos, celular, fechaNacimiento, password, codArea } = req.body;
 
+app.get("/analysts-support/:codLevel", async (req, res) => {
   try {
-    const result = await newUser({ codUser, email, nombres, apellidos, celular, fechaNacimiento, password, codArea });
-    res.status(201).json({
-      msg: "Usuario creado exitosamente",
-      userId: result.NewUserID
+    const codLevel = req.params.codLevel; 
+    if (!codLevel) {
+      return res.status(400).json({ msg: "Nivel de soporte inválido" });
+    }
+    const data = await getAnalystSupport(codLevel);
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({        
+      msg: "Error al obtener analistas de soporte"
     });
-  } catch (error) {
-    res.status(500).json({ msg: "Error interno del servidor al crear el usuario" });
   }
 });
+
 
 // ==========================================
 // ENDPOINTS PARA PERFIL DE USUARIO (API)
 // ==========================================
 
-/**
- * Creación de un nuevo ticket de soporte
- */
-app.post("/api/user/tickets", async (req, res) => {
-  const { asunto, descripcion, usuario } = req.body;
 
-  // Validación de integridad de datos obligatorios
-  if (!asunto || !descripcion || !usuario) {
-    return res.status(400).json({ 
-      msg: "Faltan campos obligatorios (Asunto, Descripción o Usuario)" 
-    });
-  }
 
-  try {
-    const result = await newTicket(req.body);
-    res.status(201).json({
-      msg: "Ticket creado exitosamente",
-      ticketId: result.NewTicketID
-    });
-  } catch (error) {
-    res.status(500).json({ msg: "Error interno del servidor al crear el ticket" });
-  }
-});
 
-/**
- * Consulta de información detallada de un ticket específico
- */
-app.get("/api/user/tickets/:taskId", async (req, res) => {
-  const { taskId } = req.params;
 
-  try {
-    const ticket = await readTicket(taskId);
-    
-    if (!ticket) {
-      return res.status(404).json({ 
-        msg: "Ticket no encontrado. Verifica el Task ID." 
-      });
-    }
 
-    res.json(ticket);
-  } catch (error) {
-    res.status(500).json({ msg: "Error interno del servidor al consultar el ticket" });
-  }
-});
-
-/**
- * Obtención de datos de perfil de un usuario
- */
-app.get("/api/users/:codUser", async (req, res) => {
-  const { codUser } = req.params;
-  try {
-    const user = await readUser(codUser);
-    if (!user) return res.status(404).json({ msg: "Usuario no encontrado" });
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ msg: "Error al consultar usuario" });
-  }
-});
-
-/**
- * Actualización de datos personales del usuario
- */
-app.put("/api/users", async (req, res) => {
-  const userData = req.body;
-  try {
-    const updated = await updateUser(userData);
-    if (updated === 0) {
-      return res.status(404).json({ msg: "No se pudo actualizar el usuario" });
-    }
-    res.json({ msg: "Usuario actualizado correctamente" });
-  } catch (error) {
-    res.status(500).json({ msg: "Error al actualizar usuario" });
-  }
-});
-
-/**
- * Métricas de resumen para la vista principal del usuario
- */
-app.get("/api/user/metrics/:codUser", async (req, res) => {
-  const { codUser } = req.params;
-  try {
-    const metrics = await getMetrics(codUser);
-    res.json(metrics);
-  } catch (error) {
-    res.status(500).json({ msg: "Error al obtener métricas" });
-  }
-});
-
-/**
- * Historial de tickets recientes para la bandeja de entrada del usuario
- */
-app.get("/api/user/tickets-recent/:codUser", async (req, res) => {
-  const { codUser } = req.params;
-  try {
-    const tickets = await getRecentTickets(codUser);
-    res.json(tickets);
-  } catch (error) {
-    res.status(500).json({ msg: "Error interno", error: error.message });
-  }
-});
 
 // ==========================================
 // INICIALIZACIÓN DEL SERVICIO

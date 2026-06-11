@@ -1,8 +1,3 @@
-/**
- * SISTEMA DE GESTIÓN DE TICKETS - MÓDULO DE USUARIO
- * Controlador principal para la Single Page Application (SPA)
- */
-
 const API = "http://localhost:3000"
 
 /* =========================
@@ -35,48 +30,46 @@ function navegar() {
     html = `
       <div class="dashboard">
         <h2>Métricas</h2>
-        <section class="metrics">
+        <div class="metrics">
           <div class="metric">
-              <h3>Abiertos</h3>
-              <p id="m-abiertos">0</p>
+            <h3>Abiertos</h3>
+            <p id="mAbiertos">0</p>
           </div>
           <div class="metric">
-              <h3>En Curso</h3>
-              <p id="m-encurso">0</p>
+            <h3>En Curso</h3>
+            <p id="mCurso">0</p>
           </div>
           <div class="metric">
-              <h3>Pendientes</h3>
-              <p id="m-pendientes">0</p>
+            <h3>Pendientes</h3>
+            <p id="mPendientes">0</p>
           </div>
           <div class="metric">
-              <h3>Atendidos</h3>
-              <p id="m-atendidos">0</p>
+            <h3>Atendidos</h3>
+            <p id="mAtendidos">0</p>
           </div>
-        </section>
+        </div>
 
-        <section class="tickets">
-          <div class="tickets-header">
-            <h2>Bandeja Tickets</h2>
-            <button class="btn-new" id="newticketBtn">
-              <i class="bi bi-plus-circle"></i> Nuevo ticket
+        <div class="tickets-header">
+          <h2>Bandeja de Tickets</h2>
+             <button class="btn-new" id="newticketBtn">
+             <i class="bi bi-plus-circle"></i> Nuevo ticket
             </button>
-          </div>
+        </div>
 
-          <table class="tickets-table">
-            <thead>
-              <tr>
-                <th>Ticket</th>
-                <th>Asunto</th>
-                <th>Estado</th>
-                <th>Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              </tbody>
-          </table>
-        </section>
+        <table class="tickets-table">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Asunto</th>
+              <th>Fecha</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaTickets"></tbody>
+        </table>
+
       </div>
-    `;   
+    `;
   } else if (ruta === "newticket") {
     html = `
       <div class="ticket-container">
@@ -105,7 +98,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select id="nt-usuario" class="input-select"><option value="">SELECCIONE</option></select>
+                <select id="user" class="input-select"><option value="">SELECCIONE</option></select>
               </div>
             </div>
             <div class="form-col pt-empty">
@@ -121,11 +114,12 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <select id="nt-subcategoria" class="input-select"><option value="">SELECCIONE</option></select>
+                <select id="subcategory" class="input-select">
+                <option value="">SELECCIONE</option>
+                </select>
               </div>
             </div>
           </div>
-
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
@@ -136,7 +130,6 @@ function navegar() {
               <textarea id="nt-descripcion" rows="4" class="input-bordered"></textarea>
             </div>
           </div>
-
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
@@ -148,9 +141,9 @@ function navegar() {
               <div class="field-group">
                 <label>Attachments:</label>
                 <div class="attachment-box input-bordered">
-                  <input type="file" id="nt-attachments" style="display: none;">
-                  <input type="text" id="nt-filename" readonly onclick="document.getElementById('nt-attachments').click()">
-                  <i class="bi bi-paperclip" onclick="document.getElementById('nt-attachments').click()"></i>
+                  <input type="text" id="fileName" readonly>
+                  <input type="file" id="fileInput" style="display:none">
+                  <i class="bi bi-paperclip" id="attachIcon"></i>
                 </div>
               </div>
             </div>
@@ -199,7 +192,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Sub Categoría:</label>
-                <input type="text" id="ct-subcategoria" class="input-bordered input-center" readonly>
+                <input type="text" id="subcategory" class="input-bordered input-center" readonly>
               </div>
             </div>
           </div>
@@ -319,275 +312,80 @@ function navegar() {
   // Renderizado del HTML en el contenedor principal
   document.getElementById("contenido").innerHTML = html;
   
-
-  
   /* =========================
    CARGAR ÁREAS. SI EXISTE 'SELECT'
    ========================= */
   if (document.getElementById("area")) {
   cargarAreas();
   }
+  
   if (document.getElementById("category")) {
   cargarCategorias();
   }
+
   // ==========================================
   // ASIGNACIÓN DE EVENTOS POR VISTA
   // ==========================================
   
   if (ruta === "home") {
-    const codUser = localStorage.getItem("codUser");
-
-    // Carga de indicadores numéricos (Métricas)
-    const cargarMetricas = async () => {
-      try {
-        const response = await fetch(`${API}/user/metrics/${codUser}`);
-        if (!response.ok) throw new Error("Error en servidor");
-        const data = await response.json();
-
-        // Inicialización de valores por defecto
-        document.getElementById("m-abiertos").innerText = "0";
-        document.getElementById("m-encurso").innerText = "0";
-        document.getElementById("m-pendientes").innerText = "0";
-        document.getElementById("m-atendidos").innerText = "0";
-
-        data.forEach(item => {
-          if (item.STATUS === "ABIERTO") document.getElementById("m-abiertos").innerText = item.TOTAL;
-          if (item.STATUS === "EN CURSO") document.getElementById("m-encurso").innerText = item.TOTAL;
-          if (item.STATUS === "PENDIENTE") document.getElementById("m-pendientes").innerText = item.TOTAL;
-          if (item.STATUS === "ATENDIDO") document.getElementById("m-atendidos").innerText = item.TOTAL;
-        });
-      } catch (error) {
-        console.error("Fallo al obtener métricas");
-      }
-    };
-
-    // Carga de la lista de tickets recientes en la tabla principal
-    const cargarBandeja = async () => {
-      try {
-        const response = await fetch(`${API}/user/tickets-recent/${codUser}`);
-        const tickets = await response.json();
-
-        if (!Array.isArray(tickets)) return;
-
-        const tbody = document.querySelector(".tickets-table tbody");
-        if (!tbody) return;
-        tbody.innerHTML = ""; 
-
-        tickets.forEach(t => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${t.TICKET_ID}</td>
-            <td>${t.SUBJECT}</td>
-            <td>${t.STATUS}</td>
-            <td>
-              <a href="javascript:void(0)" class="view-ticket" data-id="${t.TICKET_ID}">
-                <i class="bi bi-eye"></i>
-              </a>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-        // Vinculación de evento para visualización individual de tickets
-        document.querySelectorAll(".view-ticket").forEach(btn => {
-          btn.addEventListener("click", function() {
-            const id = this.getAttribute("data-id");
-            sessionStorage.setItem("ticketABuscar", id);
-            window.location.hash = "readticket";
-          });
-        });
-
-      } catch (error) {
-        console.error("Fallo al cargar la bandeja");
-      }
-    };
-
-    cargarMetricas();
-    cargarBandeja();
+    setTimeout(() => {
+      cargarMetricas();
+      cargarTickets();
+    }, 0);
 
     const btnNewTicket = document.getElementById("newticketBtn");
+
     if (btnNewTicket) {
-      btnNewTicket.addEventListener("click", () => location.hash = "newticket");
-    }
-  } else if (ruta === "newticket") {
-
-    // Inicialización de categorías desde la base de datos
-    const cargarCategoriasDB = () => {
-
-    };
-
-    cargarCategoriasDB();
-
-    // Gestión visual de archivos adjuntos
-    document.getElementById("nt-attachments")?.addEventListener("change", function(e) {
-      const fileName = e.target.files[0]?.name || "";
-      document.getElementById("nt-filename").value = fileName;
-    });
-
-    // Envío del formulario de creación de ticket
-    document.getElementById("btn-crear-nt")?.addEventListener("click", async () => {
-      const dataTicket = {
-          typeTask: document.getElementById("nt-typeTask").value,
-          estado: document.getElementById("nt-estado").value || 'ABIERTO',
-          asunto: document.getElementById("nt-asunto").value,
-          descripcion: document.getElementById("nt-descripcion").value,
-          categoria: document.getElementById("nt-categoria").value, 
-          usuario: localStorage.getItem("codUser") 
-      };
-
-      if (!dataTicket.asunto || !dataTicket.descripcion) {
-          return alert("Por favor, completa el asunto y la descripción.");
-      }
-      
-      try {
-        const response = await fetch(`${API}/user/tickets`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(dataTicket)
-        });
-        if (response.ok) {
-          alert("Ticket creado con éxito!");
-          document.getElementById("form-newticket").reset();
-          location.hash = "home";
-        }
-      } catch (error) {
-        alert("Ocurrió un error al procesar la solicitud.");
-      }
-    });
-
-    document.getElementById("btn-limpiar-nt")?.addEventListener("click", () => {
-      document.getElementById("form-newticket").reset();
-      document.getElementById("nt-filename").value = "";
-    });
-  } else if (ruta === "readticket") {
-    // Consulta manual o automática de un ticket específico
-    document.getElementById("btn-consultar-ct")?.addEventListener("click", async () => {
-      const taskId = document.getElementById("ct-taskId").value;
-      if (!taskId) return alert("Ingrese un Task ID válido");
-      
-      try {
-        const response = await fetch(`${API}/user/tickets/${taskId}`);
-        
-        if (!response.ok) {
-           const errData = await response.json();
-           return alert(errData.msg);
-        }
-
-        const data = await response.json();
-        
-        document.getElementById("ct-asunto").value = data.SUBJECT || "";
-        document.getElementById("ct-descripcion").value = data.DESCRIPTION || "";
-        
-        const asignarSelect = (idSelect, valorDB) => {
-          if (!valorDB) return; 
-          const select = document.getElementById(idSelect);
-          const existe = Array.from(select.options).some(opt => opt.value == valorDB);
-          
-          if (!existe) {
-            const nuevaOpcion = document.createElement("option");
-            nuevaOpcion.value = valorDB;
-            nuevaOpcion.text = valorDB;
-            select.appendChild(nuevaOpcion);
-          }
-          select.value = valorDB;
-        };
-
-        // asignarSelect("ct-typeTask", data.TICKET_TYPE);
-        // asignarSelect("ct-estado", data.STATUS);
-        // asignarSelect("ct-categoria", data.COD_CATEGORY);
-        // asignarSelect("ct-usuario", data.COD_USER);
-
-      } catch (error) {
-        alert("Error de conexión al servidor.");
-      }
-    });
-
-    document.getElementById("btn-limpiar-ct")?.addEventListener("click", () => {
-      document.getElementById("form-readticket").reset();
-    });
-
-    // Lógica para procesar una búsqueda pendiente (Redirección desde bandeja)
-    const ticketPendiente = sessionStorage.getItem("ticketABuscar");
-    if (ticketPendiente) {
-        const inputCT = document.getElementById("ct-taskId"); 
-        const btnCT = document.getElementById("btn-consultar-ct");
-
-        if (inputCT && btnCT) {
-            inputCT.value = ticketPendiente;
-            sessionStorage.removeItem("ticketABuscar"); 
-            btnCT.click();
-        }
-    }
-  } else if (ruta === "readuser") {
-    
-    // Poblamiento de datos del perfil desde la sesión actual
-    const llenarDatosPerfil = () => {
-      const sesionData = localStorage.getItem("userData");
-      if (sesionData) {
-        const data = JSON.parse(sesionData);
-        document.getElementById("cu-correo").value = data.EMAIL || "";
-        document.getElementById("cu-nombres").value = data.FIRST_NAME || "";
-        document.getElementById("cu-apellidos").value = data.LAST_NAME || "";
-        document.getElementById("cu-celular").value = data.PHONE_NUMBER || "";
-        document.getElementById("cu-usuario").value = data.COD_USER || "";
-        document.getElementById("cu-perfil").value = data.COD_AREA || "";
-        
-        if (data.BIRTH_DATE) {
-          const dateStr = new Date(data.BIRTH_DATE).toISOString().split('T')[0];
-          document.getElementById("cu-fechanac").value = dateStr;
-        }
-        
-        document.getElementById("cu-pass1").value = "";
-        document.getElementById("cu-pass2").value = "";
-      }
-    };
-
-    llenarDatosPerfil();
-
-    document.getElementById("btn-limpiar-cu")?.addEventListener("click", () => {
-      llenarDatosPerfil();
-    });
-
-    // Actualización de información de usuario
-    document.getElementById("btn-guardar-cu")?.addEventListener("click", async () => {
-      const p1 = document.getElementById("cu-pass1").value;
-      const p2 = document.getElementById("cu-pass2").value;
-
-      if (p1 !== p2) return alert("Las contraseñas no coinciden.");
-
-      const updatedData = {
-        codUser: localStorage.getItem("codUser"),
-        nombres: document.getElementById("cu-nombres").value,
-        apellidos: document.getElementById("cu-apellidos").value,
-        celular: document.getElementById("cu-celular").value,
-        fechaNac: document.getElementById("cu-fechanac").value,
-        password: p1 || null 
-      };
-
-      try {
-        const response = await fetch(`${API}/users`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedData)
-        });
-        
-        if (response.ok) {
-          alert("Perfil actualizado correctamente.");
-          const res = await fetch(`${API}/users/${updatedData.codUser}`);
-          const newData = await res.json();
-          localStorage.setItem("userData", JSON.stringify(newData));
-          document.getElementById("header-nombre").innerHTML = `${newData.FIRST_NAME} <i class="bi bi-person-circle"></i>`;
-        }
-      } catch (error) {
-        alert("No se pudo actualizar el perfil.");
-      }
+    btnNewTicket.addEventListener("click", () => {
+      location.hash = "newticket";
     });
   }
+  } 
 }
 
 // Inicialización de navegación mediante eventos del navegador
 window.addEventListener("hashchange", navegar);
 window.addEventListener("load", navegar);
+
+  /* =========================
+   ATACHMENT - SUBIR ARCHIVOS
+   ========================= */
+
+    document.addEventListener("click", (e) => {
+      if (e.target.id === "attachIcon") {
+
+        const fileInput = document.getElementById("fileInput");
+
+        if (!fileInput) {
+          console.error("No existe fileInput");
+          return;
+        }
+
+        fileInput.click(); 
+      }
+    });
+
+    document.addEventListener("change", (e) => {
+
+      
+      if (e.target && e.target.id === "fileInput") {
+
+        const fileInput = e.target;
+        const fileName = document.getElementById("fileName");
+
+        if (!fileName) {
+          console.error("No existe input fileName");
+          return;
+        }
+
+        if (fileInput.files.length > 0) {
+          fileName.value = fileInput.files[0].name; 
+        } else {
+          fileName.value = "";
+        }
+      }
+    });
+
 
 /* =========================
    MOSTRAR ÁREAS EN EL COMBOBOX
@@ -622,8 +420,28 @@ function cargarAreas() {
     .catch(err => console.error("Error áreas:", err));
 }
 
+function cargarUsuarios(codArea) {
+
+  fetch(`${API}/user/${codArea}`)
+    .then(res => res.json())
+    .then(data => {
+      const select = document.getElementById("user");
+      if (!select) return;
+
+      select.innerHTML = `<option value="">SELECCIONE</option>`;
+
+      data.forEach(u => {
+        select.innerHTML += `
+          <option value="${u.COD_USER}">
+            ${u.FIRST_NAME} ${u.LAST_NAME}
+          </option>
+        `;
+      });
+    })
+    .catch(err => console.error("Error usuarios:", err));
+}
 /* =========================
-   MOSTRAR CATEGORIAS EN EL COMBOBOX
+   MOSTRAR CATEGORIAS  SUBCATEGORIAS EN EL COMBOBOX
    ========================= */
 function cargarCategorias() {
 
@@ -655,39 +473,27 @@ function cargarCategorias() {
     .catch(err => console.error("Error categorías:", err));
 }
 
-/* =========================
-   MOSTRAR CATEGORIAS EN EL COMBOBOX
-   ========================= */
-function cargarCategorias() {
+function cargarSubCategorias(codCategory) {
 
-  fetch(`${API}/categories`)
-
+  fetch(`${API}/subcategories/${codCategory}`)
     .then(res => res.json())
-
     .then(data => {
 
-      const select = document.getElementById("category");
+      const select = document.getElementById("subcategory");
+      if (!select) return;
 
-      if (!select) return;   
+      select.innerHTML = `<option value="">SELECCIONE</option>`;
 
-      select.innerHTML = `
-        <option value="">
-          SELECCIONE
-        </option>
-      `;
-
-      data.forEach(a => {
-
+      data.forEach(s => {
         select.innerHTML += `
-          <option value="${a.COD_CATEGORY}">
-            ${a.CATEGORY_NAME}
+          <option value="${s.COD_CATEGORY}">
+            ${s.CATEGORY_NAME}
           </option>
         `;
       });
 
     })
-
-    .catch(err => console.error("Error categorías:", err));
+    .catch(err => console.error("Error subcategorías:", err));
 }
 
 /* =========================
@@ -710,56 +516,109 @@ function alternarContrasena(inputId, iconId) {
   }
 }
 
-/**
- * CONFIGURACIÓN GLOBAL AL CARGAR EL DOM
- * Maneja la sesión persistente, el cierre de sesión y la búsqueda global
- */
-document.addEventListener("DOMContentLoaded", async function () {
-  const codUser = localStorage.getItem("codUser"); 
-  /* BORRAR ESTE BLOQUE SI NO SE REQUIERE CARGA INICIAL DE DATOS DE USUARIO DESDE API
-  if (codUser) {
-    try {
-      const response = await fetch(`${API}/users/${codUser}`);
-      if (response.ok) {
-        const data = await response.json();
-        const headerNombre = document.getElementById("header-nombre");
-        if (headerNombre) {
-            headerNombre.innerHTML = `${data.FIRST_NAME} <i class="bi bi-person-circle"></i>`;
-        }
-        localStorage.setItem("userData", JSON.stringify(data));
-      }
-    } catch (error) {
-      console.error("Error al recuperar sesión");
-    }
-  }
-*/
-  // Lógica de finalización de sesión
+/* =========================
+   MÉTRICAS DEL USUARIO
+   ========================= */
+  function cargarMetricas() {
+    const codUser = localStorage.getItem("codUser");
+
+    fetch(`${API}/user/metrics/${codUser}`) 
+      .then(res => res.json())
+      .then(data => {
+
+      const estados = {
+        ABIERTO: 0,
+        EN_CURSO: 0,
+        PENDIENTE: 0,
+        CERRADO: 0   // 
+      };
+        data.forEach(e => {
+        estados[e.STATUS] = e.TOTAL;
+      });
+
+      document.getElementById("mAbiertos").textContent   = estados.ABIERTO;
+      document.getElementById("mCurso").textContent      = estados.EN_CURSO;
+      document.getElementById("mPendientes").textContent = estados.PENDIENTE;
+      document.getElementById("mAtendidos").textContent  = estados.CERRADO; 
+    })
+    .catch(err => console.error("Error métricas:", err));
+}
+
+/* =========================
+   TICKETS DEL USUARIO
+   ========================= */        
+function cargarTickets() {
+const codUser = localStorage.getItem("codUser");
+fetch(`${API}/user/tickets/${codUser}`)
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById("tablaTickets");
+      tbody.innerHTML = "";
+
+      data.forEach(t => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${t.TICKET_ID}</td>
+            <td>${t.SUBJECT}</td>
+            <td>${formatearFecha(t.UPDATE_DATE)}</td>
+            <td>
+              <i class="bi bi-eye"></i>
+              <i class="bi bi-pencil"></i>
+            </td>
+          </tr>
+        `;
+      });
+    })
+    .catch(err => console.error("Error tickets:", err));
+}
+
+/* =========================
+   FORMATEAR FECHA
+   ========================= */
+function formatearFecha(fecha) {
+  const f = new Date(fecha);
+  return f.toLocaleDateString() + " " + f.toLocaleTimeString();
+}
+
+/* =========================
+   LOGOUT
+   ========================= */
+document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logoutBtn");
+
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
-        localStorage.clear();
-        sessionStorage.clear();
-        window.location.href = "login.html";
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "login.html";
     });
   }
+});
 
-  // GESTIÓN DEL BUSCADOR GLOBAL (Header)
-  const btnBuscarGlobal = document.getElementById("btn-buscar-global");
-  const inputBusqueda = document.getElementById("busqueda");
+/* =========================
+   SUBCATEGORY
+   ========================= */
+document.addEventListener("change", (e) => {
+  if (e.target.id === "category") {
 
-  const ejecutarBusquedaGlobal = () => {
-    const nroTicket = inputBusqueda.value.trim();
-    if (nroTicket) {
-        sessionStorage.setItem("ticketABuscar", nroTicket);
-        window.location.hash = "readticket";
-        inputBusqueda.value = ""; 
-    } else {
-        alert("Por favor, ingrese un número de ticket.");
-    }
-  };
+    const codCategory = e.target.value;
 
-  btnBuscarGlobal?.addEventListener("click", ejecutarBusquedaGlobal);
-  inputBusqueda?.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") ejecutarBusquedaGlobal();
-  });
+    if (!codCategory) return; 
+
+    cargarSubCategorias(codCategory);
+  }
+});
+
+/* =========================
+   USUARIOS POR ÁREA
+   ========================= */
+document.addEventListener("change", (e) => {
+  if (e.target.id === "area") {
+
+    const codArea = e.target.value;
+
+    if (!codArea) return; 
+
+    cargarUsuarios(codArea);
+  }
 });
