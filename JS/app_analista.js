@@ -80,7 +80,7 @@ function navegar() {
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" value="Autogenerado" readonly class="input-bordered input-center">
+                <input id="ticketId" type="text" value="Autogenerado" readonly class="input-bordered input-center">
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
@@ -92,7 +92,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select class="input-select" id="area" required>
+                <select id="area" class="input-select" required>
                   <option value="">SELECCIONE</option>
                 </select>
               </div>
@@ -110,7 +110,7 @@ function navegar() {
                 </div>
               <div class="field-group">
                 <label>Categoría:</label>
-                <select class="input-select" id="category" required>
+                <select id="category" class="input-select" required>
                 <option value="">SELECCIONE</option>
                 </select>
               </div>
@@ -123,26 +123,26 @@ function navegar() {
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" class="input-bordered" id ="subject">
+              <input id ="subject" type="text" class="input-bordered">
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea rows="4" class="input-bordered" id="description"></textarea>
+              <textarea id="description" rows="4" class="input-bordered"></textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
                 <label>Nota:</label>
-                <textarea rows="3" class="input-bordered" id="note"></textarea>
+                <textarea id="note" rows="3" class="input-bordered"></textarea>
               </div>
               <div class="field-group">
                 <label>Soporte:</label>
                 <select class="input-select" id="level" required>
-                <option value="">SELECCIONE</option>
-                <option value="1">NIVEL 1</option>
-                <option value="2">NIVEL 2</option>
-                <OPTION value="3">NIVEL 3</option>
+                  <option value="">SELECCIONE</option>
+                  <option value="1">NIVEL 1</option>
+                  <option value="2">NIVEL 2</option>
+                  <OPTION value="3">NIVEL 3</option>
                 </select>
               </div>
               <div class="field-group">
@@ -179,7 +179,7 @@ function navegar() {
               </div>
               <div class="field-group" id="urgency">
                 <label>Urgencia:</label>
-                <select class="input-select" id="ticketUrgencia">
+                <select class="input-select" id="urgency">
                   <option value="">SELECCIONE</option>
                   <option value="BAJA">BAJA</option>
                   <option value="MEDIA">MEDIA</option>
@@ -205,23 +205,25 @@ function navegar() {
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" id="searchTaskID" value="" placeholder="Ej. TCKT00001" class="input-bordered input-center">
+                <input type="text" id="ticketId" value="" placeholder="Ej. TCKT00001" class="input-bordered input-center">
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <select disabled class="input-select" id="typeTask" required>
+                <select id="typeTask" disabled class="input-select" required>
                   <option value="">SELECCIONE</option>
+                  <option value="INCIDENCIA">INCIDENCIA</option>  
+                  <option value="SOLICITUD">SOLICITUD</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <select disabled class="input-select" id="area" required>
+                <select id="area" disabled class="input-select" required>
                   <option value="">SELECCIONE</option>
                 </select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <select disabled class="input-select" id="user" required>
+                <select id="user" disabled class="input-select" required>
                   <option value="">SELECCIONE</option>
                 </select>
                 </div>
@@ -229,9 +231,9 @@ function navegar() {
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <select disabled class="input-select" id="ticketEstado" required>
+                <select id="state" disabled class="input-select" required>
                   <option value="">SELECCIONE</option>
-                  <option value="ABIERTO">ABIERTO</option>  
+                  <option value="ABIERTO">ABIERTO</option>
                   <option value="ASIGNADO">ASIGNADO</option>
                   <option value="EN CURSO">EN CURSO</option>
                   <option value="PENDIENTE">PENDIENTE</option>
@@ -256,18 +258,18 @@ function navegar() {
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" class="input-bordered" value="" readonly >
+              <input id="subject" type="text" class="input-bordered" value="" readonly >
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea readonly rows="4" class="input-bordered" readonly ></textarea>
+              <textarea id="description" rows="4" class="input-bordered" readonly ></textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
                 <label>Nota:</label>
-                <textarea rows="3" class="input-bordered" id="ticketNota" readonly ></textarea>
+                <textarea rows="3" class="input-bordered" id="note" readonly ></textarea>
               </div>
               <div class="field-group">
                 <label>Soporte:</label>
@@ -275,7 +277,7 @@ function navegar() {
                   <option value="">SELECCIONE</option>
                   <option value="1">NIVEL 1</option>
                   <option value="2">NIVEL 2</option>
-                  <option value="3">NIVEL 3</option>
+                  <OPTION value="3">NIVEL 3</option>
                 </select>
               </div>
               <div class="field-group">
@@ -290,12 +292,13 @@ function navegar() {
                 <label>Attachments:</label>
                 <div class="attachment-box input-bordered">
                   <input type="text" id="fileName" readonly style="background: transparent; cursor: default;">
+                  <input type="file" id="fileInput" style="display:none">
                   <i class="bi bi-paperclip" id="attachIcon" style="cursor: pointer;"></i>
                 </div>
               </div>
               <div class="field-group">
                 <label>Impacto:</label>
-                <select disabled class="input-select" id="ticketImpacto">
+                <select disabled class="input-select" id="impact">
                   <option value="">SELECCIONE</option>
                   <option value="PERSONA">PERSONA</option>
                   <option value="AREA">AREA</option>
@@ -304,7 +307,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Prioridad:</label>
-                <select disabled class="input-select" id="ticketPrioridad">
+                <select disabled class="input-select" id="priority">
                   <option value="">SELECCIONE</option>
                   <option value="BAJA">BAJA</option>
                   <option value="MEDIA">MEDIA</option>
@@ -313,7 +316,7 @@ function navegar() {
               </div>
               <div class="field-group">
                 <label>Urgencia:</label>
-                <select disabled class="input-select" id="ticketUrgencia">
+                <select disabled class="input-select" id="urgency">
                   <option value="">SELECCIONE</option>
                   <option value="BAJA">BAJA</option>
                   <option value="MEDIA">MEDIA</option>
@@ -323,8 +326,8 @@ function navegar() {
             </div>
           </div>
           <div class="form-actions-bottom">
-            <button type="button" class="btn-action btn-consultar">Consultar</button>
-            <button type="button" class="btn-action btn-modificar">Modificar</button>
+            <button type="button" id="btnBuscarTicket" class="btn-action btn-consultar">Buscar</button>
+            <button type="button" id="btnModificarTicket" class="btn-action btn-modificar">Modificar</button>
           </div>
         </form>
       </div>
@@ -563,19 +566,16 @@ document.addEventListener("change", (e) => {
    ========================= */
 function cargarAreas() {
 
-  fetch(`${API}/areas`)
-
+  return fetch(`${API}/areas`)
     .then(res => res.json())
-
     .then(data => {
 
       const select = document.getElementById("area");
 
-      select.innerHTML = `
-        <option value="">
-          SELECCIONE
-        </option>
-      `;
+      if (!select) return;
+
+      select.innerHTML =
+        `<option value="">SELECCIONE</option>`;
 
       data.forEach(a => {
 
@@ -584,32 +584,36 @@ function cargarAreas() {
             ${a.AREA}
           </option>
         `;
+
       });
 
-    })
-
-    .catch(err => console.error("Error áreas:", err));
+    });
 }
 
 function cargarUsuarios(codArea) {
 
-  fetch(`${API}/user/${codArea}`)
+  return fetch(`${API}/user/${codArea}`)
     .then(res => res.json())
     .then(data => {
+
       const select = document.getElementById("user");
+
       if (!select) return;
 
-      select.innerHTML = `<option value="">SELECCIONE</option>`;
+      select.innerHTML =
+        `<option value="">SELECCIONE</option>`;
 
       data.forEach(u => {
+
         select.innerHTML += `
           <option value="${u.COD_USER}">
             ${u.FIRST_NAME} ${u.LAST_NAME}
           </option>
         `;
+
       });
-    })
-    .catch(err => console.error("Error usuarios:", err));
+
+    });
 }
 
 /* =========================
@@ -617,21 +621,16 @@ function cargarUsuarios(codArea) {
    ========================= */
 function cargarCategorias() {
 
-  fetch(`${API}/categories`)
-
+  return fetch(`${API}/categories`)
     .then(res => res.json())
-
     .then(data => {
 
       const select = document.getElementById("category");
 
-      if (!select) return;   
+      if (!select) return;
 
-      select.innerHTML = `
-        <option value="">
-          SELECCIONE
-        </option>
-      `;
+      select.innerHTML =
+        `<option value="">SELECCIONE</option>`;
 
       data.forEach(a => {
 
@@ -640,34 +639,37 @@ function cargarCategorias() {
             ${a.CATEGORY_NAME}
           </option>
         `;
+
       });
 
-    })
-
-    .catch(err => console.error("Error categorías:", err));
+    });
 }
 
 function cargarSubCategorias(codCategory) {
 
-  fetch(`${API}/subcategories/${codCategory}`)
+  return fetch(`${API}/subcategories/${codCategory}`)
     .then(res => res.json())
     .then(data => {
 
-      const select = document.getElementById("subcategory");
-      if (!select) return;
+      console.log("SUBCATEGORIAS:", data);
 
-      select.innerHTML = `<option value="">SELECCIONE</option>`;
+      const select = document.getElementById("subcategory");
+
+      select.innerHTML =
+        `<option value="">SELECCIONE</option>`;
 
       data.forEach(s => {
+
+        console.log(s);
         select.innerHTML += `
           <option value="${s.COD_CATEGORY}">
             ${s.CATEGORY_NAME}
           </option>
         `;
+
       });
 
-    })
-    .catch(err => console.error("Error subcategorías:", err));
+    });
 }
 
 /* =========================
@@ -675,23 +677,30 @@ function cargarSubCategorias(codCategory) {
    ========================= */
 
 function cargarAnalistas(codLevel) {
-  fetch(`${API}/analysts-support/${codLevel}`)
+
+  return fetch(`${API}/analysts-support/${codLevel}`)
     .then(res => res.json())
     .then(data => {
-      const select = document.getElementById("analyst");
-      if (!select) return;  
 
-      select.innerHTML = `<option value="">SELECCIONE</option>`;
+      const select = document.getElementById("analyst");
+
+      if (!select) return;
+
+      select.innerHTML =
+        `<option value="">SELECCIONE</option>`;
+
       data.forEach(a => {
+
         select.innerHTML += `
-          <option value="${a.COD_USER}">  
+          <option value="${a.COD_USER}">
             ${a.FIRST_NAME} ${a.LAST_NAME}
           </option>
         `;
+
       });
-    })
-    .catch(err => console.error("Error analistas:", err));
-} 
+
+    });
+}
 
 /* =========================
    OCULTAR/ MOSTRAR CONTRASEÑA
@@ -718,7 +727,7 @@ function alternarContrasena(inputId, iconId) {
    ========================= */
 function cargarMetricas() {
 
-  fetch(`${API}/analyst/metrics`)
+  return fetch(`${API}/analyst/metrics`)
     .then(res => res.json())
     .then(data => {
 
@@ -745,7 +754,7 @@ function cargarMetricas() {
    TICKETS DEL ANALISTA
    ========================= */
 function cargarTickets() {
-    fetch(`${API}/analyst/tickets`)
+  return  fetch(`${API}/analyst/tickets`)
     .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("tablaTickets");
@@ -805,7 +814,7 @@ document.addEventListener("click", (e) => {
       descripcion: document.getElementById("description").value,
       impacto: document.getElementById("impact").value,
       prioridad: document.getElementById("priority").value,
-      urgencia: document.getElementById("ticketUrgencia").value,
+      urgencia: document.getElementById("urgency").value,
       codAnalista: document.getElementById("analyst").value,
       nota: document.getElementById("note").value,
       adjunto: document.getElementById("fileName").value,
@@ -839,7 +848,294 @@ document.addEventListener("click", (e) => {
 });
 
 
+function habilitarFormulario() {
+
+  document.querySelectorAll(
+    "#formEditTicket input, #formEditTicket textarea, #formEditTicket select"
+  ).forEach(control => {
+
+    control.removeAttribute("readonly");
+    control.removeAttribute("disabled");
+
+  });
+
+  taskidInput = document.getElementById("ticketId");
+  fileNameInput = document.getElementById("fileName");
+  if (taskidInput, fileNameInput) {
+    taskidInput.setAttribute("readonly", "true");
+    fileNameInput.setAttribute("readonly", "true");
+  }
+
+}
+
+
+function cargarCategorias() {
+  return fetch(`${API}/categories`)
+    .then(res => res.json())
+    .then(data => {
+
+      const select = document.getElementById("category");
+
+      if (!select) return;
+
+      select.innerHTML = `<option value="">SELECCIONE</option>`;
+
+      data.forEach(a => {
+        select.innerHTML += `
+          <option value="${a.COD_CATEGORY}">
+            ${a.CATEGORY_NAME}
+          </option>
+        `;
+      });
+    });
+}
+
 /* =========================
+   BUSCAR TICKET
+   ========================= */
+
+document.addEventListener("click", async (e) => {
+
+  if (e.target.id === "btnBuscarTicket") {
+
+    try {
+
+      // ✅ El input en tu formulario se llama ticketId
+      let ticketId = document.getElementById("ticketId").value;
+
+      ticketId = parseInt(ticketId);
+
+      if (isNaN(ticketId)) {
+        alert("Ingrese un número de ticket válido");
+        return;
+      }
+
+      console.log("Buscando ticket:", ticketId);
+
+      const res = await fetch(
+        `${API}/api/analyst/tickets/${ticketId}`
+      );
+
+      const data = await res.json();
+
+      console.log("DATA RECIBIDA:", data);
+      console.log("COD_AREA:", data.COD_AREA);
+      console.log("COD_USER:", data.COD_USER);
+      console.log("COD_CATEGORY:", data.COD_CATEGORY);
+      console.log("COD_SUBCATEGORY:", data.COD_SUBCATEGORY);
+      console.log("COD_ANALYST:", data.COD_ANALYST);
+      console.log("SUPPORT_LEVEL:", data.SUPPORT_LEVEL);
+
+      if (!res.ok) {
+        alert(data.msg || "Error al buscar ticket");
+        return;
+      }
+
+      // ✅ Habilitar formulario
+      habilitarFormulario();
+
+      // ==================================
+      // INPUTS
+      // ==================================
+
+      document.getElementById("subject").value =
+        data.SUBJECT || "";
+
+      document.getElementById("description").value =
+        data.DESCRIPTION || "";
+
+      document.getElementById("note").value =
+        data.NOTE || "";
+
+      document.getElementById("fileName").value =
+        data.ATTACHMENT_NAME || "";
+
+      // ==================================
+      // CARGAR COMBOS
+      // ==================================
+
+      await cargarAreas();
+      await cargarCategorias();
+
+      // Usuarios del área
+      await cargarUsuarios(data.COD_AREA);
+
+      // Subcategorías de la categoría
+      
+      await cargarSubCategorias(data.COD_CATEGORY);
+
+      const subcategory = document.getElementById("subcategory");
+
+      console.log(
+        "Opciones:",
+        [...subcategory.options].map(o => o.value)
+      );
+
+      console.log(
+        "Valor recibido:",
+        data.COD_SUBCATEGORY
+      );
+
+      // Analistas por nivel
+      await cargarAnalistas(data.SUPPORT_LEVEL);
+
+
+      document.getElementById("typeTask").innerHTML = `
+        <option value="">SELECCIONE</option>
+        <option value="INCIDENCIA">INCIDENCIA</option>
+        <option value="SOLICITUD">SOLICITUD</option>
+      `;
+
+      document.getElementById("impact").innerHTML = `
+        <option value="">SELECCIONE</option>
+        <option value="PERSONA">PERSONA</option>
+        <option value="AREA">AREA</option>
+        <option value="SERVICIO">SERVICIO</option>
+      `;
+
+      document.getElementById("priority").innerHTML = `
+        <option value="">SELECCIONE</option>
+        <option value="BAJA">BAJA</option>
+        <option value="MEDIA">MEDIA</option>
+        <option value="ALTA">ALTA</option>
+      `;
+
+      document.getElementById("urgency").innerHTML = `
+        <option value="">SELECCIONE</option>
+        <option value="BAJA">BAJA</option>
+        <option value="MEDIA">MEDIA</option>
+        <option value="ALTA">ALTA</option>
+      `;
+
+      document.getElementById("state").innerHTML = `
+        <option value="">SELECCIONE</option>
+        <option value="ABIERTO">ABIERTO</option>
+        <option value="ASIGNADO">ASIGNADO</option>
+        <option value="EN CURSO">EN CURSO</option>
+        <option value="PENDIENTE">PENDIENTE</option>
+        <option value="TERMINADO">TERMINADO</option>
+        <option value="CERRADO">CERRADO</option>
+      `;
+
+      document.getElementById("level").innerHTML = `
+        <option value="">SELECCIONE</option>
+        <option value="1">NIVEL 1</option>
+        <option value="2">NIVEL 2</option>
+        <option value="3">NIVEL 3</option>
+      `;
+
+
+      // ==================================
+      // SELECCIONAR VALORES
+      // ==================================
+
+      document.getElementById("area").value =
+        data.COD_AREA;
+
+      document.getElementById("user").value =
+        data.COD_USER;
+
+      document.getElementById("category").value =
+        data.COD_CATEGORY;
+
+      document.getElementById("subcategory").value =
+        data.COD_SUBCATEGORY;
+
+      document.getElementById("analyst").value =
+        data.COD_ANALYST;
+
+      document.getElementById("impact").value =
+        data.IMPACT;
+
+      document.getElementById("priority").value =
+        data.PRIORITY;
+
+      document.getElementById("urgency").value =
+        data.URGENCY;
+
+      document.getElementById("state").value =
+        data.STATUS;
+
+      document.getElementById("typeTask").value =
+        data.TICKET_TYPE ;
+
+      document.getElementById("level").value =
+        data.SUPPORT_LEVEL;
+
+      alert(`Ticket ${data.TICKET_ID} encontrado`);
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Error al buscar ticket");
+
+    }
+  }
+});
+
+/* =========================
+   ACTUALIZAR TICKET
+   ========================= */
+
+document.addEventListener("click", async (e) => {
+  if (e.target.id === "btnModificarTicket") {
+    
+    try {
+
+      const ticketId = document.getElementById("ticketId").value;
+
+      if (isNaN(parseInt(ticketId))) {
+        alert("Ingrese un número de ticket válido");
+        return;
+      }
+
+      console.log("Buscando ticket:", ticketId);
+
+      const data = {
+        tipoTicket: document.querySelector("#typeTask").value,
+        estado: document.querySelector("#state").value,
+        codUsuario: document.querySelector("#user").value,
+        codSubCategoria: document.querySelector("#subcategory").value,
+        asunto: document.getElementById("subject").value,
+        descripcion: document.getElementById("description").value,
+        impacto: document.getElementById("impact").value,
+        prioridad: document.getElementById("priority").value,
+        urgencia: document.getElementById("urgency").value,
+        codAnalista: document.getElementById("analyst").value,
+        nota: document.getElementById("note").value,
+        adjunto: document.getElementById("fileName").value,
+      };
+
+      const res = await fetch(
+        `${API}/api/analyst/tickets/${ticketId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        }
+      );
+
+      const responseData = await res.json();
+
+      if (!res.ok) {
+        throw new Error(responseData.msg || "Error al actualizar ticket");
+      }
+
+      alert(`✅ Ticket actualizado: ${responseData.ticketId}`);
+      location.hash = "home";
+      
+    } catch (error) {
+      console.error(error);
+      alert("❌ Error: " + error.message);
+    }
+
+  }
+});
+
+      /* =========================
    SUBCATEGORY POR CATEGORIA
    ========================= */
 document.addEventListener("change", (e) => {
@@ -878,4 +1174,4 @@ document.addEventListener("change", (e) => {
 
     cargarAnalistas(codLevel);
   }
-});
+}); 

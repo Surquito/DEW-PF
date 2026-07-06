@@ -80,7 +80,7 @@ function navegar() {
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" id="nt-taskId" value="Autogenerado" readonly class="input-bordered input-center">
+                <input type="text" value="Autogenerado" readonly class="input-bordered input-center">
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
@@ -104,7 +104,7 @@ function navegar() {
             <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <input id = estado type="text" value="ABIERTO" readonly class="input-bordered input-center"> 
+                <input id="state" type="text" value="ABIERTO" readonly class="input-bordered input-center"> 
                 </div>
               <div class="field-group">
                 <label>Categoría:</label>
@@ -123,7 +123,7 @@ function navegar() {
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" id="matter" class="input-bordered">
+              <input id ="subject" type="text" class="input-bordered">
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
@@ -134,7 +134,7 @@ function navegar() {
             <div class="form-col">
               <div class="field-group align-top">
                 <label>Nota:</label>
-                <textarea id="ct-nota" rows="3" class="input-bordered" readonly></textarea>
+                <textarea id="note" rows="3" class="input-bordered"></textarea>
               </div>
             </div>
             <div class="form-col">
@@ -149,7 +149,7 @@ function navegar() {
             </div>
           </div>
           <div class="form-actions-bottom">
-            <button type="button" id="btn-crear-nt" class="btn-action btn-crear" id="btnCrearTicket">Crear</button>
+            <button type="button" id="btnCrearTicket" class="btn-action btn-crear" id="btnCrearTicket">Crear</button>
           </div>
         </form>
       </div>
@@ -160,72 +160,88 @@ function navegar() {
       <div class="ticket-container">
       <div class="ticket-card">
         <h2 class="ticket-title">Consultar Ticket</h2>
-        <form class="ticke
-        t-form" id="form-readticket">
+        <form class="ticket-form" id="formEditTicket">
           <div class="form-row-2col">
             <div class="form-col">
               <div class="field-group">
                 <label>Task ID:</label>
-                <input type="text" id="ct-taskId" class="input-bordered input-center" placeholder="Ej. TCKT00001">
+                <input type="text" id="ticketId" value="" placeholder="Ej. TCKT00001" class="input-bordered input-center">
               </div>
               <div class="field-group">
                 <label>Type Task:</label>
-                <input type="text" id="ct-typeTask" class="input-bordered input-center" readonly>
+                <select id="typeTask" disabled class="input-select" required>
+                  <option value="">SELECCIONE</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Área:</label>
-                <input type="text" id="ct-area" class="input-bordered input-center" readonly>
+                <select id="area" disabled class="input-select" required>
+                  <option value="">SELECCIONE</option>
+                </select>
               </div>
               <div class="field-group">
                 <label>Usuario:</label>
-                <input type="text" id="ct-usuario" class="input-bordered input-center" readonly>
-              </div>
+                <select id="user" disabled class="input-select" required>
+                  <option value="">SELECCIONE</option>
+                </select>
+                </div>
             </div>
-            <div class="form-col pt-empty"> 
+            <div class="form-col pt-empty">
               <div class="field-group">
                 <label>Estado:</label>
-                <input id = estado type="text" readonly class="input-bordered input-center"> 
-                </div>
-              <div class="field-group">
-                <label>Categoría:</label>
-                <input type="text" id="category" class="input-bordered input-center"readonly>
+                <select id="state" disabled class="input-select" required>
+                  <option value="">SELECCIONE</option>
+                  <option value="ABIERTO">ABIERTO</option>
+                  <option value="EN_CURSO">EN CURSO</option>
+                  <option value="PENDIENTE">PENDIENTE</option>
+                  <option value="CERRADO">CERRADO</option>
+                </select>
               </div>
               <div class="field-group">
+                <label>Categoría:</label>
+                <select disabled class="input-select" id="category" required>
+                  <option value="">SELECCIONE</option>
+                </select>
+                </div>
+              <div class="field-group">
                 <label>Sub Categoría:</label>
-                <input type="text" id="subcategory" class="input-bordered input-center" readonly>
+                <select disabled class="input-select" id="subcategory" required>
+                  <option value="">SELECCIONE</option>
+                </select>
               </div>
             </div>
           </div>
           <div class="form-row-full">
             <div class="field-group-full">
               <label>Asunto:</label>
-              <input type="text" id="ct-asunto" class="input-bordered" readonly>
+              <input id="subject" type="text" class="input-bordered" value="" readonly >
             </div>
             <div class="field-group-full align-top">
               <label>Descripción:</label>
-              <textarea id="ct-descripcion" rows="4" class="input-bordered" readonly></textarea>
+              <textarea id="description" rows="4" class="input-bordered" readonly ></textarea>
             </div>
           </div>
           <div class="form-row-2col mt-spacing">
             <div class="form-col">
               <div class="field-group align-top">
                 <label>Nota:</label>
-                <textarea id="ct-nota" rows="3" class="input-bordered" readonly></textarea>
+                <textarea rows="3" class="input-bordered" id="note" readonly ></textarea>
               </div>
             </div>
             <div class="form-col">
               <div class="field-group">
                 <label>Attachments:</label>
                 <div class="attachment-box input-bordered">
-                  <input type="text" id="ct-filename" readonly>
-                  <i class="bi bi-paperclip"></i>
+                  <input type="text" id="fileName" readonly style="background: transparent; cursor: default;">
+                  <input type="file" id="fileInput" style="display:none">
+                  <i class="bi bi-paperclip" id="attachIcon" style="cursor: pointer;"></i>
                 </div>
               </div>
             </div>
           </div>
           <div class="form-actions-bottom">
-            <button type="button" id="btn-consultar-ct" class="btn-action btn-consultar">Consultar</button>
-            <button type="button" class="btn-action btn-modificar">Modificar</button>
+            <button type="button" id="btnBuscarTicket" class="btn-action btn-consultar">Buscar</button>
+            <button type="button" id="btnModificarTicket" class="btn-action btn-modificar">Modificar</button>
             </div>
         </form>
       </div>
@@ -392,7 +408,7 @@ window.addEventListener("load", navegar);
    ========================= */
 function cargarAreas() {
 
-  fetch(`${API}/areas`)
+  return fetch(`${API}/areas`)
 
     .then(res => res.json())
 
@@ -422,7 +438,7 @@ function cargarAreas() {
 
 function cargarUsuarios(codArea) {
 
-  fetch(`${API}/user/${codArea}`)
+  return fetch(`${API}/user/${codArea}`)
     .then(res => res.json())
     .then(data => {
       const select = document.getElementById("user");
@@ -445,7 +461,7 @@ function cargarUsuarios(codArea) {
    ========================= */
 function cargarCategorias() {
 
-  fetch(`${API}/categories`)
+  return fetch(`${API}/categories`)
 
     .then(res => res.json())
 
@@ -475,7 +491,7 @@ function cargarCategorias() {
 
 function cargarSubCategorias(codCategory) {
 
-  fetch(`${API}/subcategories/${codCategory}`)
+  return fetch(`${API}/subcategories/${codCategory}`)
     .then(res => res.json())
     .then(data => {
 
@@ -522,7 +538,7 @@ function alternarContrasena(inputId, iconId) {
   function cargarMetricas() {
     const codUser = localStorage.getItem("codUser");
 
-    fetch(`${API}/user/metrics/${codUser}`) 
+    return fetch(`${API}/user/metrics/${codUser}`) 
       .then(res => res.json())
       .then(data => {
 
@@ -549,7 +565,7 @@ function alternarContrasena(inputId, iconId) {
    ========================= */        
 function cargarTickets() {
 const codUser = localStorage.getItem("codUser");
-fetch(`${API}/user/tickets/${codUser}`)
+return fetch(`${API}/user/tickets/${codUser}`)
     .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("tablaTickets");
@@ -595,8 +611,255 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+/* =========================
+   CREAR TICKET
+   ========================= */
+document.addEventListener("click", (e) => {
+  if (e.target.id === "btnCrearTicket") {
+
+    const data = {
+      tipoTicket: document.querySelector("#typeTask").value,
+      codUsuario: document.querySelector("#user").value,
+      codSubCategoria: document.querySelector("#subcategory").value,
+      asunto: document.getElementById("subject").value,
+      descripcion: document.getElementById("description").value,
+      nota: document.getElementById("note").value,
+      adjunto: document.getElementById("fileName").value,
+    };
+
+    fetch(`${API}/api/user/tickets`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(async res => {
+      const responseData = await res.json();
+
+      if (!res.ok) {
+        throw new Error(responseData.msg || "Error al crear ticket");
+      }
+
+      return responseData;
+    })
+    .then(data => {
+      alert(`✅ Ticket creado: ${data.ticketId}`);
+      location.hash = "home";
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Error: " + err.message);
+    });
+  }
+});
+
+function habilitarFormulario() {
+
+  document.querySelectorAll(
+    "#formEditTicket input, #formEditTicket textarea, #formEditTicket select"
+  ).forEach(control => {
+
+    control.removeAttribute("readonly");
+    control.removeAttribute("disabled");
+
+  });
+
+  taskidInput = document.getElementById("ticketId");
+  fileNameInput = document.getElementById("fileName");
+  if (taskidInput, fileNameInput) {
+    taskidInput.setAttribute("readonly", "true");
+    fileNameInput.setAttribute("readonly", "true");
+  }
+}
+
+/* =========================
+   BUSCAR TICKET
+   ========================= */
+
+document.addEventListener("click", async (e) => {
+
+  if (e.target.id === "btnBuscarTicket") {
+
+    try {
+
+      // ✅ El input en tu formulario se llama ticketId
+      let ticketId = document.getElementById("ticketId").value;
+
+      ticketId = parseInt(ticketId);
+
+      if (isNaN(ticketId)) {
+        alert("Ingrese un número de ticket válido");
+        return;
+      }
+
+      console.log("Buscando ticket:", ticketId);
+
+      const res = await fetch(
+        `${API}/api/analyst/tickets/${ticketId}`
+      );
+
+      const data = await res.json();
+
+      console.log("DATA RECIBIDA:", data);
+      console.log("COD_AREA:", data.COD_AREA);
+      console.log("COD_USER:", data.COD_USER);
+      console.log("COD_CATEGORY:", data.COD_CATEGORY);
+      console.log("COD_SUBCATEGORY:", data.COD_SUBCATEGORY);
+
+      if (!res.ok) {
+        alert(data.msg || "Error al buscar ticket");
+        return;
+      }
+
+      // ✅ Habilitar formulario
+      habilitarFormulario();
+
+      // ==================================
+      // INPUTS
+      // ==================================
+
+      document.getElementById("subject").value =
+        data.SUBJECT || "";
+
+      document.getElementById("description").value =
+        data.DESCRIPTION || "";
+
+      document.getElementById("note").value =
+        data.NOTE || "";
+
+      document.getElementById("fileName").value =
+        data.ATTACHMENT_NAME || "";
+
+      // ==================================
+      // CARGAR COMBOS
+      // ==================================
+
+      await cargarAreas();
+      await cargarCategorias();
+
+      // Usuarios del área
+      await cargarUsuarios(data.COD_AREA);
+
+      // Subcategorías de la categoría
+      
+      await cargarSubCategorias(data.COD_CATEGORY);
+
+      const subcategory = document.getElementById("subcategory");
+
+      console.log(
+        "Opciones:",
+        [...subcategory.options].map(o => o.value)
+      );
+
+      console.log(
+        "Valor recibido:",
+        data.COD_SUBCATEGORY
+      );
+
+      document.getElementById("typeTask").innerHTML = `
+        <option value="">SELECCIONE</option>
+        <option value="INCIDENCIA">INCIDENCIA</option>
+        <option value="SOLICITUD">SOLICITUD</option>
+      `;
+
+      document.getElementById("state").innerHTML = `
+        <option value="">SELECCIONE</option>
+        <option value="ABIERTO">ABIERTO</option>
+        <option value="ASIGNADO">ASIGNADO</option>
+        <option value="EN CURSO">EN CURSO</option>
+        <option value="PENDIENTE">PENDIENTE</option>
+        <option value="TERMINADO">TERMINADO</option>
+        <option value="CERRADO">CERRADO</option>
+      `;
+
+      // ==================================
+      // SELECCIONAR VALORES
+      // ==================================
+
+      document.getElementById("area").value =
+        data.COD_AREA;
+
+      document.getElementById("user").value =
+        data.COD_USER;
+
+      document.getElementById("category").value =
+        data.COD_CATEGORY;
+
+      document.getElementById("subcategory").value =
+        data.COD_SUBCATEGORY;
+
+      document.getElementById("state").value =
+        data.STATUS;
+
+      document.getElementById("typeTask").value =
+        data.TICKET_TYPE ;
 
 
+      alert(`Ticket ${data.TICKET_ID} encontrado`);
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Error al buscar ticket");
+
+    }
+  }
+});   
+
+/* =========================
+   ACTUALIZAR TICKET
+   ========================= */
+
+document.addEventListener("click", async (e) => {
+  if (e.target.id === "btnModificarTicket") {
+    try {
+      const ticketId = parseInt(document.getElementById("ticketId").value);
+
+      if (isNaN(ticketId)) {
+        alert("Ingrese un número de ticket válido");
+        return;
+      }
+
+      console.log("Modificando ticket:", ticketId);
+
+      const data = {
+
+        tipoTicket: document.querySelector("#typeTask").value,
+        estado: document.querySelector("#state").value,
+        codUsuario: document.querySelector("#user").value,
+        codSubCategoria: document.querySelector("#subcategory").value,
+        asunto: document.getElementById("subject").value,
+        descripcion: document.getElementById("description").value,
+        nota: document.getElementById("note").value,
+        adjunto: document.getElementById("fileName").value,
+      };
+
+      const res = await fetch(`${API}/api/user/tickets/${ticketId}`, {
+
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const responseData = await res.json();
+
+      if (!res.ok) {
+        throw new Error(responseData.msg || "Error al modificar ticket");
+      }
+
+      alert(`✅ Ticket modificado: ${responseData.ticketId}`);
+      location.hash = "home";
+
+    } catch (error) {
+      console.error(error);
+      alert("❌ Error: " + error.message);
+    }
+  }
+});
 
 /* =========================
    SUBCATEGORY

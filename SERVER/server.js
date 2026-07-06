@@ -23,7 +23,12 @@ const getCategory = require("../QUERY/getCategory");
 const getSubCategory = require("../QUERY/getSubCategory");
 const getUser = require("../QUERY/getUser");
 const getAnalystSupport = require("../QUERY/getAnalystSupport");
-const newTicket = require("../QUERY/newTicket");
+const newTicketAnalyst = require("../QUERY/newTicketAnalyst");
+const newTicketUser = require("../QUERY/newTicketUser");
+const { readTicketAnalyst } = require("../QUERY/readTicketAnalyst");
+const { readTicketUser } = require("../QUERY/readTicketUser");
+const updateTicketAnalyst = require("../QUERY/updateTicketAnalyst");
+const updateTicketUser = require("../QUERY/updateTicketUser");
 
 const app = express();
 
@@ -247,10 +252,10 @@ app.get("/analysts-support/:codLevel", async (req, res) => {
 
 /* CREAR TICKET */ 
 
-app.post("/api/user/tickets", async (req, res) => {
+app.post("/api/analyst/tickets", async (req, res) => {
 
   try {
-    const result = await newTicket(req.body);
+    const result = await newTicketAnalyst(req.body);
 
     res.status(201).json({
       msg: "Ticket creado correctamente",
@@ -265,6 +270,169 @@ app.post("/api/user/tickets", async (req, res) => {
     });
   }
 });
+
+app.post("/api/user/tickets", async (req, res) => {
+
+  try {
+    const result = await newTicketUser(req.body);
+
+    res.status(201).json({
+      msg: "Ticket creado correctamente",
+      ticketId: result.NewTicketID
+    });
+
+  } catch (error) {
+    console.error("ERROR:", error); // ✅ MUY IMPORTANTE
+
+    res.status(500).json({
+      msg: error.message
+    });
+  }
+});
+
+
+/* BUSCAR TICKET */
+
+
+app.get("/api/analyst/tickets/:ticketId", async (req, res) => {
+
+  const ticketId = parseInt(req.params.ticketId);
+
+  console.log("Ticket recibido:", ticketId);
+
+  if (isNaN(ticketId)) {
+    return res.status(400).json({
+      msg: "Ticket inválido"
+    });
+  }
+
+  try {
+
+    const data = await readTicketAnalyst(ticketId);
+
+    if (!data) {
+      return res.status(404).json({
+        msg: "Ticket no encontrado"
+      });
+    }
+
+    res.json(data);
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      msg: "Error al buscar ticket"
+    });
+  }
+});
+
+
+app.get("/api/user/tickets/:ticketId", async (req, res) => {
+
+  const ticketId = parseInt(req.params.ticketId);
+
+  console.log("Ticket recibido:", ticketId);
+
+  if (isNaN(ticketId)) {
+    return res.status(400).json({
+      msg: "Ticket inválido"
+    });
+  }
+
+  try {
+
+    const data = await readTicketUser(ticketId);
+
+    if (!data) {
+      return res.status(404).json({
+        msg: "Ticket no encontrado"
+      });
+    }
+
+    res.json(data);
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      msg: "Error al buscar ticket"
+    });
+  }
+});
+
+
+/* ACTUALIZAR TICKET */
+
+
+
+app.put("/api/analyst/tickets/:ticketId", async (req, res) => {
+
+  const ticketId = parseInt(req.params.ticketId);
+
+  if (isNaN(ticketId)) {
+    return res.status(400).json({
+      msg: "Ticket inválido"
+    });
+  }
+
+  try {
+
+    await updateTicketAnalyst({
+      ticketId,
+      ...req.body
+    });
+
+    res.json({
+      ticketId,
+      msg: "Ticket actualizado correctamente"
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      msg: error.message
+    });
+
+  }
+
+});
+
+app.put("/api/user/tickets/:ticketId", async (req, res) => {
+
+  const ticketId = parseInt(req.params.ticketId);
+
+  if (isNaN(ticketId)) {
+    return res.status(400).json({
+      msg: "Ticket inválido"
+    });
+  }
+
+  try {
+
+    await updateTicketUser({
+      ticketId,
+      ...req.body
+    });
+
+    res.json({
+      ticketId,
+      msg: "Ticket actualizado correctamente"
+    });
+  } catch (error) {
+
+    console.error(error); 
+
+    res.status(500).json({
+      msg: error.message
+    });
+  }
+});
+
 
 // ==========================================
 // ENDPOINTS PARA PERFIL DE USUARIO (API)
